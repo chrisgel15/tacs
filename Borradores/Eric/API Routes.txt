@@ -1,0 +1,96 @@
+1 - Registro de usuario nuevo:
+  /signup
+  POST
+  request.body = {
+    username: ...,
+    password: ***
+  }
+
+2 - Inicio Sesion:
+  /login
+  POST
+  request.body = {
+    username: ...,
+    password: ***
+  }
+  response = {
+    token: ajsdkashkhd5a46sdasdajsdbhasjd..
+  }
+
+3 - Finaliza Sesion:
+  /logout
+  POST
+  request.header = {Autentication: token}
+
+4 - Registrar compra de criptomonedas:
+  /buy
+  POST
+  request.header = {Autentication: token}
+  request.body = {
+    coin: 'Bitcoin',
+    amount: 25
+  }
+
+5 - Registrar venta de criptomoneda:
+  /sale
+  POST
+  request.header = {Autentication: token}
+  request.body = {
+    coin: 'Bitcoin',
+    amount: 20
+  }
+
+6 - Ver portafolios con la cotizacion actual: (la cotizacion actual lo sacamos con otra consulta a la api que consumimos)
+  /wallet
+  GET
+  request.header = {Autentication: token}
+  
+7 - Detalle de transac. de una moneda:
+  /wallet/:moneda/transactions
+  GET
+  request.header = {Autentication: token}
+
+8 - Cantidad de monedas que poseo a travez de Telegram:
+  /wallet/:moneda/amount
+  GET
+  request.header = {Autentication: token}
+
+9 - Registrar Compra/Venta a travez de Telegram:
+  (supongo que es lo mismo que el 4 y 5 de arriba)
+
+10 - (El enunciado es el mismo que el 8)
+
+11 - (La cotizacion sale del API externo, aun no lei bien todo el doc de telegram...) (En una parte del tp dice que el servidor debe ser consultado por el frontend y no el backend).
+
+
+Administrador:
+12 - Ver datos de un usuario:
+  /users/:user_id
+  GET
+  request.header = {Autentication: token}
+
+13 - Comparar 2 usuarios:
+  /users/compare/great_capital
+  POST
+  request.header = {Autentication: token}
+  request.body = {
+    users: [user1, user2]
+  }
+  response = {
+    great: user1
+  }
+
+14 - Conocer transacciones registradas en varios periodos:
+  /transactions/today
+  /transactions/last-3days
+  /transactions/last-week
+  /transactions/last-month
+  /transactions/from-beginning
+  GET
+  request.header = {Autentication: token}
+  response = {
+    transactions: [{...},{...},{...},{...},...]
+  }
+
+
+
