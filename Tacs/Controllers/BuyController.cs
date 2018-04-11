@@ -12,9 +12,9 @@ namespace Tacs.Controllers
     public class BuyController : ApiController
     {
         // POST api/buy
-        public object Post([FromBody]Trade trade)
+        public object Post([FromBody]Transaction transaction)
         {
-            return Json(new { coin = trade.CoinId, count = trade.Amount, transactionsId = 456481658 });
+            return Json(new { coin = transaction.CoinId, count = transaction.Amount, transactionsId = 456481658 });
         }
     }
 }

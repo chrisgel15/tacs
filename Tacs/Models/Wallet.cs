@@ -7,12 +7,18 @@ using System.Web;
 namespace Tacs.Models
 {
     [DataContract]
-    public class Trade
+    public class Wallet
     {
         [DataMember]
-        public string CoinId { get; set; }
+        public int Id { get; set; }
 
         [DataMember]
-        public UInt32 Amount { get; set; }
+        public string Name { get; set; }
+
+        [DataMember]
+        public Coin Coin { get; set; }
+
+        [DataMember]
+        public int Amount { get; set; }
     }
 }
