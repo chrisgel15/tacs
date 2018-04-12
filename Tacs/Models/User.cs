@@ -20,6 +20,40 @@ namespace Tacs.Models
         public string Password { get; set; }
 
         [DataMember]
-        public IEnumerable<Wallet> Coins { get; set; }
+        public IList<Wallet> Wallets { get; set; }
+
+        public User(string name, string password)
+        {
+            this.Name = name;
+            this.Password = password;
+            this.Wallets = new List<Wallet>();
+        }
+
+        public void Buy(Coin coin, int amount)
+        {
+            Wallet wallet = GetWallet(coin);
+
+            wallet.Buy(amount);
+        }
+
+        public void Sell(Coin coin, int amount)
+        {
+            Wallet wallet = GetWallet(coin);
+
+            wallet.Sell(amount);
+        }
+
+        private Wallet GetWallet(Coin coin)
+        {
+            Wallet wallet = this.Wallets.FirstOrDefault(c => c.CoinId == coin.Id);
+
+            if (wallet == null)
+            {
+                wallet = new Wallet(this, coin);
+                Wallets.Add(wallet); // TODO
+            }
+
+            return wallet;
+        }
     }
 }

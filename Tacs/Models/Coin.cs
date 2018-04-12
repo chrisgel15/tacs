@@ -10,5 +10,10 @@ namespace Tacs.Models
 
         [DataMember]
         public string Name { get; set; }
+
+        public Coin(string name)
+        {
+            this.Name = name;
+        }
     }
 }

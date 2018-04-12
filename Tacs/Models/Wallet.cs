@@ -35,5 +35,22 @@ namespace Tacs.Models
         [Required]
         public User User { get; set; }
 
+        public Wallet(User user, Coin coin)
+        {
+            User = user;
+            Coin = coin;
+            Amount = 0;
+        }
+
+        public void Buy(int amount)
+        {
+            this.Amount += amount;
+        }
+
+        public void Sell(int amount)
+        {
+            this.Amount -= amount;
+        }
+
     }
 }
