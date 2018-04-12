@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -13,12 +14,15 @@ namespace Tacs.Models
         public int Id { get; set; }
 
         [DataMember]
-        public Coin CoinId { get; set; }
+        [Required]
+        public Coin Coin { get; set; }
 
         [DataMember]
-        public User UserId { get; set; }
+        [Required]
+        public User User { get; set; }
 
         [DataMember]
+        [Required]
         public int Amount { get; set; }
 
         [DataMember]

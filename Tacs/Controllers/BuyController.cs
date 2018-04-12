@@ -14,7 +14,7 @@ namespace Tacs.Controllers
         // POST api/buy
         public object Post([FromBody]Transaction transaction)
         {
-            return Json(new { coin = transaction.CoinId, count = transaction.Amount, transactionsId = 456481658 });
+            return Json(new { coin = transaction.Coin, count = transaction.Amount, transactionsId = 456481658 });
         }
     }
 }
