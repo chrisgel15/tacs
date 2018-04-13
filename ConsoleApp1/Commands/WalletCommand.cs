@@ -14,7 +14,8 @@ namespace ConsoleApp1.Commands
 
         public bool IsCommand(MessageEventArgs messageEvent)
         {
-            return messageEvent.Message.Text == commandName;
+            var command = messageEvent.Message.Text;
+            return command.Contains(commandName);
         }
 
         public void ExecuteCommand(MessageEventArgs messageEvent)
