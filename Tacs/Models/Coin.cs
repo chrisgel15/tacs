@@ -15,5 +15,11 @@ namespace Tacs.Models
         {
             this.Name = name;
         }
+
+        public Coin(string name, int Id)
+        {
+            this.Name = name;
+            this.Id = Id;
+        }
     }
 }

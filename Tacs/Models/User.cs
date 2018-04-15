@@ -22,6 +22,9 @@ namespace Tacs.Models
         [DataMember]
         public IList<Wallet> Wallets { get; set; }
 
+        [DataMember]
+        public DateTime LastAccessDate { get; set; }
+
         public User(string name, string password)
         {
             this.Name = name;
@@ -45,12 +48,12 @@ namespace Tacs.Models
 
         private Wallet GetWallet(Coin coin)
         {
-            Wallet wallet = this.Wallets.FirstOrDefault(c => c.CoinId == coin.Id);
+            Wallet wallet = this.Wallets.FirstOrDefault(c => c.Coin.Id == coin.Id);
 
             if (wallet == null)
             {
                 wallet = new Wallet(this, coin);
-                Wallets.Add(wallet); // TODO
+                Wallets.Add(wallet);
             }
 
             return wallet;

@@ -8,8 +8,16 @@ using System.Web;
 namespace Tacs.Models
 {
     [DataContract]
-    public class Transaction
+    public abstract class Transaction
     {
+        public Transaction(User user, Coin coin, int amount, DateTime date)
+        {
+            this.User = user;
+            this.Coin = coin;
+            this.Amount = amount;
+            this.Date = date;
+        }
+
         [DataMember]
         public int Id { get; set; }
 
