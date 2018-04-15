@@ -8,11 +8,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Mvc;
+//using System.Web.Mvc;
 using Tacs.Models;
 
 namespace Tacs.Controllers
 {
+    [RoutePrefix("/api/usuarios/{userid}")]
     public class UsersController : ApiController
     {
         static HttpClient client = new HttpClient();
@@ -66,5 +67,62 @@ namespace Tacs.Controllers
             return result;
                
         }
+
+        [Route("portfolio")]
+        [HttpPost]
+        HttpResponseMessage compraMoneda([FromBody] string moneda, [FromBody] int cantidad)
+        {
+            //Validaciones necesarias//
+            var response = Request.CreateResponse(HttpStatusCode.Created);
+            return response;
+        }
+
+        [Route("portfolio")]
+        [HttpGet]
+        HttpResponseMessage getMonedasConCotizacionActual()
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
+        [Route("portfolio/{monedaid}")]
+        [HttpPut]
+        HttpResponseMessage ventaMoneda(int monedaid, [FromBody] int cantidad)
+        {
+            var response = Request.CreateResponse(HttpStatusCode.NoContent);
+            return response;
+        }
+
+        [Route("portfolio/{monedaid}/transacciones")]
+        [HttpGet]
+        HttpResponseMessage detallesTransacciones(int monedaid)
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
+        [Route("portfolio/{monedaid}/cantidad")]
+        [HttpGet]
+        HttpResponseMessage cantidadMoneda(int monedaid)
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
+        [HttpGet]
+        HttpResponseMessage datosUsuario(int userid)
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
+        [Route("~/api/comparacion")]
+        [HttpGet]
+        HttpResponseMessage comparaDosUsuarios([FromBody] int userId, [FromBody] int otroUserId)
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
     }
 }
