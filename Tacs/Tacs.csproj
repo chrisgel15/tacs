@@ -183,7 +183,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Context\TacsEntities.cs" />
+    <Compile Include="Context\TacsDataContext.cs" />
     <Compile Include="Controllers\BuyController.cs" />
     <Compile Include="Controllers\CoinsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -205,10 +205,21 @@
     <Compile Include="Migrations\201804112357426_Modified property name for Transacion.Designer.cs">
       <DependentUpon>201804112357426_Modified property name for Transacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804152058402_Added Compra and Venta classes.cs" />
+    <Compile Include="Migrations\201804152058402_Added Compra and Venta classes.Designer.cs">
+      <DependentUpon>201804152058402_Added Compra and Venta classes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804152142463_Added Price property and set foreign key properties to virtual.cs" />
+    <Compile Include="Migrations\201804152142463_Added Price property and set foreign key properties to virtual.Designer.cs">
+      <DependentUpon>201804152142463_Added Price property and set foreign key properties to virtual.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccessKeys.cs" />
     <Compile Include="Models\Coin.cs" />
     <Compile Include="Models\Compra.cs" />
+    <Compile Include="Models\DTO\SignupRequest.cs" />
     <Compile Include="Models\Exceptions\InsufficientAmountException.cs" />
+    <Compile Include="Models\Repositories\Repository.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Venta.cs" />
@@ -289,6 +300,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804112357426_Modified property name for Transacion.resx">
       <DependentUpon>201804112357426_Modified property name for Transacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804152058402_Added Compra and Venta classes.resx">
+      <DependentUpon>201804152058402_Added Compra and Venta classes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804152142463_Added Price property and set foreign key properties to virtual.resx">
+      <DependentUpon>201804152142463_Added Price property and set foreign key properties to virtual.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

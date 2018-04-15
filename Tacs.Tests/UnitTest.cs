@@ -129,6 +129,6 @@ namespace Tacs.Tests
 
             Assert.ThrowsException<InsufficientAmountException>(() => user.Sell(coin, 50));
             Assert.AreEqual(w.Amount, 45);  
-        }
+        }     
     }
 }

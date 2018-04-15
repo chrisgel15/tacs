@@ -20,7 +20,7 @@ namespace Tacs.Models
         public string Password { get; set; }
 
         [DataMember]
-        public IList<Wallet> Wallets { get; set; }
+        public virtual IList<Wallet> Wallets { get; set; }
 
         [DataMember]
         public DateTime LastAccessDate { get; set; }

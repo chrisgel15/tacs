@@ -10,12 +10,13 @@ namespace Tacs.Models
     [DataContract]
     public abstract class Transaction
     {
-        public Transaction(User user, Coin coin, int amount, DateTime date)
+        public Transaction(User user, Coin coin, int amount, DateTime date, decimal price)
         {
             this.User = user;
             this.Coin = coin;
             this.Amount = amount;
             this.Date = date;
+            this.Price = price;
         }
 
         [DataMember]
@@ -35,5 +36,8 @@ namespace Tacs.Models
 
         [DataMember]
         public DateTime Date { get; set; }
+
+        [DataMember]
+        public decimal Price { get; set; }
     }
 }

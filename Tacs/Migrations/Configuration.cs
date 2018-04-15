@@ -5,14 +5,14 @@ namespace Tacs.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Tacs.Context.TacsEntities>
+    internal sealed class Configuration : DbMigrationsConfiguration<Tacs.Context.TacsDataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Tacs.Context.TacsEntities context)
+        protected override void Seed(Tacs.Context.TacsDataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

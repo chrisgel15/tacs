@@ -25,14 +25,14 @@
 
         [DataMember]
         [Required]
-        public Coin Coin { get; set; }
+        public virtual Coin Coin { get; set; }
 
         [DataMember]
         public int Amount { get; set; }
 
         [DataMember]
         [Required]
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         #region For Entity Framework Navigation
         [DataMember]

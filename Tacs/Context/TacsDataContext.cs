@@ -7,7 +7,7 @@ using Tacs.Models;
 
 namespace Tacs.Context
 {
-    public class TacsEntities : DbContext
+    public class TacsDataContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Coin> Coins { get; set; }
