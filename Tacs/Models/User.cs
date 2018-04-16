@@ -30,6 +30,7 @@ namespace Tacs.Models
             this.Name = name;
             this.Password = password;
             this.Wallets = new List<Wallet>();
+            this.LastAccessDate = DateTime.Now;
         }
 
         public void Buy(Coin coin, int amount)
