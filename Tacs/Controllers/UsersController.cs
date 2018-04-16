@@ -13,7 +13,7 @@ using Tacs.Models;
 
 namespace Tacs.Controllers
 {
-    [RoutePrefix("/api/usuarios/{userid}")]
+    [RoutePrefix("api/usuarios/{userid}")]
     public class UsersController : ApiController
     {
         static HttpClient client = new HttpClient();
@@ -70,7 +70,7 @@ namespace Tacs.Controllers
 
         [Route("portfolio")]
         [HttpPost]
-        HttpResponseMessage compraMoneda([FromBody] string moneda, [FromBody] int cantidad)
+        public HttpResponseMessage compraMoneda([FromBody] string moneda, [FromBody] int cantidad)
         {
             //Validaciones necesarias//
             var response = Request.CreateResponse(HttpStatusCode.Created);
@@ -79,7 +79,7 @@ namespace Tacs.Controllers
 
         [Route("portfolio")]
         [HttpGet]
-        HttpResponseMessage getMonedasConCotizacionActual()
+        public HttpResponseMessage getMonedasConCotizacionActual()
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
@@ -87,7 +87,7 @@ namespace Tacs.Controllers
 
         [Route("portfolio/{monedaid}")]
         [HttpPut]
-        HttpResponseMessage ventaMoneda(int monedaid, [FromBody] int cantidad)
+        public HttpResponseMessage ventaMoneda(int monedaid, [FromBody] int cantidad)
         {
             var response = Request.CreateResponse(HttpStatusCode.NoContent);
             return response;
@@ -95,7 +95,7 @@ namespace Tacs.Controllers
 
         [Route("portfolio/{monedaid}/transacciones")]
         [HttpGet]
-        HttpResponseMessage detallesTransacciones(int monedaid)
+        public HttpResponseMessage detallesTransacciones(int monedaid)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
@@ -103,14 +103,15 @@ namespace Tacs.Controllers
 
         [Route("portfolio/{monedaid}/cantidad")]
         [HttpGet]
-        HttpResponseMessage cantidadMoneda(int monedaid)
+        public HttpResponseMessage cantidadMoneda(int monedaid)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
 
+        [Route("")]
         [HttpGet]
-        HttpResponseMessage datosUsuario(int userid)
+        public HttpResponseMessage datosUsuario(int userid)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
@@ -118,7 +119,7 @@ namespace Tacs.Controllers
 
         [Route("~/api/comparacion")]
         [HttpGet]
-        HttpResponseMessage comparaDosUsuarios([FromBody] int userId, [FromBody] int otroUserId)
+        public HttpResponseMessage comparaDosUsuarios([FromBody] int userId, [FromBody] int otroUserId)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;

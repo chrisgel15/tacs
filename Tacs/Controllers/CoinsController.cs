@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace Tacs.Controllers
 {
-    [RoutePrefix("/api/monedas")]
+    [RoutePrefix("api/monedas")]
     public class CoinsController : ApiController
     {
         // GET api/coins?coinId=bitcoin
@@ -18,9 +18,17 @@ namespace Tacs.Controllers
             return Json(new { coin = coinId, price = 10000 });
         }
 
+        [Route("")]
+        [HttpGet]
+        public HttpResponseMessage monedas()
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
         [Route("{monedaid}/cotizacion")]
         [HttpGet]
-        HttpResponseMessage cotizacion(int monedaid)
+        public HttpResponseMessage GetCotizacion(int monedaid)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;

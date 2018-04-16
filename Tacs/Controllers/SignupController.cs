@@ -8,18 +8,21 @@ using Tacs.Models;
 
 namespace Tacs.Controllers
 {
-    [RoutePrefix("/api/accesos")]
+    [RoutePrefix("api/accesos")]
     public class SignupController : ApiController
     {
         // POST api/signup
-        [Route("{userId}")]
-        HttpResponseMessage nuevoUsuario(int userId)
+        [Route("")]
+        [HttpPost]
+        public HttpResponseMessage nuevoUsuario()
         {
             var response = Request.CreateResponse(HttpStatusCode.Created);
             return response;
         }
 
-        HttpResponseMessage accesoUsuario()
+        [Route("{userId}")]
+        [HttpGet]
+        public HttpResponseMessage accesoUsuario(int userId)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
