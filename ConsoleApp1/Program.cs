@@ -63,7 +63,7 @@ namespace TelegramBot
             var chatId = messageEvent.Message.Chat.Id;
             var keyboard = messageSender.CreateMenuKeyboard();
 
-            messageSender.SendMessage(chatId, "I didnt quite catch that, please use one of the given commands.", keyboard);
+            messageSender.SendMessage(chatId, "I didnt quite catch that, what do you want to do?.", keyboard);
         }
 
     }

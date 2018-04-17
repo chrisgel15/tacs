@@ -14,7 +14,16 @@ namespace ConsoleApp1.Commands
 
             var twoParts = messageSplit.Count() == 2;
 
+            //TODO: check valid coin ID
+
             return twoParts;
+        }
+
+        public string GetCoinId(string message)
+        {
+            var messageSplit = message.Split(' ');
+
+            return messageSplit.GetValue(1).ToString();
         }
     }
 }

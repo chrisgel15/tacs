@@ -11,6 +11,8 @@ namespace ConsoleApp1.Commands
     public class PriceCommand : ICommand 
     {
         static string commandName = "/price";
+        CommandSyntaxChecker syntaxChecker = new CommandSyntaxChecker();
+        MessageSender messageSender = new MessageSender();
 
         public bool IsCommand(MessageEventArgs messageEvent)
         {
@@ -20,8 +22,7 @@ namespace ConsoleApp1.Commands
 
         public void ExecuteCommand(MessageEventArgs messageEvent)
         {
-            CommandSyntaxChecker commandSyntaxChecker = new CommandSyntaxChecker();
-            var valid = commandSyntaxChecker.CheckSyntax(messageEvent.Message.Text);
+            var valid = syntaxChecker.CheckSyntax(messageEvent.Message.Text);
 
             if (valid)
                 ExecuteValidCommand(messageEvent);
@@ -31,15 +32,18 @@ namespace ConsoleApp1.Commands
 
         public void ExecuteValidCommand(MessageEventArgs messageEvent)
         {
-            var messageSender = new MessageSender();
+            var coinID = syntaxChecker.GetCoinId(messageEvent.Message.Text);
+            var price = 420.23;
+
+            var response = coinID + ":" + " US$ " + price;
+
             var chatId = messageEvent.Message.Chat.Id;
 
-            messageSender.SendMessage(chatId, "Ethereum: US$ 420.23", null);
+            messageSender.SendMessage(chatId, response, null);
         }
 
         public void ExecuteNotValidCommand(MessageEventArgs messageEvent)
         {
-            var messageSender = new MessageSender();
             var chatId = messageEvent.Message.Chat.Id;
 
             messageSender.SendMessage(chatId, "To get the current price of a coin you must use a coinId, you can get Ids from the following URL: <a>https://coinmarketcap.com/es/api/</a> \n Use the command /price {{coinId}}", null);
