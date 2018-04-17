@@ -219,7 +219,16 @@
     <Compile Include="Models\Compra.cs" />
     <Compile Include="Models\DTO\SignupRequest.cs" />
     <Compile Include="Models\Exceptions\InsufficientAmountException.cs" />
+    <Compile Include="Models\Repositories\CoinRepository.cs" />
+    <Compile Include="Models\Repositories\ICoinRepository.cs" />
+    <Compile Include="Models\Repositories\IRepository.cs" />
+    <Compile Include="Models\Repositories\IUnitOfWork.cs" />
+    <Compile Include="Models\Repositories\IUserRepository.cs" />
+    <Compile Include="Models\Repositories\IWalletRepository.cs" />
     <Compile Include="Models\Repositories\Repository.cs" />
+    <Compile Include="Models\Repositories\UnitOfWork.cs" />
+    <Compile Include="Models\Repositories\UserRepository.cs" />
+    <Compile Include="Models\Repositories\WalletRepository.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Venta.cs" />

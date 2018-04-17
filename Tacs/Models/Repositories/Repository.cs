@@ -2,66 +2,53 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
-using Tacs.Context;
 
 namespace Tacs.Models.Repositories
 {
-    public class Repository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
-        private bool disposed = false;
-        private TacsDataContext context = null;
-        protected DbSet<T> DbSet {  get; set; }
+        protected readonly DbContext Context;
 
-        public Repository()
+        public Repository(DbContext context)
         {
-            context = new TacsDataContext();
-            DbSet = context.Set<T>();
-        }
-
-        public Repository(TacsDataContext context)
-        {
-            this.context = context;
-        }
-
-        //public List<T> GetAll()
-        //{
-        //    return DbSet.ToList();
-        //}
-
-        public T Get(int id)
-        {
-            return DbSet.Find(id);
+            Context = context;
         }
 
         public void Add(T entity)
         {
-            DbSet.Add(entity);
+            Context.Set<T>().Add(entity);
         }
 
-        public void Update(T entity)
+        public void AddRange(IEnumerable<T> entities)
         {
-            context.Entry<T>(entity).State = EntityState.Modified;
+            Context.Set<T>().AddRange(entities);
         }
 
-        public void Delete(int id)
+        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
         {
-            DbSet.Remove(DbSet.Find(id));
+            return Context.Set<T>().Where(predicate);
         }
 
-        public void SaveChanges()
+        public T Get(int id)
         {
-            context.SaveChanges();
+            return Context.Set<T>().Find(id);
         }
 
-        public void Dispose()
+        public IEnumerable<T> GetAll()
         {
-            if (!disposed)
-            {
-                context.Dispose();
-                disposed = true;
-            }
+            return Context.Set<T>().ToList();
         }
 
+        public void Remove(T entity)
+        {
+            Context.Set<T>().Remove(entity);
+        }
+
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            Context.Set<T>().RemoveRange(entities);
+        }
     }
 }
