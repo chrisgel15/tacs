@@ -8,15 +8,20 @@ namespace ConsoleApp1.Commands
 {
     public class CommandSyntaxChecker
     {
-        public bool CheckSyntax(string message)
+        public bool CheckSyntax(string message, int parts, bool checkAmount)
         {
             var messageSplit = message.Split(' ');
+            int numberOfParts = messageSplit.Count();
 
-            var twoParts = messageSplit.Count() == 2;
+            bool correctNumberOfParts = numberOfParts == parts;
 
             //TODO: check valid coin ID
 
-            return twoParts;
+            bool amountCorrect = true;
+            if (checkAmount && correctNumberOfParts)
+                amountCorrect = int.TryParse(messageSplit.Last(), out int n);
+
+            return correctNumberOfParts && amountCorrect /*&& validId*/ ;
         }
 
         public string GetCoinId(string message)

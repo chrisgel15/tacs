@@ -8,7 +8,7 @@ using ConsoleApp1.Comandos;
 
 namespace ConsoleApp1.Commands
 {
-    public class BuyCommand : ICommand
+    public class BuyCommand
     {
         static string commandName = "/buy";
 

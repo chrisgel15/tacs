@@ -9,7 +9,7 @@ using TelegramBot;
 
 namespace ConsoleApp1.Comandos
 {
-    public class StartCommand : ICommand
+    public class StartCommand
     {
         static string commandName = "/start";
 

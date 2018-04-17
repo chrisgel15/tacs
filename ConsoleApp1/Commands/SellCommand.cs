@@ -8,22 +8,34 @@ using ConsoleApp1.Comandos;
 
 namespace ConsoleApp1.Commands
 {
-    public class SellCommand : ICommand
+    public class SellCommand : Command
     {
-        static string commandName = "/sell";
-
-        public bool IsCommand(MessageEventArgs messageEvent)
+        public SellCommand()
         {
-            var command = messageEvent.Message.Text;
-            return command.Contains(commandName);
+            commandName = "/sell";
         }
 
-        public void ExecuteCommand(MessageEventArgs messageEvent)
+        public override void ExecuteValidCommand(MessageEventArgs messageEvent)
         {
-            var messageSender = new MessageSender();
+            var coinID = syntaxChecker.GetCoinId(messageEvent.Message.Text);
+
+            var response = coinID + ", Transaction Completed." ;
+
             var chatId = messageEvent.Message.Chat.Id;
 
-            messageSender.SendMessage(chatId, "Transaction completed.", null);
+            messageSender.SendMessage(chatId, response, null);
+        }
+
+        public override void ExecuteNotValidCommand(MessageEventArgs messageEvent)
+        {
+            var chatId = messageEvent.Message.Chat.Id;
+
+            messageSender.SendMessage(chatId, "To sell a coin you must use a coinId and the amount you want to sell, you can get Ids from the following URL: <a>https://coinmarketcap.com/es/api/</a> \n Use the command /price {{coinId}} {{amount}}", null);
+        }
+
+        public override bool CheckCommandSyntax(string message)
+        {
+            return true;
         }
     }
 }

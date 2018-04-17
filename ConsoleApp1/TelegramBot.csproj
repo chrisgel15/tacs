@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="Commands\BuyCommand.cs" />
     <Compile Include="Commands\CommandSyntaxChecker.cs" />
-    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\PriceCommand.cs" />
     <Compile Include="Commands\SellCommand.cs" />
     <Compile Include="Commands\StartCommand.cs" />

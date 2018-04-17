@@ -8,7 +8,7 @@ using ConsoleApp1.Comandos;
 
 namespace ConsoleApp1.Commands
 {
-    public class WalletCommand : ICommand
+    public class WalletCommand 
     {
         static string commandName = "/wallet";
 
