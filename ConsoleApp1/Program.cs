@@ -18,7 +18,7 @@ namespace TelegramBot
     {
 
         static TelegramBotClient bot = new TelegramBotClient("561318443:AAHMmc3GYXoHpg4sx9XlwnpJutQMmkyy4yM");
-        static List<Command> commands = new List<Command> { /*new BuyCommand(), new SellCommand(), new WalletCommand(), new StartCommand(), */new PriceCommand() };
+        static List<Command> commands = new List<Command> { new BuyCommand(), new SellCommand(), new WalletCommand(), new StartCommand(), new PriceCommand() };
 
         static void Main(string[] args)
         {

@@ -9,17 +9,14 @@ using TelegramBot;
 
 namespace ConsoleApp1.Comandos
 {
-    public class StartCommand
+    public class StartCommand : Command
     {
-        static string commandName = "/start";
-
-        public bool IsCommand(MessageEventArgs messageEvent)
+        public StartCommand()
         {
-            var command = messageEvent.Message.Text;
-            return command.Contains(commandName);
+            commandName = "/start";
         }
 
-        public void ExecuteCommand(MessageEventArgs messageEvent)
+        public override void ExecuteValidCommand(MessageEventArgs messageEvent)
         {
             var messageSender = new MessageSender();
             var chatId = messageEvent.Message.Chat.Id;
@@ -28,6 +25,16 @@ namespace ConsoleApp1.Comandos
             messageSender.SendMessage(chatId, "Welcome to CryptoTacs, how can I help you?", keyboard);
         }
 
+        public override void ExecuteNotValidCommand(MessageEventArgs messageEvent)
+        {
+            var chatId = messageEvent.Message.Chat.Id;
 
+            messageSender.SendMessage(chatId, "To start using the bot you must send \"/start\"", null);
+        }
+
+        public override bool CheckCommandSyntax(string message)
+        {
+            return syntaxChecker.CheckSyntax(message, 1, false);
+        }
     }
 }

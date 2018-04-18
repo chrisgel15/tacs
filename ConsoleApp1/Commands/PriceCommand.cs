@@ -37,7 +37,7 @@ namespace ConsoleApp1.Commands
 
         public override bool CheckCommandSyntax(string message)
         {
-            return syntaxChecker.CheckSyntax(message, 3, true);
+            return syntaxChecker.CheckSyntax(message, 2, false);
         }
 
 

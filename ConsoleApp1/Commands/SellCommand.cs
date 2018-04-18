@@ -30,12 +30,12 @@ namespace ConsoleApp1.Commands
         {
             var chatId = messageEvent.Message.Chat.Id;
 
-            messageSender.SendMessage(chatId, "To sell a coin you must use a coinId and the amount you want to sell, you can get Ids from the following URL: <a>https://coinmarketcap.com/es/api/</a> \n Use the command /price {{coinId}} {{amount}}", null);
+            messageSender.SendMessage(chatId, "To sell a coin you must use a coinId and the amount you want to sell, you can get Ids from the following URL: <a>https://coinmarketcap.com/es/api/</a> \n Use the command /sell {{coinId}} {{amount}}", null);
         }
 
         public override bool CheckCommandSyntax(string message)
         {
-            return true;
+            return syntaxChecker.CheckSyntax(message, 3, true);
         }
     }
 }
