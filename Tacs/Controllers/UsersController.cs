@@ -18,7 +18,7 @@ namespace Tacs.Controllers
     {
         static HttpClient client = new HttpClient();
         
-        // GET api/users
+       /* // GET api/users
         public object Get()
         {
             // por ahora que devuelva estos datos
@@ -29,7 +29,7 @@ namespace Tacs.Controllers
                 new { id = 12355, username = "Brian", coins = new List<string>{"ethereum", "monero"} }
             };
             return Json(new { users = usersDB });
-        }
+        }*/
 
         // GET api/users?userId=4565423
         //public object Get(int userId)
@@ -68,47 +68,6 @@ namespace Tacs.Controllers
                
         }
 
-        [Route("portfolio")]
-        [HttpPost]
-        public HttpResponseMessage compraMoneda([FromBody] string moneda, [FromBody] int cantidad)
-        {
-            //Validaciones necesarias//
-            var response = Request.CreateResponse(HttpStatusCode.Created);
-            return response;
-        }
-
-        [Route("portfolio")]
-        [HttpGet]
-        public HttpResponseMessage getMonedasConCotizacionActual()
-        {
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
-        }
-
-        [Route("portfolio/{monedaid}")]
-        [HttpPut]
-        public HttpResponseMessage ventaMoneda(int monedaid, [FromBody] int cantidad)
-        {
-            var response = Request.CreateResponse(HttpStatusCode.NoContent);
-            return response;
-        }
-
-        [Route("portfolio/{monedaid}/transacciones")]
-        [HttpGet]
-        public HttpResponseMessage detallesTransacciones(int monedaid)
-        {
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
-        }
-
-        [Route("portfolio/{monedaid}/cantidad")]
-        [HttpGet]
-        public HttpResponseMessage cantidadMoneda(int monedaid)
-        {
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
-        }
-
         [Route("")]
         [HttpGet]
         public HttpResponseMessage datosUsuario(int userid)
@@ -117,6 +76,7 @@ namespace Tacs.Controllers
             return response;
         }
 
+        //llamar dos veces /users/{userid}? vienen los dos usuarios en objeto Request?
         [Route("~/api/comparacion")]
         [HttpGet]
         public HttpResponseMessage comparaDosUsuarios([FromBody] int userId, [FromBody] int otroUserId)

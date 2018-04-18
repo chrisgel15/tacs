@@ -11,7 +11,7 @@ namespace Tacs.Controllers
     [RoutePrefix("api/transacciones")]
     public class TransactionsController : ApiController
     {
-        // GET api/transactions?coinId=bitcoin
+        /*// GET api/transactions?coinId=bitcoin
         public object Get(string coinId)
         {
             // por ahora que devuelva estos datos
@@ -23,7 +23,7 @@ namespace Tacs.Controllers
             };
 
             return Json(new { coin = coinId, transactions = transQuery });
-        }
+        }*/
 
         [Route("")]
         [HttpGet]
