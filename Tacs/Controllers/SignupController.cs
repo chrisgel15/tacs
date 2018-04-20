@@ -31,7 +31,7 @@ namespace Tacs.Controllers
             return response;
         }
 
-        public void Post([FromBody]User user)
+        public void Post([FromBody]SignupRequest request)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
