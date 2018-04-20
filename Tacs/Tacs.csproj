@@ -214,26 +214,31 @@
       <DependentUpon>201804152142463_Added Price property and set foreign key properties to virtual.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccessKeys.cs" />
-    <Compile Include="Models\Coin.cs" />
-    <Compile Include="Models\Compra.cs" />
-    <Compile Include="Models\DTO\SignupRequest.cs" />
+    <Compile Include="Models\Business\AccessKeys.cs" />
+    <Compile Include="Models\Business\Coin.cs" />
+    <Compile Include="Models\Business\Compra.cs" />
+    <Compile Include="Models\Contracts\SignInResponse.cs" />
+    <Compile Include="Models\Contracts\SignInRequest.cs" />
+    <Compile Include="Models\Contracts\SignupRequest.cs" />
     <Compile Include="Models\Exceptions\InsufficientAmountException.cs" />
-    <Compile Include="Models\Repositories\CoinRepository.cs" />
-    <Compile Include="Models\Repositories\ICoinRepository.cs" />
-    <Compile Include="Models\Repositories\IRepository.cs" />
-    <Compile Include="Models\Repositories\IUnitOfWork.cs" />
-    <Compile Include="Models\Repositories\IUserRepository.cs" />
-    <Compile Include="Models\Repositories\IWalletRepository.cs" />
-    <Compile Include="Models\Repositories\Repository.cs" />
-    <Compile Include="Models\Repositories\UnitOfWork.cs" />
-    <Compile Include="Models\Repositories\UserRepository.cs" />
-    <Compile Include="Models\Repositories\WalletRepository.cs" />
-    <Compile Include="Models\Transaction.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\Venta.cs" />
-    <Compile Include="Models\Wallet.cs" />
+    <Compile Include="Models\Repositories\Implementations\TransactionRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\CoinRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\ITransactionRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\ICoinRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IUserRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IWalletRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Repository.cs" />
+    <Compile Include="Models\Repositories\Implementations\UnitOfWork.cs" />
+    <Compile Include="Models\Repositories\Implementations\UserRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\WalletRepository.cs" />
+    <Compile Include="Models\Business\Transaction.cs" />
+    <Compile Include="Models\Business\User.cs" />
+    <Compile Include="Models\Business\Venta.cs" />
+    <Compile Include="Models\Business\Wallet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccessService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

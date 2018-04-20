@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace Tacs.Models.DTO
+namespace Tacs.Models.Contracts
 {
     [DataContract]
     public class SignupRequest

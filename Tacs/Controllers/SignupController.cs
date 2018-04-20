@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Tacs.Context;
 using Tacs.Models;
-using Tacs.Models.DTO;
+using Tacs.Models.Contracts;
 using Tacs.Models.Repositories;
 
 namespace Tacs.Controllers

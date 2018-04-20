@@ -25,6 +25,13 @@ namespace Tacs.Models
         [DataMember]
         public DateTime LastAccessDate { get; set; }
 
+        // For Entity Framework Code First Needs...
+        // Check: https://stackoverflow.com/questions/31543255/why-must-i-have-a-parameterless-constructor-for-code-first-entity-framework
+        private User()
+        {
+
+        }
+
         public User(string name, string password)
         {
             this.Name = name;
