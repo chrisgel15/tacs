@@ -4,13 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Mvc;
+//using System.Web.Mvc;
 
 namespace Tacs.Controllers
 {
+    [RoutePrefix("api/transacciones")]
     public class TransactionsController : ApiController
     {
-        // GET api/transactions?coinId=bitcoin
+        /*// GET api/transactions?coinId=bitcoin
         public object Get(string coinId)
         {
             // por ahora que devuelva estos datos
@@ -22,6 +23,14 @@ namespace Tacs.Controllers
             };
 
             return Json(new { coin = coinId, transactions = transQuery });
+        }*/
+
+        [Route("")]
+        [HttpGet]
+        public HttpResponseMessage transacciones()
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
         }
     }
 }
