@@ -16,6 +16,10 @@
             Coin = coin;
             this.Amount = 0;
         }
+        private Wallet()
+        {
+
+        }
 
         [DataMember]
         public int Id { get; set; }

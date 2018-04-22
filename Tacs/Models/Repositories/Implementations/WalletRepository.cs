@@ -14,6 +14,7 @@ namespace Tacs.Models.Repositories
             return TacsDataContext.Wallets;
         }
 
+        
         public TacsDataContext TacsDataContext
         {
             get { return Context as TacsDataContext; }
