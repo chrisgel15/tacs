@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using Tacs.Models.Exceptions;
 
 namespace Tacs.Models
 {
@@ -20,10 +21,10 @@ namespace Tacs.Models
         public string Password { get; set; }
 
         [DataMember]
-        public virtual IList<Wallet> Wallets { get; set; }
+        public DateTime LastAccessDate { get; set; }
 
         [DataMember]
-        public DateTime LastAccessDate { get; set; }
+        public virtual ICollection<UserCoin> UserCoins { get; set; }
 
         // For Entity Framework Code First Needs...
         // Check: https://stackoverflow.com/questions/31543255/why-must-i-have-a-parameterless-constructor-for-code-first-entity-framework
@@ -36,35 +37,65 @@ namespace Tacs.Models
         {
             this.Name = name;
             this.Password = password;
-            this.Wallets = new List<Wallet>();
+            //   this.Wallets = new List<Wallet>();
+            this.UserCoins = new List<UserCoin>();
             this.LastAccessDate = DateTime.Now;
         }
 
         public void Buy(Coin coin, int amount)
         {
-            Wallet wallet = GetWallet(coin);
+            CreateUserCoins();
+            UserCoin userCoins = GetUserCoins(coin);
 
-            wallet.Buy(amount);
+            if (userCoins == null)
+            {
+                AddUserCoinToUser(coin, amount);
+            }
+            else
+            {
+                userCoins.Amount += amount;
+            }
         }
 
         public void Sell(Coin coin, int amount)
         {
-            Wallet wallet = GetWallet(coin);
+            CreateUserCoins();
+            UserCoin userCoins = GetUserCoins(coin);
 
-            wallet.Sell(amount);
-        }
-
-        private Wallet GetWallet(Coin coin)
-        {
-            Wallet wallet = this.Wallets.FirstOrDefault(c => c.Coin.Id == coin.Id);
-
-            if (wallet == null)
+            if (userCoins == null)
             {
-                wallet = new Wallet(this, coin);
-                Wallets.Add(wallet);
+                throw new InvalidOperationException("You cant sell a Coin that you dont have.");
             }
-
-            return wallet;
+            else
+            {
+                if (userCoins.Amount >= amount)
+                    userCoins.Amount -= amount;
+                else
+                    throw new InsufficientAmountException("You are trying to sell more than you have.");
+            }
         }
+
+        private void AddUserCoinToUser(Coin coin, int amount)
+        {
+            UserCoin userCoin = new UserCoin()
+            {
+                Coin = coin,
+                User = this,
+                Amount = amount
+            };
+
+            this.UserCoins.Add(userCoin);
+        }
+        private UserCoin GetUserCoins(Coin coin)
+        {
+            return this.UserCoins.Where(uc => uc.CoinID == coin.Id).FirstOrDefault();
+        }
+        private void CreateUserCoins()
+        {
+            if (this.UserCoins == null)
+                this.UserCoins = new List<UserCoin>();
+        }
+
+       
     }
 }

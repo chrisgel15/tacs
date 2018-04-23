@@ -7,11 +7,7 @@ namespace Tacs.Models.Repositories
     {
         public TransactionRepository(TacsDataContext context) : base(context)
         {
-        }
 
-        public IEnumerable<Transaction> GetTopUsers(int count)
-        {
-            return TacsDataContext.Transactions;
         }
 
         public TacsDataContext TacsDataContext

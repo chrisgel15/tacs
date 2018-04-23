@@ -24,6 +24,11 @@ namespace Tacs.Models.Repositories
            return existUser.Count > 0;
         }
 
+        public User GetUserWithCoins(int userId)
+        {
+            return TacsDataContext.Users.Include("UserCoins").Where(o => o.Id == userId).FirstOrDefault();
+        }
+
         public TacsDataContext TacsDataContext
         {
             get { return Context as TacsDataContext; }
