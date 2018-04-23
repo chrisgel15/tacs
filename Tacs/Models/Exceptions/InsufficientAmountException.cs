@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Tacs.Services;
 
 namespace Tacs.Models.Exceptions
 {
     [Serializable]
-    public class InsufficientAmountException : Exception
+    public class InsufficientAmountException : BusinnesException
     {
         public InsufficientAmountException()
         {

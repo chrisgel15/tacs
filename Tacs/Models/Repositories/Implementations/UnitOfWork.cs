@@ -7,14 +7,19 @@ namespace Tacs.Models.Repositories
         private readonly TacsDataContext _context;
         public IUserRepository Users { get; private set; }
         public ICoinRepository Coins { get; private set; }
-        public IWalletRepository Wallets { get; private set; }
+    //    public IWalletRepository Wallets { get; private set; }
+        public IUserCoinRepository UserCoins { get; private set; }
+
+        public ITransactionRepository Transactions { get; private set; }
 
         public UnitOfWork(TacsDataContext context)
         {
             _context = context;
             Users = new UserRepository(context);
             Coins = new CoinRepository(context);
-            Wallets = new WalletRepository(context);
+           // Wallets = new WalletRepository(context);
+            UserCoins = new UserCoinRepository(context);
+            Transactions = new TransactionRepository(context);
         }
 
         public int Complete()

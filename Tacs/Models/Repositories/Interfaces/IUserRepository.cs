@@ -7,5 +7,7 @@ namespace Tacs.Models.Repositories
         bool ExistsUserByNameAndPassword(User user);
 
         void SetUserLastAccessDate(User user);
+
+        User GetUserWithCoins(int userId);
     }
 }

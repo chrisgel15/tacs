@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Tacs.Context;
 
 namespace Tacs.Models.Repositories
@@ -11,7 +12,19 @@ namespace Tacs.Models.Repositories
 
         public IEnumerable<Wallet> GetTopUsers(int count)
         {
-            return TacsDataContext.Wallets;
+            return null;
+         //   return TacsDataContext.Wallets;
+        }
+
+        public Wallet GetByUserAndCoin(int userId, int coinId)
+        {
+            return null;
+           // return Find(w => w.UserId == user.Id && w.CoinId == coin.Id).FirstOrDefault();
+        }
+
+        public Wallet GetByUser(User user, Coin coin)
+        {
+            throw new System.NotImplementedException();
         }
 
         

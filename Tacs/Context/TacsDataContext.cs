@@ -11,9 +11,10 @@ namespace Tacs.Context
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Coin> Coins { get; set; }
-        public DbSet<Wallet> Wallets { get; set; }
+      //  public DbSet<Wallet> Wallets { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Compra> Compras { get; set; }
         public DbSet<Venta> Ventas { get; set; }
+        public DbSet<UserCoin> UserCoin { get; set; }
     }
 }

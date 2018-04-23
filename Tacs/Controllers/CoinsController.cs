@@ -64,16 +64,16 @@ namespace Tacs.Controllers
 
             CoinService coinService = new CoinService();
 
-            var wallets = coinService.VerPortfolio(userid);
+            var userCoins = coinService.VerPortfolio(userid);
 
             //La siguiente linea solo para probar el cliente http
             //var cotizacion = TraerCotizacion("https://api.coinmarketcap.com/v1/ticker/bitcoin");
 
             //itera sobre todos los wallet que se encontro para el usuario con userid en la ruta
-            foreach(Wallet w in wallets)
+            foreach(UserCoin uc in userCoins)
             {
-                var cotizacion = TraerCotizacion("https://api.coinmarketcap.com/v1/ticker/" + w.Name.ToString());
-                listaMonedas.Add(new PortfolioResponse(w.Name, cotizacion));
+                var cotizacion = TraerCotizacion("https://api.coinmarketcap.com/v1/ticker/" + uc.Coin.Name.ToString());
+                listaMonedas.Add(new PortfolioResponse(uc.CoinID.ToString(), cotizacion));
             }
 
             if (!(listaMonedas.Count > 0))

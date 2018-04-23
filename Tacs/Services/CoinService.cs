@@ -11,13 +11,13 @@ namespace Tacs.Services
 {
     public class CoinService
     {
-        public IList<Wallet> VerPortfolio(int userid)
+        public IList<UserCoin> VerPortfolio(int userid)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
-                var wallets = unitOfWork.Wallets.GetAll().Where(w => w.User.Id == userid).ToList();
+                var coins = unitOfWork.UserCoins.GetAll().Where(uc => uc.User.Id == userid).ToList();
                 
-                return wallets;
+                return coins;
             }
         }
     }
