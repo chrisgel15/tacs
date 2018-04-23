@@ -1,20 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Tacs.Models;
-using System.Web.Mvc;
+using Tacs.Models.Contracts;
+using Tacs.Services;
 
 namespace Tacs.Controllers
 {
+    [RoutePrefix("api/sale")]
     public class SaleController : ApiController
     {
         // POST api/sale
-        public object Post([FromBody]Transaction transaction)
+        [Route("")]
+        public HttpResponseMessage Post([FromBody]TransactionRequest transactionRequest)
         {
-            return Json(new { coin = transaction.Coin, count = transaction.Amount, transactionsId = 456481651 });
+
+            if (!ModelState.IsValid)
+                return BadRequestResponse();
+
+            var userId = transactionRequest.UserId;
+            var coinId = transactionRequest.CoinId;
+            var amount = transactionRequest.Amount;
+
+            TransactionService transactionService = new TransactionService();
+
+            try
+            {
+                transactionService.Sale(userId, coinId, amount);
+            }
+            catch (BusinnesException businessException)
+            {
+                return NotFoundResponse(businessException);
+            }
+            catch (Exception exception)
+            {
+                // log error
+                throw exception;
+            }
+
+            return SuccessfullSaleResponse();
         }
+        private HttpResponseMessage BadRequestResponse()
+        {
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Incorrect input");
+        }
+        private HttpResponseMessage SuccessfullSaleResponse()
+        {
+            return Request.CreateResponse<BuyResponse>(new BuyResponse()
+            {
+                Error = false,
+                Message = "La venta ha sido exitosa."
+
+            });
+        }
+        private HttpResponseMessage NotFoundResponse(BusinnesException businnesException)
+        {
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, businnesException);
+        }
+
     }
 }

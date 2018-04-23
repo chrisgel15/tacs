@@ -10,6 +10,12 @@
     [DataContract]
     public class Wallet
     {
+        // For Entity Framework Code First Needs...
+        // Check: https://stackoverflow.com/questions/31543255/why-must-i-have-a-parameterless-constructor-for-code-first-entity-framework
+        private Wallet()
+        {
+
+        }
         public Wallet(User user, Coin coin)
         {
             User = user;
@@ -43,8 +49,8 @@
         [Required]
         public int UserId { get; set; }
 
-#endregion
-     
+        #endregion
+
         public void Buy(int amount)
         {
             this.Amount += amount;

@@ -16,16 +16,16 @@ namespace Tacs.Models.Contracts
         public string name { get; set; }
 
         [DataMember]
-        public IList<Wallet> wallets { get; set; }
+        public ICollection<UserCoin> userCoins { get; set; }
 
         [DataMember]
         public string lastAccess { get; set; }
 
-        public UserInfoResponse(int _id, string _name, IList<Wallet> _wallets)
+        public UserInfoResponse(int _id, string _name, ICollection<UserCoin> _userCoins)
         {
             this.id = _id;
             this.name = _name;
-            this.wallets = _wallets;
+            this.userCoins = _userCoins;
             this.lastAccess = DateTime.Now.ToString();
         }
     }

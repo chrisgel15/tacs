@@ -44,6 +44,11 @@ namespace Tacs.Models.Repositories
             return GetAll().Select(u => u.Id).DefaultIfEmpty(0).Max();
         }
 
+        public User GetUserWithCoins(int userId)
+        {
+            return TacsDataContext.Users.Include("UserCoins").Where(o => o.Id == userId).FirstOrDefault();
+        }
+
         public TacsDataContext TacsDataContext
         {
             get { return Context as TacsDataContext; }

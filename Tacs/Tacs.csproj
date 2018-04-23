@@ -185,6 +185,15 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Context\TacsDataContext.cs" />
     <Compile Include="Controllers\BuyController.cs" />
+    <Compile Include="Migrations\201804221756563_Added UserCoin entity.cs" />
+    <Compile Include="Migrations\201804221756563_Added UserCoin entity.Designer.cs">
+      <DependentUpon>201804221756563_Added UserCoin entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804222121237_Added Transactions entity and removing Wallets entity.cs" />
+    <Compile Include="Migrations\201804222121237_Added Transactions entity and removing Wallets entity.Designer.cs">
+      <DependentUpon>201804222121237_Added Transactions entity and removing Wallets entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contracts\BuyResponse.cs" />
     <Compile Include="Controllers\CoinsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SaleController.cs" />
@@ -197,6 +206,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Contracts\UserInfoResponse.cs" />
+    <Compile Include="Models\Contracts\TransactionRequest.cs" />
     <Compile Include="Models\Moneda.cs" />
     <Compile Include="Migrations\201804112353402_Initial.cs" />
     <Compile Include="Migrations\201804112353402_Initial.Designer.cs">
@@ -222,8 +232,10 @@
     <Compile Include="Models\Contracts\SignInRequest.cs" />
     <Compile Include="Models\Contracts\SignupRequest.cs" />
     <Compile Include="Models\Exceptions\InsufficientAmountException.cs" />
+    <Compile Include="Models\Repositories\Implementations\UserCoinRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\TransactionRepository.cs" />
     <Compile Include="Models\Repositories\Implementations\CoinRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IUserCoinRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\ITransactionRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\ICoinRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IRepository.cs" />
@@ -238,9 +250,12 @@
     <Compile Include="Models\Business\User.cs" />
     <Compile Include="Models\Business\Venta.cs" />
     <Compile Include="Models\Business\Wallet.cs" />
+    <Compile Include="Models\Business\UserCoin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccessService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Models\Exceptions\BusinnesException.cs" />
+    <Compile Include="Services\TransactionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -322,6 +337,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804152142463_Added Price property and set foreign key properties to virtual.resx">
       <DependentUpon>201804152142463_Added Price property and set foreign key properties to virtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804221756563_Added UserCoin entity.resx">
+      <DependentUpon>201804221756563_Added UserCoin entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804222121237_Added Transactions entity and removing Wallets entity.resx">
+      <DependentUpon>201804222121237_Added Transactions entity and removing Wallets entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

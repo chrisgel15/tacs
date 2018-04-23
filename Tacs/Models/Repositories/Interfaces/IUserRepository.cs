@@ -15,5 +15,7 @@ namespace Tacs.Models.Repositories
         void AddNewUser(User user);
 
         int GetMaxId();
+
+        User GetUserWithCoins(int userId);
     }
 }

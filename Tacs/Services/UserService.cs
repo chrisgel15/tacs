@@ -18,7 +18,7 @@ namespace Tacs.Services
                 IList<User> users = unitOfWork.Users.GetAll().ToList();
                 if (users.Count() > 0)
                 {
-                    var usersInfo = from user in users select new UserInfoResponse(user.Id, user.Name, user.Wallets);
+                    var usersInfo = from user in users select new UserInfoResponse(user.Id, user.Name, user.UserCoins);
                     return usersInfo.ToList();
                 }
                 else
@@ -36,7 +36,7 @@ namespace Tacs.Services
                 if (info != null)
                 {
                     // no muestro el campo password
-                    return new UserInfoResponse(info.Id, info.Name, info.Wallets);
+                    return new UserInfoResponse(info.Id, info.Name, info.UserCoins);
                 }                
                 return null;
             }
