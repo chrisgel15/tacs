@@ -7,5 +7,13 @@ namespace Tacs.Models.Repositories
         bool ExistsUserByNameAndPassword(User user);
 
         void SetUserLastAccessDate(User user);
+
+        User GetUserInfoById(int id);
+
+        bool ExistUserByName(string name);
+
+        void AddNewUser(User user);
+
+        int GetMaxId();
     }
 }
