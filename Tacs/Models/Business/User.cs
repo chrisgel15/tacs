@@ -33,6 +33,16 @@ namespace Tacs.Models
 
         }
 
+        public User(int id, string name, string password)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Password = password;
+            //this.Wallets = new List<Wallet>();
+            this.UserCoins = new List<UserCoin>();
+            this.LastAccessDate = DateTime.Now;
+        }
+
         public User(string name, string password)
         {
             this.Name = name;

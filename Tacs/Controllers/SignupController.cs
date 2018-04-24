@@ -7,20 +7,25 @@ using System.Web.Http;
 using Tacs.Context;
 using Tacs.Models;
 using Tacs.Models.Contracts;
-using Tacs.Models.Repositories;
+using Tacs.Services;
 
 namespace Tacs.Controllers
 {
     [RoutePrefix("api/accesos")]
     public class SignupController : ApiController
     {
-        // POST api/signup
-        [Route("")]
-        [HttpPost]
-        public HttpResponseMessage nuevoUsuario()
+        [Route(""), HttpPost]
+        public IHttpActionResult Post([FromBody]SignupRequest user)
         {
-            var response = Request.CreateResponse(HttpStatusCode.Created);
-            return response;
+            if (!ModelState.IsValid)
+                return BadRequest("Campos incorrectos");
+
+            var responseService = new UserService().SignUp(user.Username, user.Password);
+            if (responseService.estado == "ERROR") {
+                return Ok(new { responseService });
+            }
+            //var response = Request.CreateResponse(HttpStatusCode.Created);
+            return Created("", responseService);
         }
 
         [Route("{userId}")]
@@ -29,25 +34,6 @@ namespace Tacs.Controllers
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
-        }
-
-        public void Post([FromBody]SignupRequest request)
-        {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                Coin c = new Coin("dCoin");
-
-                unitOfWork.Coins.Add(c);
-
-                User user = new User("asdf", "asdf");
-
-                user.Buy(c, 500);
-
-                unitOfWork.Users.Add(user);
-
-                unitOfWork.Complete();
-            }
-
         }
     }
 }

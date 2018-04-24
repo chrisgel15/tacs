@@ -10,6 +10,7 @@ namespace Tacs.Models.Contracts
     [DataContract]
     public class SignupRequest
     {
+        /*
         [DataMember]
         [Required]
         public User user { get; set; }
@@ -17,5 +18,11 @@ namespace Tacs.Models.Contracts
         [DataMember]
         [Required]
         public AccessKeys accessKeys { get; set; }
+        */
+        [DataMember, Required]
+        public string Username { get; set; }
+
+        [DataMember, Required]
+        public string Password { get; set; }
     }
 }

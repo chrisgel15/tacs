@@ -8,6 +8,14 @@ namespace Tacs.Models.Repositories
 
         void SetUserLastAccessDate(User user);
 
+        User GetUserInfoById(int id);
+
+        bool ExistUserByName(string name);
+
+        void AddNewUser(User user);
+
+        int GetMaxId();
+
         User GetUserWithCoins(int userId);
     }
 }
