@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Tacs.Services;
 
 namespace Tacs.Models
 {
@@ -19,7 +20,8 @@ namespace Tacs.Models
         public string Name { get; set; }
 
         [DataMember]
-        public virtual ICollection<UserCoin> UserCoins { get; set; }
+        public virtual List<UserCoin> UserCoins { get; set; }
+        public virtual List<Transaction> Transactions { get; set; }
 
         public Coin(string name)
         {
@@ -30,6 +32,11 @@ namespace Tacs.Models
         {
             this.Name = name;
             this.Id = Id;
+        }
+
+        public decimal GetCotizacion()
+        {
+            return CotizacionService.GetCotizacion(this.Name);
         }
     }
 }

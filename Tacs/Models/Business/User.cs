@@ -25,6 +25,7 @@ namespace Tacs.Models
 
         [DataMember]
         public virtual ICollection<UserCoin> UserCoins { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
         // For Entity Framework Code First Needs...
         // Check: https://stackoverflow.com/questions/31543255/why-must-i-have-a-parameterless-constructor-for-code-first-entity-framework
@@ -42,7 +43,6 @@ namespace Tacs.Models
             this.UserCoins = new List<UserCoin>();
             this.LastAccessDate = DateTime.Now;
         }
-
         public User(string name, string password)
         {
             this.Name = name;
@@ -50,6 +50,11 @@ namespace Tacs.Models
             //   this.Wallets = new List<Wallet>();
             this.UserCoins = new List<UserCoin>();
             this.LastAccessDate = DateTime.Now;
+        }
+
+        public decimal GetPatrimonio()
+        {
+            return this.UserCoins.Sum(uc => uc.Coin.GetCotizacion() * uc.Amount);
         }
 
         public void Buy(Coin coin, int amount)
@@ -98,7 +103,7 @@ namespace Tacs.Models
         }
         private UserCoin GetUserCoins(Coin coin)
         {
-            return this.UserCoins.Where(uc => uc.CoinID == coin.Id).FirstOrDefault();
+            return this.UserCoins.Where(uc => uc.Coin.Id == coin.Id).FirstOrDefault();
         }
         private void CreateUserCoins()
         {

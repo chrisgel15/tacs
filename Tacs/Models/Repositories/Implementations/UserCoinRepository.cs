@@ -18,7 +18,7 @@ namespace Tacs.Models.Repositories
 
         public UserCoin GetByUserAndCoin(User user, Coin coin)
         {
-            return Find(uc => uc.CoinID == coin.Id && uc.UserID == coin.Id).FirstOrDefault();
+            return user.UserCoins.FirstOrDefault(uc => uc.Coin == coin);
         }
     }
 }

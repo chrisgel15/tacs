@@ -31,6 +31,5 @@ namespace Tacs.Controllers
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
-
     }
 }

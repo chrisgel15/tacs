@@ -5,6 +5,7 @@ using System.Web;
 using Tacs.Context;
 using Tacs.Models;
 using Tacs.Models.Repositories;
+using Tacs.Models.Contracts;
 
 namespace Tacs.Services
 {
@@ -56,6 +57,25 @@ namespace Tacs.Services
 
                 unitOfWork.Complete();
             }
+        }
+
+
+        public AdminTransactionsResponse ListarTransacciones()
+        {
+            AdminTransactionsResponse response = new AdminTransactionsResponse();
+            var context = new UnitOfWork(new TacsDataContext());
+
+            var date = DateTime.Today.AddDays(-1);
+            response.TransaccionesHoy = context.Transactions.Find(t => t.Date > date).Count();
+            date = DateTime.Today.AddDays(-3);
+            response.TransaccionesUltimosTresDias = context.Transactions.Find(t => t.Date > date).Count();
+            date = DateTime.Today.AddDays(-7);
+            response.TransaccionesUltimaSemana = context.Transactions.Find(t => t.Date > date).Count();
+            date = DateTime.Today.AddMonths(-1);
+            response.TransaccionesUltimoMes = context.Transactions.Find(t => t.Date > date).Count();
+            response.TransaccionesTotales = context.Transactions.GetAll().Count();
+
+            return response;
         }
     }
 }

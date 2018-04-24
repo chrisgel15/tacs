@@ -10,23 +10,27 @@ namespace Tacs.Models.Contracts
     public class UserInfoResponse
     {
         [DataMember]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [DataMember]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [DataMember]
-        public ICollection<UserCoin> userCoins { get; set; }
+        public int NumberOfUserCoins { get; set; }
 
         [DataMember]
-        public string lastAccess { get; set; }
+        public int Transactions { get; set; }
 
-        public UserInfoResponse(int _id, string _name, ICollection<UserCoin> _userCoins)
+        [DataMember]
+        public string LastAccess { get; set; }
+
+        public UserInfoResponse(User user)
         {
-            this.id = _id;
-            this.name = _name;
-            this.userCoins = _userCoins;
-            this.lastAccess = DateTime.Now.ToString();
+            this.Id = user.Id;
+            this.Name = user.Name;
+            this.NumberOfUserCoins = user.UserCoins.Count;
+            this.Transactions = user.UserCoins.Sum(uc => uc.Transactions.Count);
+            this.LastAccess = DateTime.Now.ToString();
         }
     }
 }

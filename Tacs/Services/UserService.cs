@@ -18,7 +18,7 @@ namespace Tacs.Services
                 IList<User> users = unitOfWork.Users.GetAll().ToList();
                 if (users.Count() > 0)
                 {
-                    var usersInfo = from user in users select new UserInfoResponse(user.Id, user.Name, user.UserCoins);
+                    var usersInfo = from user in users select new UserInfoResponse(user);
                     return usersInfo.ToList();
                 }
                 else
@@ -36,10 +36,21 @@ namespace Tacs.Services
                 if (info != null)
                 {
                     // no muestro el campo password
-                    return new UserInfoResponse(info.Id, info.Name, info.UserCoins);
+                    return new UserInfoResponse(info);
                 }                
                 return null;
             }
+        }
+
+        public UserComparisonResponse CompareUsers(int userId1, int userId2)
+        {
+            var context = new UnitOfWork(new TacsDataContext());
+
+            User user1 = context.Users.GetUserInfoById(userId1);
+            User user2 = context.Users.GetUserInfoById(userId2);
+
+            return new UserComparisonResponse(user1, user2);
+
         }
 
         public dynamic SignUp(string username, string password)
@@ -60,5 +71,7 @@ namespace Tacs.Services
                 }
             }
         }
+
+
     }
 }

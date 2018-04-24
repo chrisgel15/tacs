@@ -185,14 +185,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Context\TacsDataContext.cs" />
     <Compile Include="Controllers\BuyController.cs" />
-    <Compile Include="Migrations\201804221756563_Added UserCoin entity.cs" />
-    <Compile Include="Migrations\201804221756563_Added UserCoin entity.Designer.cs">
-      <DependentUpon>201804221756563_Added UserCoin entity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804222121237_Added Transactions entity and removing Wallets entity.cs" />
-    <Compile Include="Migrations\201804222121237_Added Transactions entity and removing Wallets entity.Designer.cs">
-      <DependentUpon>201804222121237_Added Transactions entity and removing Wallets entity.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contracts\BuyResponse.cs" />
     <Compile Include="Controllers\CoinsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -205,26 +199,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Contracts\AdminTransactionsResponse.cs" />
+    <Compile Include="Models\Contracts\UserComparisonResponse.cs" />
     <Compile Include="Models\Contracts\UserInfoResponse.cs" />
     <Compile Include="Models\Contracts\TransactionRequest.cs" />
     <Compile Include="Models\Moneda.cs" />
-    <Compile Include="Migrations\201804112353402_Initial.cs" />
-    <Compile Include="Migrations\201804112353402_Initial.Designer.cs">
-      <DependentUpon>201804112353402_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804112357426_Modified property name for Transacion.cs" />
-    <Compile Include="Migrations\201804112357426_Modified property name for Transacion.Designer.cs">
-      <DependentUpon>201804112357426_Modified property name for Transacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804152058402_Added Compra and Venta classes.cs" />
-    <Compile Include="Migrations\201804152058402_Added Compra and Venta classes.Designer.cs">
-      <DependentUpon>201804152058402_Added Compra and Venta classes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804152142463_Added Price property and set foreign key properties to virtual.cs" />
-    <Compile Include="Migrations\201804152142463_Added Price property and set foreign key properties to virtual.Designer.cs">
-      <DependentUpon>201804152142463_Added Price property and set foreign key properties to virtual.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Business\AccessKeys.cs" />
     <Compile Include="Models\Business\Coin.cs" />
     <Compile Include="Models\Business\Compra.cs" />
@@ -253,6 +232,7 @@
     <Compile Include="Models\Business\UserCoin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccessService.cs" />
+    <Compile Include="Services\CotizacionService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Models\Exceptions\BusinnesException.cs" />
     <Compile Include="Services\TransactionService.cs" />
@@ -311,6 +291,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AdminService\" />
+    <Folder Include="Views\CotizacionService\" />
+    <Folder Include="Views\Default\" />
+    <Folder Include="Views\Reportes\" />
+    <Folder Include="Views\TransactionsResponse\" />
+    <Folder Include="Views\UserComparisionResponse\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -324,26 +310,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804112353402_Initial.resx">
-      <DependentUpon>201804112353402_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804112357426_Modified property name for Transacion.resx">
-      <DependentUpon>201804112357426_Modified property name for Transacion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804152058402_Added Compra and Venta classes.resx">
-      <DependentUpon>201804152058402_Added Compra and Venta classes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804152142463_Added Price property and set foreign key properties to virtual.resx">
-      <DependentUpon>201804152142463_Added Price property and set foreign key properties to virtual.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804221756563_Added UserCoin entity.resx">
-      <DependentUpon>201804221756563_Added UserCoin entity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804222121237_Added Transactions entity and removing Wallets entity.resx">
-      <DependentUpon>201804222121237_Added Transactions entity and removing Wallets entity.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
