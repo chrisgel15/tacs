@@ -207,6 +207,7 @@
     </Compile>
     <Compile Include="Models\Contracts\UserInfoResponse.cs" />
     <Compile Include="Models\Contracts\TransactionRequest.cs" />
+    <Compile Include="Models\Contracts\PortfolioResponse.cs" />
     <Compile Include="Models\Moneda.cs" />
     <Compile Include="Migrations\201804112353402_Initial.cs" />
     <Compile Include="Migrations\201804112353402_Initial.Designer.cs">
@@ -256,6 +257,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Models\Exceptions\BusinnesException.cs" />
     <Compile Include="Services\TransactionService.cs" />
+    <Compile Include="Services\CoinService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

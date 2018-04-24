@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tacs.Models;
@@ -139,6 +140,46 @@ namespace Tacs.Tests
 
             Assert.ThrowsException<InsufficientAmountException>(() => user.Sell(coin, 50));
             //Assert.AreEqual(w.Amount, 45);  
+        }
+        
+        [TestMethod]
+        public void VerPortfolioDeUsuarioPorId()
+        {
+            const string _bitcoin = "Bitcoin";
+            const string _ethereum = "Ethereum";
+            const string _ripple = "Ripple";
+            const string _eos = "EOS";
+
+            User unUsuario = new User("unUsuario", "unPassword");
+            User otroUsuario = new User("otroUsuario","otroPassword");
+            unUsuario.Id = 2;
+            otroUsuario.Id = 1;
+            
+
+            Coin coin1 = new Coin(_bitcoin, 1);
+            Coin coin2 = new Coin(_ethereum, 2);
+            Coin coin3 = new Coin(_ripple, 3);
+            Coin coin4 = new Coin(_eos, 4);
+
+            Wallet wallet = new Wallet(unUsuario, coin1);
+            Wallet otroWallet = new Wallet(otroUsuario, coin2);
+            Wallet wallet2 = new Wallet(otroUsuario, coin3);
+            Wallet wallet3 = new Wallet(otroUsuario, coin4);
+
+            List<Wallet> wallets = new List<Wallet>();
+            wallets.Add(otroWallet);
+            wallets.Add(wallet2);
+            wallets.Add(wallet3);
+            wallets.Add(wallet);
+
+            var otroUsuarioWallets = wallets.Where(w => w.User.Id == otroUsuario.Id);
+            var unUsuarioWallets = wallets.Where(w => w.User.Id == unUsuario.Id);
+
+            Assert.AreEqual(4, wallets.Count());
+            Assert.AreEqual(3, otroUsuarioWallets.Count());
+            Assert.AreEqual(1, unUsuarioWallets.Count());
+
+        }
+            //Assert.AreEqual(w.Amount, 45);  
         }     
     }
-}
