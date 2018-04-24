@@ -64,7 +64,7 @@ namespace Tacs.Tests
             //Assert.AreEqual(1, user.Wallets.Count);
             Assert.AreEqual(1, user.UserCoins.Count);
             //Wallet w = user.Wallets.First(d => d.Coin.Name == coinName);
-            UserCoin userCoin = user.UserCoins.First(uc => uc.CoinID == coin.Id);
+            UserCoin userCoin = user.UserCoins.First(uc => uc.Coin.Id == coin.Id);
             //Assert.AreEqual(w.Amount, 420);
             Assert.AreEqual(420, user.UserCoins.Sum(uc => uc.Amount));
 
@@ -73,7 +73,7 @@ namespace Tacs.Tests
             //Assert.AreEqual(1, user.Wallets.Count);
             Assert.AreEqual(1, user.UserCoins.Count);
             //w = user.Wallets.First(d => d.Coin.Name == coinName);
-            userCoin = user.UserCoins.First(uc => uc.CoinID == coin.Id);
+            userCoin = user.UserCoins.First(uc => uc.Coin.Id == coin.Id);
             //Assert.AreEqual(w.Amount, 300);
             Assert.AreEqual(300, user.UserCoins.Sum(uc => uc.Amount));
 
