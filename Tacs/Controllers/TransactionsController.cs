@@ -4,33 +4,55 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Tacs.Models;
+using Tacs.Models.Contracts;
+using Tacs.Services;
 //using System.Web.Mvc;
 
 namespace Tacs.Controllers
 {
-    [RoutePrefix("api/transacciones")]
+    [RoutePrefix("api/transactions/coin/{coinId}")]
     public class TransactionsController : ApiController
     {
-        /*// GET api/transactions?coinId=bitcoin
-        public object Get(string coinId)
-        {
-            // por ahora que devuelva estos datos
-            var transQuery = new List<object>
-            {
-                new { tradeType = "buy", amount = 0.06, price = 8995.65, date = DateTime.Now.AddMonths(-5) },
-                new { tradeType = "sale", amount = 0.005, price = 8998.15, date = DateTime.Now.AddDays(-15) },
-                new { tradeType = "buy", amount = 0.9, price = 8800, date = DateTime.Now.AddDays(-2) }
-            };
-
-            return Json(new { coin = coinId, transactions = transQuery });
-        }*/
-
         [Route("")]
         [HttpGet]
-        public HttpResponseMessage transacciones()
+        public HttpResponseMessage Transactions(int coinId)
         {
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
+            TransactionService transactionService = new TransactionService();
+            IList<Transaction> transactions = null;
+
+            try
+            {
+                transactions = transactionService.GetTransactionsByCoinId(coinId);
+            }
+            catch (BusinnesException businessException)
+            {
+                return NotFoundResponse(businessException);
+            }
+            catch(Exception exception)
+            {
+                throw exception;
+            }
+
+            return SuccessfullResponse(coinId, transactions);
         }
+
+        private HttpResponseMessage BadRequestResponse()
+        {
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Incorrect input");
+        }
+        private HttpResponseMessage SuccessfullResponse(int coinId, IList<Transaction> transactions)
+        {
+            return Request.CreateResponse<GetTransactionsByCoinResponse>(new GetTransactionsByCoinResponse(transactions)
+            {
+              CoinId = coinId,            
+              Error = false
+            });
+        }
+        private HttpResponseMessage NotFoundResponse(BusinnesException businnesException)
+        {
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, businnesException);
+        }
+
     }
 }
