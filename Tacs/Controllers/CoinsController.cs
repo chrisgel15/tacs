@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 //using System.Web.Mvc;
 
@@ -28,13 +30,21 @@ namespace Tacs.Controllers
 
         [Route("{monedaid}/cotizacion")]
         [HttpGet]
-        public HttpResponseMessage GetCotizacion(int monedaid)
+        public async Task<IHttpActionResult> GetCotizacion([FromUri]string monedaid)
         {
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
+            if (monedaid == "")
+            {
+                return BadRequest("No se encontraron los parametros de la Uri.");
+            }
+            else
+            {
+                HttpResponseMessage response = await new HttpClient().GetAsync("https://api.coinmarketcap.com/v1/ticker/" + monedaid);
+                var result = await response.Content.ReadAsStringAsync();
+                return Ok(JsonConvert.DeserializeObject(result));
+            }
         }
 
-        
+
         [Route("~/api/usuarios/{userid}/portfolio")]
         [HttpPut]
         public HttpResponseMessage compraVentaMoneda([FromBody] string operacion, [FromBody] string moneda, [FromBody] int cantidad)
