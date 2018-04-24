@@ -41,9 +41,9 @@ namespace Tacs.Tests
 
             user.Buy(coin, 100);
 
-            Assert.AreEqual(1, user.UserCoins.Count);
+            Assert.AreEqual(2, user.UserCoins.Count);
             userCoin = user.UserCoins.First(uc => uc.Coin.Id == coin.Id);
-            Assert.AreEqual(150, userCoin.Amount);
+            Assert.AreEqual(150, user.UserCoins.Sum(u => u.Amount)  /*userCoin.Amount*/);
 
             //            Assert.AreEqual(1, user.Wallets.Count);
             //          w = user.Wallets.First(d => d.Coin.Name == coinName);
@@ -62,14 +62,21 @@ namespace Tacs.Tests
             user.Sell(coin, 80);
 
             //Assert.AreEqual(1, user.Wallets.Count);
+            Assert.AreEqual(1, user.UserCoins.Count);
             //Wallet w = user.Wallets.First(d => d.Coin.Name == coinName);
+            UserCoin userCoin = user.UserCoins.First(uc => uc.CoinID == coin.Id);
             //Assert.AreEqual(w.Amount, 420);
+            Assert.AreEqual(420, user.UserCoins.Sum(uc => uc.Amount));
 
             user.Sell(coin, 120);
 
             //Assert.AreEqual(1, user.Wallets.Count);
+            Assert.AreEqual(1, user.UserCoins.Count);
             //w = user.Wallets.First(d => d.Coin.Name == coinName);
+            userCoin = user.UserCoins.First(uc => uc.CoinID == coin.Id);
             //Assert.AreEqual(w.Amount, 300);
+            Assert.AreEqual(300, user.UserCoins.Sum(uc => uc.Amount));
+
         }
 
         [TestMethod]
@@ -81,14 +88,20 @@ namespace Tacs.Tests
             user.Buy(coin, 500);
 
             //Assert.AreEqual(1, user.Wallets.Count);
+            Assert.AreEqual(1, user.UserCoins.Count);
             //Wallet w = user.Wallets.First(d => d.Coin.Name == coinName);
+            UserCoin usercoin = user.UserCoins.First(uc => uc.Coin.Name == coin.Name);
             //Assert.AreEqual(w.Amount, 500);
+            Assert.AreEqual(500, user.UserCoins.Sum(uc => uc.Amount));
 
             user.Sell(coin, 75);
 
             //Assert.AreEqual(1, user.Wallets.Count);
+            Assert.AreEqual(1, user.UserCoins.Count);
             //w = user.Wallets.First(d => d.Coin.Name == coinName);
+            usercoin = user.UserCoins.First(uc => uc.Coin.Name == coin.Name);
             //Assert.AreEqual(w.Amount, 425);
+            Assert.AreEqual(425, user.UserCoins.Sum(uc => uc.Amount));
         }
 
         [TestMethod]
