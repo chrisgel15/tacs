@@ -41,7 +41,7 @@ namespace Tacs.Tests
 
             user.Buy(coin, 100);
 
-            Assert.AreEqual(2, user.UserCoins.Count);
+            Assert.AreEqual(1, user.UserCoins.Count);
             userCoin = user.UserCoins.First(uc => uc.Coin.Id == coin.Id);
             Assert.AreEqual(150, user.UserCoins.Sum(u => u.Amount)  /*userCoin.Amount*/);
 
