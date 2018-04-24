@@ -73,7 +73,7 @@ namespace Tacs.Controllers
             foreach(UserCoin uc in userCoins)
             {
                 var cotizacion = TraerCotizacion("https://api.coinmarketcap.com/v1/ticker/" + uc.Coin.Name.ToString());
-                listaMonedas.Add(new PortfolioResponse(uc.CoinID.ToString(), cotizacion));
+                listaMonedas.Add(new PortfolioResponse(uc.Coin.Id.ToString(), cotizacion));
             }
 
             if (!(listaMonedas.Count > 0))
