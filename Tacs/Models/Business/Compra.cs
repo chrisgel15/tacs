@@ -6,7 +6,7 @@ namespace Tacs.Models
     {
         private Compra()
         {
-
+           
         }
         public Compra(User user, Coin coin, int amount, DateTime date, decimal price) : base(user, coin, amount, date, price)
         {

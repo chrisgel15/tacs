@@ -59,6 +59,19 @@ namespace Tacs.Services
             }
         }
 
+        public IList<Transaction> GetTransactionsByCoinId(int coinId)
+        {
+            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
+            {
+                IList<Transaction> transactions = unitOfWork.Transactions.GetByCoinId(coinId);
+
+                unitOfWork.Complete();
+
+                return transactions;
+            }
+
+        }
+
 
         public AdminTransactionsResponse ListarTransacciones()
         {

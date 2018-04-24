@@ -199,6 +199,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Contracts\GetTransactionsByCoinResponse.cs" />
+    <Compile Include="Models\Contracts\GetTransactionsByCoinRequest.cs" />
     <Compile Include="Models\Contracts\AdminTransactionsResponse.cs" />
     <Compile Include="Models\Contracts\UserComparisonResponse.cs" />
     <Compile Include="Models\Contracts\UserInfoResponse.cs" />

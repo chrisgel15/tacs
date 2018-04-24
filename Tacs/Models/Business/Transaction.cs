@@ -16,6 +16,7 @@ namespace Tacs.Models
         {
 
         }
+
         public Transaction(User user, Coin coin, int amount, DateTime date, decimal price)
         {
             this.User = user;
