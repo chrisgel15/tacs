@@ -8,7 +8,7 @@ namespace Tacs.Models.Repositories
         public IUserRepository Users { get; private set; }
         public ICoinRepository Coins { get; private set; }
     //    public IWalletRepository Wallets { get; private set; }
-        public IUserCoinRepository UserCoins { get; private set; }
+        public IWalletRepository Wallets { get; private set; }
 
         public ITransactionRepository Transactions { get; private set; }
 
@@ -17,8 +17,7 @@ namespace Tacs.Models.Repositories
             _context = context;
             Users = new UserRepository(context);
             Coins = new CoinRepository(context);
-           // Wallets = new WalletRepository(context);
-            UserCoins = new UserCoinRepository(context);
+            Wallets = new WalletRepository(context);
             Transactions = new TransactionRepository(context);
         }
 

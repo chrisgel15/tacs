@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Tacs.Context;
 using Tacs.Models;
@@ -11,24 +12,15 @@ namespace Tacs.Services
 {
     public class UserService
     {
-        public IList<UserInfoResponse> GetUsers()
+        public IList<User> GetUsers()
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
-                IList<User> users = unitOfWork.Users.GetAll().ToList();
-                if (users.Count() > 0)
-                {
-                    var usersInfo = from user in users select new UserInfoResponse(user);
-                    return usersInfo.ToList();
-                }
-                else
-                {
-                    return null;
-                }
+                return unitOfWork.Users.GetAll().ToList();
             }
         }
 
-        public UserInfoResponse GetInfo(int id)
+        public AdminUserInfoResponse GetUserAdminInfo(int id)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
@@ -36,21 +28,38 @@ namespace Tacs.Services
                 if (info != null)
                 {
                     // no muestro el campo password
-                    return new UserInfoResponse(info);
+                    return new AdminUserInfoResponse(info);
                 }                
                 return null;
             }
         }
 
-        public UserComparisonResponse CompareUsers(int userId1, int userId2)
+        public UserViewModel GetUserInfo (int userId)
+        {
+            return new UserViewModel(GetUserById(userId));
+        }
+
+        public async Task<UserComparisonResponse> CompareUsers(int userId1, int userId2)
         {
             var context = new UnitOfWork(new TacsDataContext());
 
             User user1 = context.Users.GetUserInfoById(userId1);
             User user2 = context.Users.GetUserInfoById(userId2);
 
-            return new UserComparisonResponse(user1, user2);
+            return await new UserService().GetUserComparisonResponse(user1, user2);
 
+        }
+
+        public User GetUserByName(string userName)
+        {
+            var context = new UnitOfWork(new TacsDataContext());
+            return context.Users.Find(u => u.Name.ToLower() == userName.ToLower()).First();
+        }
+
+        public User GetUserById(int userId)
+        {
+            var context = new UnitOfWork(new TacsDataContext());
+            return context.Users.Get(userId);
         }
 
         public dynamic SignUp(string username, string password)
@@ -70,6 +79,17 @@ namespace Tacs.Services
                     return new { estado = "OK", descripcion = "user created (id: "+id.ToString()+")", date = DateTime.Now.ToString() };
                 }
             }
+        }
+
+        public async Task<UserComparisonResponse> GetUserComparisonResponse(User user1, User user2)
+        {
+            var response = new UserComparisonResponse();
+            response.User1 = user1.Name;
+            response.Patrimonio1 = await user1.GetPatrimonio();
+            response.User2 = user2.Name;
+            response.Patrimonio2 = await user2.GetPatrimonio();
+
+            return response;
         }
 
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using System.Web;
 using Tacs.Models.Exceptions;
 
@@ -11,27 +13,21 @@ namespace Tacs.Models
     [DataContract]
     public class User
     {
-        [DataMember]
         public int Id { get; set; }
-
-        [DataMember]
+        [Index(IsUnique = true)]
+        [StringLength(450)]
+        [Required]
         public string Name { get; set; }
-
-        [DataMember]
         public string Password { get; set; }
-
-        [DataMember]
         public DateTime LastAccessDate { get; set; }
-
-        [DataMember]
-        public virtual ICollection<UserCoin> UserCoins { get; set; }
+        public virtual ICollection<Wallet> Wallets { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
 
-        // For Entity Framework Code First Needs...
-        // Check: https://stackoverflow.com/questions/31543255/why-must-i-have-a-parameterless-constructor-for-code-first-entity-framework
-        private User()
-        {
 
+        protected User()
+        {
+            Wallets = new List<Wallet>();
+            Transactions = new List<Transaction>();
         }
 
         public User(int id, string name, string password)
@@ -39,76 +35,73 @@ namespace Tacs.Models
             this.Id = id;
             this.Name = name;
             this.Password = password;
-            //this.Wallets = new List<Wallet>();
-            this.UserCoins = new List<UserCoin>();
             this.LastAccessDate = DateTime.Now;
+            Wallets = new List<Wallet>();
+            Transactions = new List<Transaction>();
         }
         public User(string name, string password)
         {
             this.Name = name;
             this.Password = password;
-            //   this.Wallets = new List<Wallet>();
-            this.UserCoins = new List<UserCoin>();
+            this.Transactions = new List<Transaction>();
+            this.Wallets = new List<Wallet>();
             this.LastAccessDate = DateTime.Now;
+            Wallets = new List<Wallet>();
+            Transactions = new List<Transaction>();
         }
 
-        public decimal GetPatrimonio()
+        public async Task<decimal> GetPatrimonio()
         {
-            return this.UserCoins.Sum(uc => uc.Coin.GetCotizacion() * uc.Amount);
+            var TasksDeBalancesEnDolares = this.Wallets.Select(async w => await w.Coin.GetCotizacion() * w.Balance);
+            var balancesEnDolares = await Task.WhenAll(TasksDeBalancesEnDolares);
+            return balancesEnDolares.Sum();
         }
 
-        public void Buy(Coin coin, int amount)
+        public void Buy(Coin coin, decimal amount)
         {
-            CreateUserCoins();
-            UserCoin userCoins = GetUserCoins(coin);
+            CreateWallets();
+            Wallet Wallets = GetWallets(coin);
 
-            if (userCoins == null)
+            if (Wallets == null)
             {
-                AddUserCoinToUser(coin, amount);
+                AddWalletToUser(coin, amount);
             }
             else
             {
-                userCoins.Amount += amount;
+                Wallets.Balance += amount;
             }
         }
 
-        public void Sell(Coin coin, int amount)
+        public void Sell(Coin coin, decimal amount)
         {
-            CreateUserCoins();
-            UserCoin userCoins = GetUserCoins(coin);
+            CreateWallets();
+            Wallet Wallets = GetWallets(coin);
 
-            if (userCoins == null)
+            if (Wallets == null)
             {
                 throw new InvalidOperationException("You cant sell a Coin that you dont have.");
             }
             else
             {
-                if (userCoins.Amount >= amount)
-                    userCoins.Amount -= amount;
+                if (Wallets.Balance >= amount)
+                    Wallets.Balance -= amount;
                 else
                     throw new InsufficientAmountException("You are trying to sell more than you have.");
             }
         }
 
-        private void AddUserCoinToUser(Coin coin, int amount)
+        private void AddWalletToUser(Coin coin, decimal amount)
         {
-            UserCoin userCoin = new UserCoin()
-            {
-                Coin = coin,
-                User = this,
-                Amount = amount
-            };
-
-            this.UserCoins.Add(userCoin);
+            this.Wallets.Add(new Wallet(this, coin, amount));
         }
-        private UserCoin GetUserCoins(Coin coin)
+        private Wallet GetWallets(Coin coin)
         {
-            return this.UserCoins.Where(uc => uc.Coin.Id == coin.Id).FirstOrDefault();
+            return this.Wallets.Where(uc => uc.Coin.Id == coin.Id).FirstOrDefault();
         }
-        private void CreateUserCoins()
+        private void CreateWallets()
         {
-            if (this.UserCoins == null)
-                this.UserCoins = new List<UserCoin>();
+            if (this.Wallets == null)
+                this.Wallets = new List<Wallet>();
         }
 
        

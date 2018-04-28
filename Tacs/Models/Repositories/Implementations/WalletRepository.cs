@@ -8,29 +8,17 @@ namespace Tacs.Models.Repositories
     {
         public WalletRepository(TacsDataContext context) : base(context)
         {
+
         }
 
-        public IEnumerable<Wallet> GetTopUsers(int count)
-        {
-            return null;
-         //   return TacsDataContext.Wallets;
-        }
-
-        public Wallet GetByUserAndCoin(int userId, int coinId)
-        {
-            return null;
-           // return Find(w => w.UserId == user.Id && w.CoinId == coin.Id).FirstOrDefault();
-        }
-
-        public Wallet GetByUser(User user, Coin coin)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        
         public TacsDataContext TacsDataContext
         {
             get { return Context as TacsDataContext; }
+        }
+
+        public Wallet GetByUserAndCoin(User user, Coin coin)
+        {
+            return user.Wallets.FirstOrDefault(uc => uc.Coin == coin);
         }
     }
 }

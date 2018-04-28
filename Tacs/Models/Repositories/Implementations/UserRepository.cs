@@ -46,7 +46,7 @@ namespace Tacs.Models.Repositories
 
         public User GetUserWithCoins(int userId)
         {
-            return TacsDataContext.Users.Include("UserCoins").Where(o => o.Id == userId).FirstOrDefault();
+            return TacsDataContext.Users.Include("Wallets").Where(o => o.Id == userId).FirstOrDefault();
         }
 
         public TacsDataContext TacsDataContext

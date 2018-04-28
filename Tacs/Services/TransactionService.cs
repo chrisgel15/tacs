@@ -11,67 +11,52 @@ namespace Tacs.Services
 {
     public class TransactionService
     {
-        public void Buy(int userId, int coinId, int amount)
+        public void Buy(int walletId, decimal amount)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
-                User user;
-                Coin coin;
-                GetUserAndCoin(userId, coinId, unitOfWork, out user, out coin);
+                var wallet = unitOfWork.Wallets.Get(walletId);
 
-                user.Buy(coin, amount);
-
-                unitOfWork.Transactions.Add(new Compra(user, coin, amount, DateTime.Now, new decimal(1.00)));
+                wallet.User.Buy(wallet.Coin, amount);
+                
+                unitOfWork.Transactions.Add(new Compra(wallet, amount));
 
                 unitOfWork.Complete();
             }
         }
 
-        private void GetUserAndCoin(int userId, int coinId, UnitOfWork unitOfWork, out User user, out Coin coin)
-        {
-            user = unitOfWork.Users.GetUserWithCoins(userId);
-            if (user == null)
-                throw new BusinnesException("El usuario no existe.");
-
-            coin = unitOfWork.Coins.Get(coinId);
-
-            // TODO: Check how to handle this scenario, because we should add the coin by the name maybe?
-            if (coin == null)
-            {
-                coin = new Coin(coinId.ToString());
-                unitOfWork.Coins.Add(coin);
-            }
-        }
-
-        public void Sale(int userId, int coinId, int amount)
+        public void Sell(int walletId, decimal amount)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
-                User user;
-                Coin coin;
-                GetUserAndCoin(userId, coinId, unitOfWork, out user, out coin);
+                var wallet = unitOfWork.Wallets.Get(walletId);
 
-                user.Sell(coin, amount);
+                wallet.User.Sell(wallet.Coin, amount);
 
-                unitOfWork.Transactions.Add(new Venta(user, coin, amount, DateTime.Now, new decimal(1.00)));
+                unitOfWork.Transactions.Add(new Venta(wallet, amount));
 
                 unitOfWork.Complete();
             }
         }
 
-        public IList<Transaction> GetTransactionsByCoinId(int coinId)
+        public TransactionViewModel GetTransactionInfo(int transactionId)
         {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                IList<Transaction> transactions = unitOfWork.Transactions.GetByCoinId(coinId);
-
-                unitOfWork.Complete();
-
-                return transactions;
-            }
-
+            Transaction transaction = new UnitOfWork(new TacsDataContext()).Transactions.Get(transactionId);
+            return GetTransactionInfo(transaction);
         }
+        public TransactionViewModel GetTransactionInfo(Transaction transaction)
+        {
+            var viewModel = new TransactionViewModel();
+            viewModel.Amount = transaction.Amount;
+            viewModel.Date = transaction.Date.ToString();
+            viewModel.Price = transaction.Price;
+            viewModel.Type = transaction.Type();
+            viewModel.User = transaction.User.Name;
+            viewModel.Coin = transaction.Coin.Name;
+            viewModel.TransactionId = transaction.Id;
 
+            return viewModel;
+        }
 
         public AdminTransactionsResponse ListarTransacciones()
         {

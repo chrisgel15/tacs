@@ -4,7 +4,7 @@ namespace Tacs.Models.Repositories
 {
     public interface IWalletRepository : IRepository<Wallet>
     {
-        IEnumerable<Wallet> GetTopUsers(int count);
-        
+        //IEnumerable<Coin> GetTopUsers(int count);
+        Wallet GetByUserAndCoin(User user, Coin coin);
     }
 }

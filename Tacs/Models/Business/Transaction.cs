@@ -10,20 +10,9 @@ namespace Tacs.Models
     [DataContract]
     public abstract class Transaction
     {
-        // For Entity Framework Code First Needs...
-        // Check: https://stackoverflow.com/questions/31543255/why-must-i-have-a-parameterless-constructor-for-code-first-entity-framework
         protected Transaction()
         {
 
-        }
-
-        public Transaction(User user, Coin coin, int amount, DateTime date, decimal price)
-        {
-            this.User = user;
-            this.Coin = coin;
-            this.Amount = amount;
-            this.Date = date;
-            this.Price = price;
         }
 
         [DataMember]
@@ -38,16 +27,64 @@ namespace Tacs.Models
         public virtual User User { get; set; }
         [DataMember]
         [Required]
-        public virtual UserCoin UserCoin { get; set; }
+        public virtual Wallet Wallet { get; set; }
 
         [DataMember]
         [Required]
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [DataMember]
         public DateTime Date { get; set; }
 
         [DataMember]
         public decimal Price { get; set; }
+
+        abstract public string Type();
+    }
+
+    public class Venta : Transaction
+    {
+        protected Venta()
+        {
+
+        }
+        public Venta(Wallet wallet, decimal amount)
+        {
+            this.Price = wallet.Coin.GetCotizacion().Result;
+            this.Coin = wallet.Coin;
+            this.User = wallet.User;
+            this.Date = DateTime.Now;
+            this.Wallet = wallet;
+            this.Amount = amount;
+        }
+
+        override public string Type()
+        {
+            return "venta";
+        }
+
+
+    }
+
+    public class Compra : Transaction
+    {
+        protected Compra()
+        {
+
+        }
+        public Compra(Wallet wallet, decimal amount)
+        {
+            this.Price = wallet.Coin.GetCotizacion().Result;
+            this.Coin = wallet.Coin;
+            this.User = wallet.User;
+            this.Date = DateTime.Now;
+            this.Wallet = wallet;
+            this.Amount = amount;
+        }
+
+        override public string Type()
+        {
+            return "compra";
+        }
     }
 }

@@ -1,66 +1,47 @@
-﻿namespace Tacs.Models
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.Runtime.Serialization;
-    using Tacs.Models.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Web;
+using Tacs.Models.Exceptions;
 
-    /// <summary>
-    /// Wallet Class
-    /// </summary>
-    [DataContract]
+namespace Tacs.Models
+{
     public class Wallet
     {
-        // For Entity Framework Code First Needs...
-        // Check: https://stackoverflow.com/questions/31543255/why-must-i-have-a-parameterless-constructor-for-code-first-entity-framework
-        private Wallet()
-        {
-
-        }
-        public Wallet(User user, Coin coin)
-        {
-            User = user;
-            Coin = coin;
-            this.Amount = 0;
-        }
-
-        [DataMember]
         public int Id { get; set; }
-
-        [DataMember]
-        public string Name { get; set; }
-
-        [DataMember]
-        [Required]
-        public virtual Coin Coin { get; set; }
-
-        [DataMember]
-        public int Amount { get; set; }
-
-        [DataMember]
         [Required]
         public virtual User User { get; set; }
-
-        #region For Entity Framework Navigation
-        [DataMember]
         [Required]
-        public int CoinId { get; set; }
+        public virtual Coin Coin { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
+        public decimal Balance { get; set; }
 
-        [DataMember]
-        [Required]
-        public int UserId { get; set; }
+        protected Wallet()
+        {
+            Transactions = new List<Transaction>();
+        }
 
-        #endregion
+        public Wallet(User usuario, Coin moneda, decimal balanceInicial)
+        {
+            Transactions = new List<Transaction>();
+            this.User = usuario;
+            this.Coin = moneda;
+            this.Balance = balanceInicial;
+        }
 
         public void Buy(int amount)
         {
-            this.Amount += amount;
+            this.Balance += amount;
         }
 
         public void Sell(int amount)
         {
-            if (this.Amount >= amount)
+            if (this.Balance >= amount)
             {
-                this.Amount -= amount;
+                this.Balance -= amount;
             }
             else
             {
