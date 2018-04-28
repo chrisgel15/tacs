@@ -12,9 +12,7 @@ namespace Tacs.Models
     public class Wallet
     {
         public int Id { get; set; }
-        [Required]
         public virtual User User { get; set; }
-        [Required]
         public virtual Coin Coin { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public decimal Balance { get; set; }
