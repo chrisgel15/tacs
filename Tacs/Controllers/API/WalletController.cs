@@ -31,9 +31,9 @@ namespace Tacs.Controllers
         //Listar detalles de un wallet (incluyendo cotizacion al momento)
         [Route("{walletId}")]
         [HttpGet]
-        public async Task<IHttpActionResult> GetWallet([FromUri]string walletId)
+        public async Task<IHttpActionResult> GetWallet([FromUri]int userId, string walletId)
         {
-            var wallet = new WalletService().GetWalletById(Int32.Parse(walletId));
+            var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
             if (wallet == null) return BadRequest("Wallet no encontrada");
             else return Ok<WalletViewModel>(await new WalletService().GetWalletInfo(wallet));
         }

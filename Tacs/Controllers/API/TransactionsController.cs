@@ -16,11 +16,12 @@ namespace Tacs.Controllers
     {
         //Comprar o vender
         [Route(""), HttpPost]
-        public HttpResponseMessage Post([FromBody]NewTransactionRequest transactionRequest, int userId, int walletId)
+        public HttpResponseMessage Post([FromBody]NewTransactionRequest transactionRequest, int userId, string walletId)
         {
+            var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
 
-            if (!ModelState.IsValid)
-                return BadRequestResponse();
+            if (!ModelState.IsValid) return BadRequestResponse();
+            if (wallet == null) return BadRequestResponse();
 
             var type = transactionRequest.Type;
             var amount = transactionRequest.Amount;
@@ -28,8 +29,8 @@ namespace Tacs.Controllers
 
             try
             {
-                if (type.ToLower() == "compra") transactionService.Buy(walletId, amount);
-                else if (type.ToLower() == "venta") transactionService.Sell(walletId, amount);
+                if (type.ToLower() == "compra") transactionService.Buy(wallet.Id, amount);
+                else if (type.ToLower() == "venta") transactionService.Sell(wallet.Id, amount);
                 else return BadRequestResponse();
             }
 
@@ -48,9 +49,9 @@ namespace Tacs.Controllers
 
         //Ver las transacciones de un wallet de un usuario
         [Route(""), HttpGet]
-        public IHttpActionResult Get(int userId, int walletId)
+        public IHttpActionResult Get(int userId, string walletId)
         {
-            var transactions = new WalletService().GetWalletById(walletId).Transactions;
+            var transactions = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId).Transactions;
             var transactionsInfos = transactions.Select(t => new TransactionService().GetTransactionInfo(t));
             return Ok<IList<TransactionViewModel>>(transactionsInfos.ToList());
         }

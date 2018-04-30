@@ -26,6 +26,26 @@ namespace Tacs.Services
             return context.Wallets.Get(walletId);
         }
 
+        public Wallet GetWalletByCoinNameAndUser (string coin, int userId)
+        {
+            var context = new UnitOfWork(new TacsDataContext());
+            return context.Users.Get(userId).Wallets.Where(w => w.Coin.Name.ToLower() == coin.ToLower()).FirstOrDefault();
+        }
+
+        public Wallet GetWalletByCoinNameOrWalletIdAndUser(string coinNameOrWalletId, int userId)
+        {
+            Wallet wallet;
+            if (!coinNameOrWalletId.All(c => Char.IsDigit(c)))
+            {
+                wallet = new WalletService().GetWalletByCoinNameAndUser(coinNameOrWalletId, userId);
+            }
+            else
+            {
+                wallet = new WalletService().GetWalletById(Int32.Parse(coinNameOrWalletId));
+            }
+            return wallet;
+        }
+
         public async Task<WalletViewModel> GetWalletInfo(Wallet w)
         {
             var wallet = new WalletService().GetWalletById(w.Id);
