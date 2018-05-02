@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
-using ConsoleApp1.Comandos;
+using TelegramBot.Comandos;
 using TelegramBot;
 
-namespace ConsoleApp1.Comandos
+namespace TelegramBot.Comandos
 {
     public class StartCommand : Command
     {

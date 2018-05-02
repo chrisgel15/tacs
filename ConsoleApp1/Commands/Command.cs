@@ -1,4 +1,4 @@
-﻿using ConsoleApp1.Commands;
+﻿using TelegramBot.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
 
-namespace ConsoleApp1.Comandos
+namespace TelegramBot.Comandos
 {
      public abstract class Command
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
-using ConsoleApp1.Comandos;
+using TelegramBot.Comandos;
 
-namespace ConsoleApp1.Commands
+namespace TelegramBot.Commands
 {
     public class PriceCommand : Command 
     {

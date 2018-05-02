@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1.Commands
+namespace TelegramBot.Commands
 {
     public class CommandSyntaxChecker
     {

@@ -8,9 +8,9 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Args;
-using ConsoleApp1.Comandos;
-using ConsoleApp1.Commands;
-using ConsoleApp1;
+using TelegramBot.Comandos;
+using TelegramBot.Commands;
+using TelegramBot;
 
 namespace TelegramBot
 {
@@ -63,7 +63,7 @@ namespace TelegramBot
             var chatId = messageEvent.Message.Chat.Id;
             var keyboard = messageSender.CreateMenuKeyboard();
 
-            messageSender.SendMessage(chatId, "I didnt quite catch that, what do you want to do?.", keyboard);
+            messageSender.SendMessage(chatId, "I couldn't understand that, what do you want to do?.", keyboard);
         }
 
     }

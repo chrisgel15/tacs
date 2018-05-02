@@ -9,7 +9,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Args;
 
-namespace ConsoleApp1
+namespace TelegramBot
 {
     public class MessageSender
     {
