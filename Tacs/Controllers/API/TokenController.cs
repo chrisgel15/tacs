@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -21,6 +23,8 @@ namespace Tacs.Controllers.API
         {
             if (!ModelState.IsValid)
                 return BadRequest("Campos incorrectos");
+
+            req.password = System.Text.Encoding.Default.GetString(new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(req.password)));
 
             HttpResponseMessage response = await new HttpClient().PostAsync("http://localhost:51882/api/get_token", req.ToFormUrlEncodedContent());
 

@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace Tacs.Models.Contracts.API
