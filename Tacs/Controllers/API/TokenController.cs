@@ -26,7 +26,8 @@ namespace Tacs.Controllers.API
 
             req.password = System.Text.Encoding.Default.GetString(new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(req.password)));
 
-            HttpResponseMessage response = await new HttpClient().PostAsync("http://localhost:51882/api/get_token", req.ToFormUrlEncodedContent());
+            var uri = Url.Content("~/") + "api/get_token";
+            HttpResponseMessage response = await new HttpClient().PostAsync(uri, req.ToFormUrlEncodedContent());
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
