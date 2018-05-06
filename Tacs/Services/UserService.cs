@@ -7,6 +7,8 @@ using Tacs.Context;
 using Tacs.Models;
 using Tacs.Models.Contracts;
 using Tacs.Models.Repositories;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Tacs.Services
 {
@@ -74,7 +76,11 @@ namespace Tacs.Services
                 else
                 {
                     int id = dbUsers.GetMaxId() + 1;
-                    dbUsers.AddNewUser(new User(id, username, password));
+
+                    SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
+                    string hashedPassword = System.Text.Encoding.Default.GetString(provider.ComputeHash(Encoding.UTF8.GetBytes(password)));
+                    
+                    dbUsers.AddNewUser(new User(id, username, hashedPassword));
                     unitOfWork.Complete();
                     return new { estado = "OK", descripcion = "user created (id: "+id.ToString()+")", date = DateTime.Now.ToString() };
                 }
