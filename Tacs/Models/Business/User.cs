@@ -22,6 +22,8 @@ namespace Tacs.Models
         public DateTime LastAccessDate { get; set; }
         public virtual ICollection<Wallet> Wallets { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public string Token { get; set; }
+        public string EsAdmin { get; set; }
 
 
         protected User()
@@ -39,6 +41,19 @@ namespace Tacs.Models
             Wallets = new List<Wallet>();
             Transactions = new List<Transaction>();
         }
+
+
+        public User(int id, string name, string password, string esAdminRole)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Password = password;
+            this.LastAccessDate = DateTime.Now;
+            Wallets = new List<Wallet>();
+            Transactions = new List<Transaction>();
+            this.EsAdmin = esAdminRole;
+        }
+
         public User(string name, string password)
         {
             this.Name = name;
@@ -90,6 +105,7 @@ namespace Tacs.Models
             }
         }
 
+
         private void AddWalletToUser(Coin coin, decimal amount)
         {
             this.Wallets.Add(new Wallet(this, coin, amount));
@@ -104,6 +120,7 @@ namespace Tacs.Models
                 this.Wallets = new List<Wallet>();
         }
 
+        
        
     }
 }
