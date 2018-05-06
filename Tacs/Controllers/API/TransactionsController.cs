@@ -15,7 +15,7 @@ namespace Tacs.Controllers
     public class TransactionsController : ApiController
     {
         //Comprar o vender
-        [Route(""), HttpPost]
+        [Authorize, Route(""), HttpPost]
         public HttpResponseMessage Post([FromBody]NewTransactionRequest transactionRequest, int userId, string walletId)
         {
             var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
@@ -48,16 +48,26 @@ namespace Tacs.Controllers
         }
 
         //Ver las transacciones de un wallet de un usuario
-        [Route(""), HttpGet]
+        [Authorize, Route(""), HttpGet]
         public IHttpActionResult Get(int userId, string walletId)
         {
-            var transactions = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId).Transactions;
-            var transactionsInfos = transactions.Select(t => new TransactionService().GetTransactionInfo(t));
-            return Ok<IList<TransactionViewModel>>(transactionsInfos.ToList());
+            //var transactions = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId).Transactions;
+            var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
+            if (wallet == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var transactions = wallet.Transactions;
+                var transactionsInfos = transactions.Select(t => new TransactionService().GetTransactionInfo(t));
+                return Ok<IList<TransactionViewModel>>(transactionsInfos.ToList());
+            }
+            
         }
 
         //Ver detalles de una transaccion
-        [Route("{transactionId}"), HttpGet]
+        [Authorize, Route("{transactionId}"), HttpGet]
         public IHttpActionResult GetById(int transactionId)
         {
             return Ok<TransactionViewModel>(new TransactionService().GetTransactionInfo(transactionId));
