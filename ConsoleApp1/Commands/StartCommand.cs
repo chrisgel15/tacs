@@ -16,7 +16,7 @@ namespace TelegramBot.Comandos
             commandName = "/start";
         }
 
-        public override void ExecuteValidCommand(MessageEventArgs messageEvent)
+        public override void ExecuteValidCommand(MessageEventArgs messageEvent, int userId)
         {
             var messageSender = new MessageSender();
             var chatId = messageEvent.Message.Chat.Id;

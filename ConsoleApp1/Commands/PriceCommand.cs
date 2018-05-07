@@ -16,12 +16,14 @@ namespace TelegramBot.Commands
             commandName = "/price";
         }
             
-        public override void ExecuteValidCommand(MessageEventArgs messageEvent)
+        public async override void ExecuteValidCommand(MessageEventArgs messageEvent, int userId)
         {
             var coinID = syntaxChecker.GetCoinId(messageEvent.Message.Text);
-            var price = 420.23;
 
-            var response = coinID + ":" + " US$ " + price;
+            ApiDataAccess apiDataAccess = new ApiDataAccess();
+            decimal price = await apiDataAccess.GetCoinPrice(coinID);
+
+            var response = coinID + ":" + " USD$ " + price.ToString();
 
             var chatId = messageEvent.Message.Chat.Id;
 

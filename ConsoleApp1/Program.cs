@@ -48,12 +48,15 @@ namespace TelegramBot
 
         private static void CheckForCommands(MessageEventArgs messageEvent)
         {
+            //TODO: Check if user is logged in
+            var userId = 1;
+
             var command = commands.FirstOrDefault(x => x.IsCommand(messageEvent));
 
             if (command == null)
                 CommandNotFound(messageEvent);
             else
-                command.ExecuteCommand(messageEvent);
+                command.ExecuteCommand(messageEvent, userId);
                     
         }
 

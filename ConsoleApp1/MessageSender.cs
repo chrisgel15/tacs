@@ -25,7 +25,7 @@ namespace TelegramBot
                 new KeyboardButton[]
                 {
                     new KeyboardButton("/wallet"),
-                    new KeyboardButton("/prices"),
+                    new KeyboardButton("/price"),
                 },
                 new KeyboardButton[]
                 {

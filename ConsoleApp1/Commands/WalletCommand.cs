@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using TelegramBot.Comandos;
+using TelegramBot.ViewModels;
 
 namespace TelegramBot.Commands
 {
@@ -15,13 +18,23 @@ namespace TelegramBot.Commands
             commandName = "/wallet";
         }
 
-        public override void ExecuteValidCommand(MessageEventArgs messageEvent)
+        public async override void ExecuteValidCommand(MessageEventArgs messageEvent, int userId)
         {
             var messageSender = new MessageSender();
             var chatId = messageEvent.Message.Chat.Id;
             var keyboard = messageSender.CreateMenuKeyboard();
 
-            messageSender.SendMessage(chatId, " Bitcoin: 0.00000232 \nEthereum: 340.2 \n", keyboard);
+            ApiDataAccess apiDataAccess = new ApiDataAccess();
+
+            UserWallet  wallet = await apiDataAccess.GetWallet(userId);
+
+            string message = "";
+            foreach(var coinWallet in wallet.coinWallets)
+            {
+                message = message + coinWallet.NombreMoneda + ": " + coinWallet.Balance + " \n";
+            }
+
+            messageSender.SendMessage(chatId, message, keyboard);
         }
 
         public override void ExecuteNotValidCommand(MessageEventArgs messageEvent)

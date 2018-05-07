@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -180,22 +186,49 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\BuyController.cs" />
-    <Compile Include="Controllers\CoinsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\SaleController.cs" />
-    <Compile Include="Controllers\SigninController.cs" />
-    <Compile Include="Controllers\SignupController.cs" />
-    <Compile Include="Controllers\TransactionsController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Controllers\WalletController.cs" />
+    <Compile Include="Context\TacsDataContext.cs" />
+    <Compile Include="Controllers\API\AdminController.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Controllers\API\WalletController.cs" />
+    <Compile Include="Controllers\WEB\HomeController.cs" />
+    <Compile Include="Controllers\WEB\AccessController.cs" />
+    <Compile Include="Controllers\API\TransactionsController.cs" />
+    <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Trade.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Contracts\API\UserContracts.cs" />
+    <Compile Include="Models\Contracts\GetTransactionsByCoinResponse.cs" />
+    <Compile Include="Models\Contracts\API\AdminContracts.cs" />
+    <Compile Include="Models\Contracts\API\TransactionContracts.cs" />
+    <Compile Include="Models\Contracts\API\WalletContracts.cs" />
+    <Compile Include="Models\Contracts\AccessKeys.cs" />
+    <Compile Include="Models\Business\Coin.cs" />
+    <Compile Include="Models\Contracts\WEB\SignInResponse.cs" />
+    <Compile Include="Models\Contracts\WEB\SignInRequest.cs" />
+    <Compile Include="Models\Exceptions\InsufficientAmountException.cs" />
+    <Compile Include="Models\Repositories\Implementations\WalletRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\TransactionRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\CoinRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IWalletRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\ITransactionRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\ICoinRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IUserRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Repository.cs" />
+    <Compile Include="Models\Repositories\Implementations\UnitOfWork.cs" />
+    <Compile Include="Models\Repositories\Implementations\UserRepository.cs" />
+    <Compile Include="Models\Business\Transaction.cs" />
+    <Compile Include="Models\Business\User.cs" />
+    <Compile Include="Models\Business\Wallet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccessService.cs" />
+    <Compile Include="Services\CoinService.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Models\Exceptions\BusinnesException.cs" />
+    <Compile Include="Services\TransactionService.cs" />
+    <Compile Include="Services\WalletService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -228,6 +261,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\TacsCripto - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -251,6 +285,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AdminService\" />
+    <Folder Include="Views\CotizacionService\" />
+    <Folder Include="Views\Default\" />
+    <Folder Include="Views\Reportes\" />
+    <Folder Include="Views\TransactionsResponse\" />
+    <Folder Include="Views\UserComparisionResponse\" />
+    <Folder Include="Views\UserContracts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

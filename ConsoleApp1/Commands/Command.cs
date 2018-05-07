@@ -21,17 +21,17 @@ namespace TelegramBot.Comandos
             return firstPart == commandName;
         }
 
-        public void ExecuteCommand(MessageEventArgs messageEvent)
+        public void ExecuteCommand(MessageEventArgs messageEvent, int userId)
         {
             var valid = CheckCommandSyntax(messageEvent.Message.Text);
 
             if (valid)
-                ExecuteValidCommand(messageEvent);
+                ExecuteValidCommand(messageEvent, userId);
             else
                 ExecuteNotValidCommand(messageEvent);
         }
 
-        public abstract void ExecuteValidCommand(MessageEventArgs messageEvent);
+        public abstract void ExecuteValidCommand(MessageEventArgs messageEvent, int userId);
         public abstract void ExecuteNotValidCommand(MessageEventArgs messageEvent);
         public abstract bool CheckCommandSyntax(string message);
     }
