@@ -18,7 +18,7 @@ namespace TelegramBot
     {
 
         static TelegramBotClient bot = new TelegramBotClient("561318443:AAHMmc3GYXoHpg4sx9XlwnpJutQMmkyy4yM");
-        static List<Command> commands = new List<Command> { new BuyCommand(), new SellCommand(), new WalletCommand(), new StartCommand(), new PriceCommand() };
+        static List<Command> commands = new List<Command> { new BuyCommand(), new SellCommand(), new WalletCommand(), new StartCommand(), new PriceCommand(), new LogInCommand() };
 
         static void Main(string[] args)
         {
@@ -32,7 +32,14 @@ namespace TelegramBot
             if(e.Message.Type == MessageType.TextMessage)
             {
                 LogMessage(e);
-                CheckForCommands(e);
+
+                //TODO: check if user is logged in
+                int? userId = 1;
+
+                if (userId == null)
+                    UserNotLoggedIn(e);
+                else
+                    CheckForCommands(e, userId.Value);
             }
         }
 
@@ -46,18 +53,14 @@ namespace TelegramBot
             Console.WriteLine(" {0} - {1} - {2}: {3}", uid, cid, name, txt);
         }
 
-        private static void CheckForCommands(MessageEventArgs messageEvent)
-        {
-            //TODO: Check if user is logged in
-            var userId = 1;
-
+        private static void CheckForCommands(MessageEventArgs messageEvent, int userId)
+        {            
             var command = commands.FirstOrDefault(x => x.IsCommand(messageEvent));
 
             if (command == null)
                 CommandNotFound(messageEvent);
             else
-                command.ExecuteCommand(messageEvent, userId);
-                    
+                command.ExecuteCommand(messageEvent, userId);                    
         }
 
         private static void CommandNotFound(MessageEventArgs messageEvent)
@@ -67,6 +70,17 @@ namespace TelegramBot
             var keyboard = messageSender.CreateMenuKeyboard();
 
             messageSender.SendMessage(chatId, "I couldn't understand that, what do you want to do?.", keyboard);
+        }
+
+        private static void UserNotLoggedIn(MessageEventArgs messageEvent)
+        {
+            MessageSender messageSender = new MessageSender();
+            var chatId = messageEvent.Message.Chat.Id;
+            var keyboard = messageSender.CreateMenuKeyboard();
+
+            var message = "You must log in first, use the command: /login {{username}} {{password}}";
+
+            messageSender.SendMessage(chatId, message, keyboard);
         }
 
     }

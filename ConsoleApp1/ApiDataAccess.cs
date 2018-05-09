@@ -36,6 +36,11 @@ namespace TelegramBot
             return userWallet;
         }
 
+        public  void Login(string username, string password)
+        {
+            //TODO: hacer el Login del usuario
+        }
+
         public async void MakeTransaction(string transactionType, int idUser, string idCoin, Decimal amount)
         {
             var url = apiBaseUrl + "users/" + idUser + "/wallets/" + idCoin + "/transactions";
@@ -66,7 +71,7 @@ namespace TelegramBot
             return cotizacion;
         }
 
-        public HttpClient CreateClient(string url)
+        private HttpClient CreateClient(string url)
         {
             var client = new HttpClient();
 

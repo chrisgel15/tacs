@@ -15,7 +15,6 @@ namespace TelegramBot.Commands
             int numberOfParts = messageSplit.Count();
 
             bool correctNumberOfParts = numberOfParts == parts;
-            //TODO: check valid coin ID
 
             bool amountCorrect = true;
             var amount = messageSplit.Last();
@@ -23,7 +22,7 @@ namespace TelegramBot.Commands
             if (checkAmount && correctNumberOfParts)
                 amountCorrect = decimal.TryParse(amount,NumberStyles.Any, CultureInfo.InvariantCulture, out decimal n);
 
-            return correctNumberOfParts && amountCorrect /*&& validId*/ ;
+            return correctNumberOfParts && amountCorrect;
         }
 
         public string GetCoinId(string message)
