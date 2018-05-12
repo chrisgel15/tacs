@@ -21,6 +21,15 @@ namespace Tacs.Controllers
             var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
 
             if (!ModelState.IsValid) return BadRequestResponse();
+            
+            if (wallet == null && !walletId.All(c => Char.IsDigit(c)) && walletId != "")
+            {
+                var newWalletRequest = new NewWalletRequest();
+                newWalletRequest.Balance = 0;
+                newWalletRequest.NombreMoneda = walletId;
+                wallet = new WalletService().AddWallet(newWalletRequest, userId).Result;
+            }
+
             if (wallet == null) return BadRequestResponse();
 
             var type = transactionRequest.Type;
