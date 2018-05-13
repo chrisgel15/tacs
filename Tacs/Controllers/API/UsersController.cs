@@ -5,23 +5,19 @@ using Tacs.Services;
 using Tacs.Models.Contracts;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Tacs.Controllers
 {
-    [RoutePrefix("api/users")]
+    [RoutePrefix("api/user")]
     public class UsersController : ApiController
     {
-        //Obtener todos los usuarios del sistema (hay que definir quien, si es que alguien, puede usar esto)
-        [Authorize(Roles = "Admin"), Route(""), HttpGet]
-        public IHttpActionResult Get()
+        //Obtener todos los datos de un usuario. Solo lo tendria que poder usar el usuario logueado
+        [Authorize, Route(""), HttpGet]
+        public IHttpActionResult GetById()
         {
-            return Ok<IList<UserViewModel>>(new UserService().GetUsers().Select(u => new UserService().GetUserInfo(u.Id)).ToList());
-        }
-
-        //Obtener todos los datos de un usuario. Solo lo tendria que poder usar el usuario {userId}
-        [Authorize, Route("{userid}"), HttpGet]
-        public IHttpActionResult GetById(int userId)
-        {
+            // Desde el Identity, recupero el Id del usuario
+            int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
             return Ok<UserViewModel>(new UserService().GetUserInfo(userId));
         }
 
@@ -32,13 +28,15 @@ namespace Tacs.Controllers
             if (!ModelState.IsValid)
                 return BadRequest("Campos incorrectos");
 
-            var responseService = new UserService().SignUp(user.Username, user.Password, user.EsAdmin);
-            if (responseService.estado == "ERROR")
+            bool estado = new UserService().SignUp(user.Username, user.Password, false);
+            if (estado)
+            {
+                return Ok();
+            }
+            else
             {
                 return BadRequest();
             }
-            //var response = Request.CreateResponse(HttpStatusCode.Created);
-            return Created("", responseService);
         }
     }
 }

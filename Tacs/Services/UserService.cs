@@ -70,26 +70,33 @@ namespace Tacs.Services
             return context.Users.Get(userId);
         }
 
-        public dynamic SignUp(string username, string password, bool EsAdmin)
+        public bool SignUp(string username, string password, bool EsAdmin)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
                 var dbUsers = unitOfWork.Users;
+
                 if (dbUsers.ExistUserByName(username))
                 {
-                    return new { estado = "ERROR", codigo = "USERNAME_DUPLICATE", descripcion = "Ya existe ese Username en la base" };
+                    return false;
+                }
+
+                int id = dbUsers.GetMaxId() + 1;
+                SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
+                string hashedPassword = Encoding.Default.GetString(provider.ComputeHash(Encoding.UTF8.GetBytes(password)));
+
+                if (dbUsers.GetAll().Count() == 0) // si es el primero, sera administrador.
+                {
+                    dbUsers.AddNewUser(new User(id, username, hashedPassword, "SI"));
                 }
                 else
                 {
-                    int id = dbUsers.GetMaxId() + 1;
-
-                    SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
-                    string hashedPassword = System.Text.Encoding.Default.GetString(provider.ComputeHash(Encoding.UTF8.GetBytes(password)));
-                    
                     dbUsers.AddNewUser(new User(id, username, hashedPassword, EsAdmin ? "SI" : "NO"));
-                    unitOfWork.Complete();
-                    return new { estado = "OK", descripcion = "user created (id: "+id.ToString()+")", date = DateTime.Now.ToString() };
                 }
+
+                unitOfWork.Complete();
+
+                return true;
             }
         }
 

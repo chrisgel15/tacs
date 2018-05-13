@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,21 +47,17 @@ namespace Tacs.Controllers.API
             {
                 return BadRequest("Credenciales Incorrectos");
             }
-            
-
-            
         }
 
         [Authorize, Route(""), HttpDelete]
-        public async Task<IHttpActionResult> RemoveToken()
+        public IHttpActionResult RemoveToken()
         {
             var authorization = this.Request.Headers.Authorization.ToString();
-
-            var token = authorization.Substring(authorization.IndexOf(" ")+1);
-
-            new TokenService().RemoveToken(token);
-
-            return Ok();
+            var token = authorization.Substring(authorization.IndexOf(" ") + 1);
+            if (new TokenService().RemoveToken(token))
+                return Ok();
+            else
+                return BadRequest();
         }
     }
 }
