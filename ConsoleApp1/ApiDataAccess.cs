@@ -18,9 +18,9 @@ namespace TelegramBot
 
         //TODO: ver si hay alguna forma de especificar el puerto en el cual se ejecuta el otro proyecto
         //Desarrollo
-        static string apiBaseUrl = "http://localhost:51882/api/";
+        //static string apiBaseUrl = "http://localhost:51882/api/";
         //Produccion
-        //static string apiBaseUrl = "https://tacscripto.azurewebsites.net/api/";
+        static string apiBaseUrl = "https://tacscripto.azurewebsites.net/api/";
 
         public UserWallet GetWallet(string token)
         {

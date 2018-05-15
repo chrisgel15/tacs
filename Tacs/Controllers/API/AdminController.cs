@@ -13,14 +13,14 @@ namespace Tacs.Controllers
     public class AdminController : ApiController
     {
         //Reporte de las transacciones totales del sistema (diarias, mensuales, etc)
-        [Route("api/admin/reporte"), HttpGet]
+        [Route("reporte"), HttpGet]
         public HttpResponseMessage GetTransacciones()
         {
             return Request.CreateResponse(HttpStatusCode.OK, new TransactionService().ListarTransacciones());
         }
 
         //Comparacion de balance total en dolares, de todas las wallets de dos usuarios
-        [Route("api/admin/compare"), HttpGet]
+        [Route("compare"), HttpGet]
         public HttpResponseMessage GetComparacion([FromUri] string userName1, [FromUri] string userName2)
         {
             var user1 = new UserService().GetUserByName(userName1);
@@ -31,7 +31,7 @@ namespace Tacs.Controllers
         }
 
         //Datos administrativos de un usuario
-        [Route("api/admin/users/{userId}"), HttpGet]
+        [Route("users/{userId}"), HttpGet]
         public HttpResponseMessage GetUser(int userId)
         {
             var user = new UserService().GetUserById(userId);
