@@ -15,15 +15,23 @@ namespace TelegramBot.Commands
             commandName = "/sell";
         }
 
-        public override void ExecuteValidCommand(MessageEventArgs messageEvent, int userId)
+        //TODO: tratar mejor los errores
+        public override void ExecuteValidCommand(MessageEventArgs messageEvent, string token)
         {
             var coinID = syntaxChecker.GetCoinId(messageEvent.Message.Text);
             var amount = syntaxChecker.GetAmount(messageEvent.Message.Text);
             ApiDataAccess apiDataAccess = new ApiDataAccess();
-            apiDataAccess.MakeTransaction("venta", userId, coinID, amount);
-
-
-            var response = "Transaction Completed." ;
+            string response;
+            try
+            {
+                apiDataAccess.MakeTransaction("venta", token, coinID, amount);
+                response = "Transaction Completed.";
+            }
+            catch
+            {
+                response = "You don't have enough coins";
+            }
+         
             var chatId = messageEvent.Message.Chat.Id;
             messageSender.SendMessage(chatId, response, null);
         }

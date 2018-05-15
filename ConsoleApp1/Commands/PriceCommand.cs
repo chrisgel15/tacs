@@ -16,7 +16,7 @@ namespace TelegramBot.Commands
             commandName = "/price";
         }
             
-        public async override void ExecuteValidCommand(MessageEventArgs messageEvent, int userId)
+        public async override void ExecuteValidCommand(MessageEventArgs messageEvent, string token)
         {
             var coinID = syntaxChecker.GetCoinId(messageEvent.Message.Text);
 

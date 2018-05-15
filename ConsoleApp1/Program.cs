@@ -18,7 +18,9 @@ namespace TelegramBot
     {
 
         static TelegramBotClient bot = new TelegramBotClient("561318443:AAHMmc3GYXoHpg4sx9XlwnpJutQMmkyy4yM");
-        static List<Command> commands = new List<Command> { new BuyCommand(), new SellCommand(), new WalletCommand(), new StartCommand(), new PriceCommand(), new LogInCommand() };
+        static SessionManager sesiones = new SessionManager();
+        static List<Command> commands = new List<Command> { new BuyCommand(), new SellCommand(), new WalletCommand(), new StartCommand(), new PriceCommand(), new LogInCommand(sesiones) };
+        
 
         static void Main(string[] args)
         {
@@ -33,13 +35,12 @@ namespace TelegramBot
             {
                 LogMessage(e);
 
-                //TODO: check if user is logged in
-                int? userId = 1;
+                var token = sesiones.GetToken(e.Message.Chat.Id);
 
-                if (userId == null)
+                if (token == null && !e.Message.Text.Contains("/login"))
                     UserNotLoggedIn(e);
                 else
-                    CheckForCommands(e, userId.Value);
+                    CheckForCommands(e, token);
             }
         }
 
@@ -53,14 +54,14 @@ namespace TelegramBot
             Console.WriteLine(" {0} - {1} - {2}: {3}", uid, cid, name, txt);
         }
 
-        private static void CheckForCommands(MessageEventArgs messageEvent, int userId)
+        private static void CheckForCommands(MessageEventArgs messageEvent, string token)
         {            
             var command = commands.FirstOrDefault(x => x.IsCommand(messageEvent));
 
             if (command == null)
                 CommandNotFound(messageEvent);
             else
-                command.ExecuteCommand(messageEvent, userId);                    
+                command.ExecuteCommand(messageEvent, token);                    
         }
 
         private static void CommandNotFound(MessageEventArgs messageEvent)
@@ -82,6 +83,5 @@ namespace TelegramBot
 
             messageSender.SendMessage(chatId, message, keyboard);
         }
-
     }
 }

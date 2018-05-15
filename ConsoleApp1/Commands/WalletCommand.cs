@@ -18,7 +18,7 @@ namespace TelegramBot.Commands
             commandName = "/wallet";
         }
 
-        public async override void ExecuteValidCommand(MessageEventArgs messageEvent, int userId)
+        public override void ExecuteValidCommand(MessageEventArgs messageEvent, string token)
         {
             var messageSender = new MessageSender();
             var chatId = messageEvent.Message.Chat.Id;
@@ -26,13 +26,16 @@ namespace TelegramBot.Commands
 
             ApiDataAccess apiDataAccess = new ApiDataAccess();
 
-            UserWallet  wallet = await apiDataAccess.GetWallet(userId);
+            UserWallet  wallet = apiDataAccess.GetWallet(token);
 
             string message = "";
-            foreach(var coinWallet in wallet.coinWallets)
-            {
-                message = message + coinWallet.NombreMoneda + ": " + coinWallet.Balance + " \n";
-            }
+            if (wallet.coinWallets.Count > 0)
+                foreach (var coinWallet in wallet.coinWallets)
+                {
+                    message = message + coinWallet.NombreMoneda + ": " + coinWallet.Balance + " \n";
+                }
+            else
+                message = "You have no coins in your wallet";
 
             messageSender.SendMessage(chatId, message, keyboard);
         }

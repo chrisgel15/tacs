@@ -14,42 +14,65 @@ namespace TelegramBot
 {
     public class ApiDataAccess
     {
+        //TODO: tratar mejor los errores
+
         //TODO: ver si hay alguna forma de especificar el puerto en el cual se ejecuta el otro proyecto
         //Desarrollo
         static string apiBaseUrl = "http://localhost:51882/api/";
         //Produccion
         //static string apiBaseUrl = "https://tacscripto.azurewebsites.net/api/";
 
-        public async Task<UserWallet> GetWallet(int idUser)
+        public UserWallet GetWallet(string token)
         {
-            var url = apiBaseUrl + "users/" + idUser + "/wallets";
+            var url = apiBaseUrl + "user/" + "wallets";
             HttpClient client = CreateClient(url);
+            client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress).Result;
 
-            Task<HttpResponseMessage> response = client.GetAsync(client.BaseAddress);
-
-            string jsonResponse = await response.Result.Content.ReadAsStringAsync();
+            string jsonResponse = response.Content.ReadAsStringAsync().Result;
 
             UserWallet userWallet = new UserWallet();
             userWallet.coinWallets = new List<CoinWallet>();
-            foreach (var jarray in JArray.Parse(jsonResponse))
+            if(jsonResponse != "")
             {
-                CoinWallet coinWallet = jarray.SelectToken("Result").ToObject<CoinWallet>();
-                userWallet.coinWallets.Add(coinWallet);
-            }
-         
+                foreach (var jarray in JArray.Parse(jsonResponse))
+                {
+                    CoinWallet coinWallet = jarray.SelectToken("Result").ToObject<CoinWallet>();
+                    userWallet.coinWallets.Add(coinWallet);
+                }
+            }        
             return userWallet;
         }
 
-        public  void Login(string username, string password)
+        public string Login(string username, string password)
         {
-            //TODO: hacer el Login del usuario
-        }
-
-        public async void MakeTransaction(string transactionType, int idUser, string idCoin, Decimal amount)
-        {
-            var url = apiBaseUrl + "users/" + idUser + "/wallets/" + idCoin + "/transactions";
+            var url = apiBaseUrl + "token";
             HttpClient client = CreateClient(url);
 
+            
+            TokenRequest request = new TokenRequest { username = username, password = password };
+            var myContent = JsonConvert.SerializeObject(request);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = client.PostAsync(client.BaseAddress, byteContent).Result;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                var jObject = JObject.Parse(jsonResponse);
+                string token = (string)jObject["access_token"];
+                return token;
+            }
+            else
+                return null;   
+        }
+
+        public void MakeTransaction(string transactionType, string token, string idCoin, Decimal amount)
+        {
+            var url = apiBaseUrl + "user" + "/wallets/" + idCoin + "/transactions";
+            HttpClient client = CreateClient(url);
+            client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
             var values = new Dictionary<string, string>
             {
                { "type", transactionType },
@@ -57,9 +80,12 @@ namespace TelegramBot
             };
 
             var content = new FormUrlEncodedContent(values);
-            Task<HttpResponseMessage> response = client.PostAsync(client.BaseAddress, content);
-
-            string jsonResponse = await response.Result.Content.ReadAsStringAsync();
+            HttpResponseMessage response = client.PostAsync(client.BaseAddress, content).Result;
+            
+            if(!response.IsSuccessStatusCode)
+            {
+                throw new Exception();
+            }
         }
 
         public async Task<Decimal> GetCoinPrice(string coinId)
