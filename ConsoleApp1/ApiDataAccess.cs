@@ -88,17 +88,15 @@ namespace TelegramBot
             }
         }
 
-        public async Task<Decimal> GetCoinPrice(string coinId)
+        public Decimal GetCoinPrice(string coinId)
         {
-            var url = "https://api.coinmarketcap.com/v1/ticker/" + coinId;
+            var url = apiBaseUrl + "cotizaciones/" + coinId;
             HttpClient client = CreateClient(url);
 
-            Task<HttpResponseMessage> response = client.GetAsync(client.BaseAddress);
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress).Result;
 
-            string jsonResponse = await response.Result.Content.ReadAsStringAsync();
-            JArray jarray = JArray.Parse(jsonResponse);
-            decimal cotizacion = (Decimal)jarray[0].SelectToken("price_usd");
-            return cotizacion;
+            string jsonResponse = response.Content.ReadAsStringAsync().Result;
+            return Convert.ToDecimal(jsonResponse, CultureInfo.InvariantCulture);
         }
 
         private HttpClient CreateClient(string url)

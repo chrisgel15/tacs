@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -73,7 +74,7 @@ namespace Tacs.Services
         {
             JArray jarray = JArray.Parse(result);
             string _scotizacion = (string)jarray[0].SelectToken("price_usd");
-            decimal cotizacion = Decimal.Parse(_scotizacion, System.Globalization.NumberStyles.Any);
+            decimal cotizacion = Decimal.Parse(_scotizacion, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture);
             return cotizacion;
         }
     }
