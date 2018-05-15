@@ -50,16 +50,7 @@ namespace Tacs.Services
         }
         public TransactionViewModel GetTransactionInfo(Transaction transaction)
         {
-            var viewModel = new TransactionViewModel();
-            viewModel.Amount = transaction.Amount;
-            viewModel.Date = transaction.Date.ToString();
-            viewModel.Price = transaction.Price;
-            viewModel.Type = transaction.Type();
-            viewModel.User = transaction.User.Name;
-            viewModel.Coin = transaction.Coin.Name;
-            viewModel.TransactionId = transaction.Id;
-
-            return viewModel;
+            return new TransactionViewModel(transaction);
         }
 
         public AdminTransactionsResponse ListarTransacciones()

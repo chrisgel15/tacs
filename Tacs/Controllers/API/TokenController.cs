@@ -15,6 +15,9 @@ using Tacs.Models;
 using Tacs.Models.Contracts.API;
 using Tacs.Services;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.OAuth;
+using Microsoft.Owin.Host.SystemWeb;
+using System.Web.Http.Owin;
 
 
 namespace Tacs.Controllers.API
@@ -37,14 +40,8 @@ namespace Tacs.Controllers.API
             {
                 //TokenResponse tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseContent);
                 TokenResponse autentication = await response.Content.ReadAsAsync<TokenResponse>(new[] { new JsonMediaTypeFormatter() });
-                if (new TokenService().SaveToken(req.username, autentication.token))
-                {
-                    return Request.CreateResponse(HttpStatusCode.OK, autentication);
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.Forbidden, "Credenciales Incorrectos");
-                }
+                return Request.CreateResponse(HttpStatusCode.OK, autentication);
+
             }
             else
             {
@@ -55,10 +52,7 @@ namespace Tacs.Controllers.API
         [Authorize, Route(""), HttpDelete]
         public HttpResponseMessage RemoveToken()
         {
-            var uri = Url.Content("~/") + "api/revoke_token";
-            HttpResponseMessage response = new HttpClient().PostAsync(uri);
-
-            HttpContext.Current.GetOwinContext().Authentication.SignOut(AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+            Request.GetOwinContext().Authentication.SignOut();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
