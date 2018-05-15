@@ -21,12 +21,12 @@ namespace Tacs.Controllers
         {
             // Desde el Identity, recupero el Id del usuario
             int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
-
+            // Obtengo el wallet por Id o por nombre de moneda (shortcut)
             var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
 
-            if (!ModelState.IsValid) return BadRequestResponse();
-            
-            if (wallet == null && !walletId.All(c => Char.IsDigit(c)) && walletId != "")
+            if (!ModelState.IsValid) return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos Incorrectos");
+            //Si no se encontro el wallet y el request usa el shortcut de nombre de moneda existente en CMC, creo un nuevo wallet
+            if (wallet == null && CoinService.ExisteEnCoinMarketCap(walletId))
             {
                 var newWalletRequest = new NewWalletRequest();
                 newWalletRequest.Balance = 0;
@@ -34,7 +34,8 @@ namespace Tacs.Controllers
                 wallet = new WalletService().AddWallet(newWalletRequest, userId).Result;
             }
 
-            if (wallet == null) return BadRequestResponse();
+            if (wallet == null && walletId.All(c => Char.IsDigit(c))) return Request.CreateResponse(HttpStatusCode.NotFound, "Id de wallet inexistente");
+            if (wallet == null && !walletId.All(c => Char.IsDigit(c))) return Request.CreateResponse(HttpStatusCode.NotFound, "Tipo de moneda inexistente");
 
             var type = transactionRequest.Type;
             var amount = transactionRequest.Amount;
@@ -42,69 +43,48 @@ namespace Tacs.Controllers
 
             try
             {
-                if (type.ToLower() == "compra") transactionService.Buy(wallet.Id, amount);
-                else if (type.ToLower() == "venta") transactionService.Sell(wallet.Id, amount);
-                else return BadRequestResponse();
+                if (type.ToLower() == "compra") return Request.CreateResponse(HttpStatusCode.Created, new TransactionViewModel(transactionService.Buy(wallet.Id, amount)));
+                else if (type.ToLower() == "venta") return Request.CreateResponse(HttpStatusCode.Created, new TransactionViewModel(transactionService.Sell(wallet.Id, amount)));
+                else return Request.CreateResponse(HttpStatusCode.BadRequest, "La transaccion debe ser del tipo \"compra\" o \"venta\"");
             }
 
             catch (BusinnesException businessException)
             {
-                return NotFoundResponse(businessException);
+                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, businessException); ;
             }
             catch (Exception exception)
             {
                 // log error
                 throw exception;
             }
-
-            return SuccessfullTransactionResponse();
         }
 
         //Ver las transacciones de un wallet de un usuario
         [Authorize, Route(""), HttpGet]
-        public IHttpActionResult Get(string walletId)
+        public HttpResponseMessage Get(string walletId)
         {
             // Desde el Identity, recupero el Id del usuario
             int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
 
             //var transactions = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId).Transactions;
             var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
-            if (wallet == null)
-            {
-                return NotFound();
-            }
+            if (wallet == null && walletId.All(c => Char.IsDigit(c))) return Request.CreateResponse(HttpStatusCode.NotFound, "Id de wallet inexistente");
+            if (wallet == null && !walletId.All(c => Char.IsDigit(c))) return Request.CreateResponse(HttpStatusCode.NotFound, "Tipo de moneda inexistente");
             else
             {
                 var transactions = wallet.Transactions;
                 var transactionsInfos = transactions.Select(t => new TransactionService().GetTransactionInfo(t));
-                return Ok<IList<TransactionViewModel>>(transactionsInfos.ToList());
+                return Request.CreateResponse<IList<TransactionViewModel>>(HttpStatusCode.OK ,transactionsInfos.ToList());
             }
             
         }
 
         //Ver detalles de una transaccion
         [Authorize, Route("{transactionId}"), HttpGet]
-        public IHttpActionResult GetById(int transactionId)
+        public HttpResponseMessage GetById(int transactionId)
         {
-            return Ok<TransactionViewModel>(new TransactionService().GetTransactionInfo(transactionId));
+            if (new TransactionService().GetTransactionInfo(transactionId) == null) return Request.CreateResponse(HttpStatusCode.NotFound, "Id de transaccion inexistente");
+            return Request.CreateResponse<TransactionViewModel>(HttpStatusCode.OK,new TransactionService().GetTransactionInfo(transactionId));
         }
-
-        private HttpResponseMessage BadRequestResponse()
-        {
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Incorrect input");
-        }
-        private HttpResponseMessage SuccessfullTransactionResponse()
-        {
-            return Request.CreateResponse<NewTransactionResponse>(new NewTransactionResponse()
-            {
-                Error = false,
-                Message = "La compra ha sido exitosa."
-            });
-        }
-        private HttpResponseMessage NotFoundResponse(BusinnesException businnesException)
-        {
-            return Request.CreateErrorResponse(HttpStatusCode.NotFound, businnesException);
-        }
-
     }
 }

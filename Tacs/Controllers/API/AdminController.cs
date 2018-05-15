@@ -13,51 +13,48 @@ namespace Tacs.Controllers
     public class AdminController : ApiController
     {
         //Reporte de las transacciones totales del sistema (diarias, mensuales, etc)
-        [Route("reporte"), HttpGet]
+        [Route("api/admin/reporte"), HttpGet]
         public HttpResponseMessage GetTransacciones()
         {
-            return Request.CreateResponse(new TransactionService().ListarTransacciones());
+            return Request.CreateResponse(HttpStatusCode.OK, new TransactionService().ListarTransacciones());
         }
 
         //Comparacion de balance total en dolares, de todas las wallets de dos usuarios
-        [Route("compare"), HttpGet]
+        [Route("api/admin/compare"), HttpGet]
         public HttpResponseMessage GetComparacion([FromUri] string userName1, [FromUri] string userName2)
         {
             var user1 = new UserService().GetUserByName(userName1);
             var user2 = new UserService().GetUserByName(userName2);
 
-            return Request.CreateResponse(new UserService().GetUserComparisonResponse(user1, user2));
-        }
-
-        //Obtener todos los usuarios del sistema (hay que definir quien, si es que alguien, puede usar esto)
-        [Route("users"), HttpGet]
-        public IHttpActionResult Get()
-        {
-            return Ok<IList<UserViewModel>>(new UserService().GetUsers().Select(u => new UserService().GetUserInfo(u.Id)).ToList());
+            if (user1 == null || user2 == null) return Request.CreateResponse(HttpStatusCode.NotFound, "Usuario no encontrado");
+            return Request.CreateResponse(HttpStatusCode.OK, new UserService().GetUserComparisonResponse(user1, user2));
         }
 
         //Datos administrativos de un usuario
-        [Route("users/{userId}"), HttpGet]
+        [Route("api/admin/users/{userId}"), HttpGet]
         public HttpResponseMessage GetUser(int userId)
         {
-            return Request.CreateResponse(new UserService().GetUserAdminInfo(userId));
+            var user = new UserService().GetUserById(userId);
+
+            if (user == null) return Request.CreateResponse(HttpStatusCode.NotFound, "Usuario no encontrado");
+            return Request.CreateResponse(HttpStatusCode.OK, new UserService().GetUserAdminInfo(userId));
         }
 
         //Agregar un nuevo administrador
         [Route(""), HttpPost]
-        public IHttpActionResult Post([FromBody]SignupRequest user)
+        public HttpResponseMessage Post([FromBody]SignupRequest user)
         {
             if (!ModelState.IsValid)
-                return BadRequest("Campos incorrectos");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos incorrectos");
 
             bool estado = new UserService().SignUp(user.Username, user.Password, true);
             if (estado)
             {
-                return Ok(); 
+                return Request.CreateResponse(HttpStatusCode.Created); 
             }
             else
             {
-                return BadRequest();
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "El usuario ya existe");
             }
         }
 

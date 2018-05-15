@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -15,6 +16,12 @@ namespace Tacs.Services
     public class CoinService 
     {
 
+        public static bool ExisteEnCoinMarketCap(string coinName)
+        {
+            var client = new HttpClient();
+            if (client.GetAsync("https://api.coinmarketcap.com/v1/ticker/" + coinName).Result.StatusCode == HttpStatusCode.OK) return true;
+            else return false;
+        }
 
         public static int GetCoinId(string coinName)
         {
