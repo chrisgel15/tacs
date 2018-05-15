@@ -95,6 +95,9 @@ namespace TelegramBot
 
             HttpResponseMessage response = client.GetAsync(client.BaseAddress).Result;
 
+            if(!response.IsSuccessStatusCode)
+                throw new Exception();
+
             string jsonResponse = response.Content.ReadAsStringAsync().Result;
             return Convert.ToDecimal(jsonResponse, CultureInfo.InvariantCulture);
         }

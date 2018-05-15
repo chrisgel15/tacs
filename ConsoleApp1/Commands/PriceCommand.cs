@@ -21,9 +21,18 @@ namespace TelegramBot.Commands
             var coinID = syntaxChecker.GetCoinId(messageEvent.Message.Text);
 
             ApiDataAccess apiDataAccess = new ApiDataAccess();
-            decimal price = apiDataAccess.GetCoinPrice(coinID);
 
-            var response = coinID + ":" + " USD$ " + price.ToString();
+            string response;
+            try
+            {
+                decimal price = apiDataAccess.GetCoinPrice(coinID);
+                response = coinID + ":" + " USD$ " + price.ToString();
+            }
+            catch
+            {
+                response = "Invalid coin ID";
+            }
+            
 
             var chatId = messageEvent.Message.Chat.Id;
 
