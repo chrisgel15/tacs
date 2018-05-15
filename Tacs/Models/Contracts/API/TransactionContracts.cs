@@ -62,5 +62,16 @@ namespace Tacs.Models.Contracts
         [Required]
         public string User { get; set; }
 
+        public TransactionViewModel(Transaction transaction)
+        {
+            this.TransactionId = transaction.Id;
+            this.Price = transaction.Price;
+            this.Coin = transaction.Coin.Name;
+            this.User = transaction.User.Name;
+            this.Amount = transaction.Amount;
+            this.Date = transaction.Date.ToString();
+            this.Type = transaction.GetType().ToString();
+        }
+
     }
 }

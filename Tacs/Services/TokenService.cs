@@ -17,41 +17,5 @@ namespace Tacs.Services
             return Int32.Parse(p.Value);
         }
 
-        public bool SaveToken(string username, string token)
-        {
-            var unitOfWork = new UnitOfWork(new TacsDataContext());
-            var user = unitOfWork.Users.Find(u => u.Name == username).FirstOrDefault();
-
-            if (user != null)
-            {
-                user.Token = token;
-                user.LastAccessDate = DateTime.Now;
-                unitOfWork.Complete();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool RemoveToken(string token)
-        {
-            var unitOfWork = new UnitOfWork(new TacsDataContext());
-            var user = unitOfWork.Users.Find(u => u.Token == token).FirstOrDefault();
-
-            if (user != null)
-            {
-                user.Token = "";
-                user.LastAccessDate = DateTime.Now;
-                unitOfWork.Complete();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
     }
 }

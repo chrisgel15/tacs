@@ -11,7 +11,7 @@ namespace Tacs.Services
 {
     public class TransactionService
     {
-        public void Buy(int walletId, decimal amount)
+        public Transaction Buy(int walletId, decimal amount)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
@@ -22,10 +22,12 @@ namespace Tacs.Services
                 unitOfWork.Transactions.Add(new Compra(wallet, amount));
 
                 unitOfWork.Complete();
+
+                return wallet.Transactions.OrderBy(t => t.Date).Last();
             }
         }
 
-        public void Sell(int walletId, decimal amount)
+        public Transaction Sell(int walletId, decimal amount)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
@@ -36,6 +38,8 @@ namespace Tacs.Services
                 unitOfWork.Transactions.Add(new Venta(wallet, amount));
 
                 unitOfWork.Complete();
+
+                return wallet.Transactions.OrderBy(t => t.Date).Last();
             }
         }
 
@@ -46,16 +50,7 @@ namespace Tacs.Services
         }
         public TransactionViewModel GetTransactionInfo(Transaction transaction)
         {
-            var viewModel = new TransactionViewModel();
-            viewModel.Amount = transaction.Amount;
-            viewModel.Date = transaction.Date.ToString();
-            viewModel.Price = transaction.Price;
-            viewModel.Type = transaction.Type();
-            viewModel.User = transaction.User.Name;
-            viewModel.Coin = transaction.Coin.Name;
-            viewModel.TransactionId = transaction.Id;
-
-            return viewModel;
+            return new TransactionViewModel(transaction);
         }
 
         public AdminTransactionsResponse ListarTransacciones()

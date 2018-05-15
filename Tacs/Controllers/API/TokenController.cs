@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Security.Claims;
@@ -13,6 +14,11 @@ using System.Web.Http;
 using Tacs.Models;
 using Tacs.Models.Contracts.API;
 using Tacs.Services;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.OAuth;
+using Microsoft.Owin.Host.SystemWeb;
+using System.Web.Http.Owin;
+
 
 namespace Tacs.Controllers.API
 {
@@ -20,10 +26,10 @@ namespace Tacs.Controllers.API
     public class TokenController : ApiController
     {
         [AllowAnonymous, Route(""), HttpPost]
-        public async Task<IHttpActionResult> GetToken([FromBody]TokenRequest req)
+        public async Task<HttpResponseMessage> GetToken([FromBody]TokenRequest req)
         {
             if (!ModelState.IsValid)
-                return BadRequest("Campos incorrectos");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos Incorrectos");
 
             req.password = System.Text.Encoding.Default.GetString(new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(req.password)));
 
@@ -34,30 +40,20 @@ namespace Tacs.Controllers.API
             {
                 //TokenResponse tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseContent);
                 TokenResponse autentication = await response.Content.ReadAsAsync<TokenResponse>(new[] { new JsonMediaTypeFormatter() });
-                if (new TokenService().SaveToken(req.username, autentication.token))
-                {
-                    return Ok(autentication);
-                }
-                else
-                {
-                    return BadRequest("Credenciales Incorrectos");
-                }
+                return Request.CreateResponse(HttpStatusCode.OK, autentication);
+
             }
             else
             {
-                return BadRequest("Credenciales Incorrectos");
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "Credenciales Incorrectos");
             }
         }
 
         [Authorize, Route(""), HttpDelete]
-        public IHttpActionResult RemoveToken()
+        public HttpResponseMessage RemoveToken()
         {
-            var authorization = this.Request.Headers.Authorization.ToString();
-            var token = authorization.Substring(authorization.IndexOf(" ") + 1);
-            if (new TokenService().RemoveToken(token))
-                return Ok();
-            else
-                return BadRequest();
+            Request.GetOwinContext().Authentication.SignOut();
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

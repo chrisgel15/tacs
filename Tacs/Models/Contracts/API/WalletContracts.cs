@@ -30,7 +30,6 @@ namespace Tacs.Models.Contracts
 
     public class NewWalletRequest
     {
-        //TODO: verificar que este en CoinMarketCap
         [DataMember]
         [Required]
         public string NombreMoneda { get; set; }

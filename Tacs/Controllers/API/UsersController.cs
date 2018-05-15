@@ -23,19 +23,19 @@ namespace Tacs.Controllers
 
         //Agregar un nuevo usuario
         [AllowAnonymous, Route(""), HttpPost]
-        public IHttpActionResult Post([FromBody]SignupRequest user)
+        public HttpResponseMessage Post([FromBody]SignupRequest user)
         {
             if (!ModelState.IsValid)
-                return BadRequest("Campos incorrectos");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos incorrectos");
 
             bool estado = new UserService().SignUp(user.Username, user.Password, false);
             if (estado)
             {
-                return Ok();
+                return Request.CreateResponse<UserViewModel>(HttpStatusCode.Created, new UserViewModel(new UserService().GetUserByName(user.Username)));
             }
             else
             {
-                return BadRequest();
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "El usuario ya existe");
             }
         }
     }

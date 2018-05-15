@@ -60,7 +60,6 @@ namespace Tacs.Services
 
         public async Task<Wallet> AddWallet(NewWalletRequest newWalletRequest, int ownerId)
         {
-            //TODO: Agregar validacion del nombre de moneda (que este en CMC)
             var context = new UnitOfWork(new TacsDataContext());
 
             var newWallet = new Wallet(context.Users.Get(ownerId), context.Coins.Get(CoinService.GetCoinId(newWalletRequest.NombreMoneda)), newWalletRequest.Balance);
