@@ -19,7 +19,7 @@ namespace Tacs.Controllers
     public class CoinsController : ApiController
     {
         //Listar Wallets de un usuario
-        [Route("")]
+        [Authorize, Route("")]
         [HttpGet]
         public HttpResponseMessage GetWallets(int userId)
         {
@@ -29,7 +29,7 @@ namespace Tacs.Controllers
         }
 
         //Listar detalles de un wallet (incluyendo cotizacion al momento)
-        [Route("{walletId}")]
+        [Authorize, Route("{walletId}")]
         [HttpGet]
         public async Task<IHttpActionResult> GetWallet([FromUri]int userId, string walletId)
         {
@@ -38,7 +38,7 @@ namespace Tacs.Controllers
             else return Ok<WalletViewModel>(await new WalletService().GetWalletInfo(wallet));
         }
         //Crear nuevo wallet para usuarioId
-        [Route("")]
+        [Authorize, Route("")]
         [HttpPost]
         public async Task<IHttpActionResult> NewWallet([FromBody]NewWalletRequest newWalletRequest, int userId)
         {

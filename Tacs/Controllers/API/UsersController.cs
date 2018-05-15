@@ -12,30 +12,30 @@ namespace Tacs.Controllers
     public class UsersController : ApiController
     {
         //Obtener todos los usuarios del sistema (hay que definir quien, si es que alguien, puede usar esto)
-        [Route(""), HttpGet]
+        [Authorize(Roles = "Admin"), Route(""), HttpGet]
         public IHttpActionResult Get()
         {
             return Ok<IList<UserViewModel>>(new UserService().GetUsers().Select(u => new UserService().GetUserInfo(u.Id)).ToList());
         }
 
         //Obtener todos los datos de un usuario. Solo lo tendria que poder usar el usuario {userId}
-        [Route("{userid}"), HttpGet]
+        [Authorize, Route("{userid}"), HttpGet]
         public IHttpActionResult GetById(int userId)
         {
             return Ok<UserViewModel>(new UserService().GetUserInfo(userId));
         }
 
-        //Agregar un nuevo usuario. Solo tendria que poder usarlo un admin
-        [Route(""), HttpPost]
+        //Agregar un nuevo usuario
+        [AllowAnonymous, Route(""), HttpPost]
         public IHttpActionResult Post([FromBody]SignupRequest user)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Campos incorrectos");
 
-            var responseService = new UserService().SignUp(user.Username, user.Password);
+            var responseService = new UserService().SignUp(user.Username, user.Password, user.EsAdmin);
             if (responseService.estado == "ERROR")
             {
-                return Ok(new { responseService });
+                return BadRequest();
             }
             //var response = Request.CreateResponse(HttpStatusCode.Created);
             return Created("", responseService);

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tacs.Models;
 using Tacs.Models.Exceptions;
@@ -49,7 +51,17 @@ namespace Tacs.Tests
             //          w = user.Wallets.First(d => d.Coin.Name == coinName);
             //        Assert.AreEqual(150, w.Amount);
         }
+        [TestMethod]
+        public void PasswordEncription()
+        {
+            SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
+            var hashedPassword1 = System.Text.Encoding.Default.GetString(provider.ComputeHash(Encoding.UTF8.GetBytes("password")));
+            var hashedPassword2 = System.Text.Encoding.Default.GetString(provider.ComputeHash(Encoding.UTF8.GetBytes("password")));
+            var hashedPassword3 = System.Text.Encoding.Default.GetString(provider.ComputeHash(Encoding.UTF8.GetBytes("passwor1")));
 
+            Assert.AreEqual(hashedPassword1, hashedPassword2);
+            Assert.AreNotEqual(hashedPassword1, hashedPassword3);
+        }
         [TestMethod]
         public void UserSellsAmount()
         {

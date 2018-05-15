@@ -7,6 +7,8 @@ using Tacs.Context;
 using Tacs.Models;
 using Tacs.Models.Contracts;
 using Tacs.Models.Repositories;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Tacs.Services
 {
@@ -18,6 +20,12 @@ namespace Tacs.Services
             {
                 return unitOfWork.Users.GetAll().ToList();
             }
+        }
+
+        public User GetUserByNameAndPass(string username, string password)
+        {
+            var context = new UnitOfWork(new TacsDataContext());
+            return context.Users.Find(u => u.Name.ToLower() == username.ToLower() && u.Password == password).First();
         }
 
         public AdminUserInfoResponse GetUserAdminInfo(int id)
@@ -62,7 +70,7 @@ namespace Tacs.Services
             return context.Users.Get(userId);
         }
 
-        public dynamic SignUp(string username, string password)
+        public dynamic SignUp(string username, string password, bool EsAdmin)
         {
             using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
             {
@@ -74,7 +82,11 @@ namespace Tacs.Services
                 else
                 {
                     int id = dbUsers.GetMaxId() + 1;
-                    dbUsers.AddNewUser(new User(id, username, password));
+
+                    SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
+                    string hashedPassword = System.Text.Encoding.Default.GetString(provider.ComputeHash(Encoding.UTF8.GetBytes(password)));
+                    
+                    dbUsers.AddNewUser(new User(id, username, hashedPassword, EsAdmin ? "SI" : "NO"));
                     unitOfWork.Complete();
                     return new { estado = "OK", descripcion = "user created (id: "+id.ToString()+")", date = DateTime.Now.ToString() };
                 }
