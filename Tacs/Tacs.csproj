@@ -207,6 +207,7 @@
     <Compile Include="AuthorizeAttribute.cs" />
     <Compile Include="Context\TacsDataContext.cs" />
     <Compile Include="Controllers\API\AdminController.cs" />
+    <Compile Include="Controllers\API\CotizacionesController.cs" />
     <Compile Include="Controllers\API\TokenController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\API\WalletController.cs" />
@@ -310,6 +311,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdminService\" />
+    <Folder Include="Views\Cotizaciones\" />
     <Folder Include="Views\CotizacionService\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Reportes\" />
