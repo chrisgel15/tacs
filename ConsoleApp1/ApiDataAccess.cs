@@ -14,7 +14,11 @@ namespace TelegramBot
 {
     public class ApiDataAccess
     {
-        static string apiBaseUrl = "https://tacscripto.azurewebsites.net/api/";
+        //TODO: ver si hay alguna forma de especificar el puerto en el cual se ejecuta el otro proyecto
+        //Desarrollo
+        static string apiBaseUrl = "http://localhost:51882/api/";
+        //Produccion
+        //static string apiBaseUrl = "https://tacscripto.azurewebsites.net/api/";
 
         public async Task<UserWallet> GetWallet(int idUser)
         {
