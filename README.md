@@ -2,25 +2,36 @@
 ## Blockchain 
 ### Grupo 4
 
-**Entrega 1**
+## Recursos Actualizados
 
-Para esta primera entrega se define una primera aproximación al diseño de los recursos de nuestra API
+#### Registrar un usuario nuevo
+POST - /api/user - { username:"...", password:"..." }
+> Nota: la primera vez que se alguien se registra es **Admin**, los demas seran usuarios comunes, para volver a registrar otro administrador primero un administrador debe loguearse y con el token ejecutar este recurso:  
+**POST - /api/admin - { username:"...", password:"..." }**
 
+#### LogIn
+POST - /api/token - { username:"...", password:"..." }
 
-|Operacion|URI|Ejemplo|
-|:---:|:---:|:---:|
-|POST|/api/buy|
-|POST|/api/sale|
-|GET|/api/coins?coinId|_/api/coins?coinId=bitcoin_|
-|POST|/api/signin|
-|POST|/api/signup|
-|GET |/api/transactions?coinId|_/api/transactions?coinId=bitcoin_|
-|GET |/api/users|
-|GET |/api/users?userId|_/api/users?userId=4565423_|
-|GET |/api/wallet|
-|GET |/api/wallet?coinId|_/api/wallet?coinId=bitcoin_|
+#### LogOut
+Token Required!!  
+DELETE - /api/token 
 
+#### Compra/Venta
+Token Required!!  
+POST - /api/user/wallets/{moneda}/transactions - { type: "compra", amount:3 }
 
-**Para probar necesitas:**
-+ Descargar el ejecutable y correrlo
-+ Cliente REST  _**Postman**_, o cualquier addon del browser de elección
+#### Ver Portafolios
+Token Required!!  
+GET - /api/user/wallets
+
+#### Ver Transacciones
+Token Required!!  
+GET - /api/user/wallets/{moneda}/transactions
+
+#### Ver Informacion de usuarios
+Token Required!!  
+GET - /api/admin/users/{id}
+
+...
+
+**Basicamente los recursos que tenia el UserId en la ruta, se quitaron ya que la API los atiende con el token y con eso sabe su UserId.**

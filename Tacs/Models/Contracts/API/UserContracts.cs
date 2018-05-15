@@ -37,9 +37,5 @@ namespace Tacs.Models.Contracts
 
         [DataMember, Required]
         public string Password { get; set; }
-
-        [DataMember, Required]
-        public bool EsAdmin { get; set; }
     }
-
 }

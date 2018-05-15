@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,8 @@ namespace Tacs.Controllers.API
 
             req.password = System.Text.Encoding.Default.GetString(new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(req.password)));
 
-            HttpResponseMessage response = await new HttpClient().PostAsync("http://localhost:51882/api/get_token", req.ToFormUrlEncodedContent());
+            var uri = Url.Content("~/") + "api/get_token";
+            HttpResponseMessage response = await new HttpClient().PostAsync(uri, req.ToFormUrlEncodedContent());
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -45,21 +47,17 @@ namespace Tacs.Controllers.API
             {
                 return BadRequest("Credenciales Incorrectos");
             }
-            
-
-            
         }
 
         [Authorize, Route(""), HttpDelete]
-        public async Task<IHttpActionResult> RemoveToken()
+        public IHttpActionResult RemoveToken()
         {
             var authorization = this.Request.Headers.Authorization.ToString();
-
-            var token = authorization.Substring(authorization.IndexOf(" ")+1);
-
-            new TokenService().RemoveToken(token);
-
-            return Ok();
+            var token = authorization.Substring(authorization.IndexOf(" ") + 1);
+            if (new TokenService().RemoveToken(token))
+                return Ok();
+            else
+                return BadRequest();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Tacs
 {
     public class MyAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
+
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             context.Validated();
@@ -30,6 +31,7 @@ namespace Tacs
 
             identity.AddClaim(new Claim("sub", user.Name));
             identity.AddClaim(new Claim(ClaimTypes.Role, (user.EsAdmin == "SI") ? "Admin" : "user"));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             
             context.Validated(identity);
             

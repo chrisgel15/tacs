@@ -24,8 +24,7 @@ namespace Tacs.Models
         public virtual ICollection<Transaction> Transactions { get; set; }
         public string Token { get; set; }
         public string EsAdmin { get; set; }
-
-
+        
         protected User()
         {
             Wallets = new List<Wallet>();
@@ -119,8 +118,5 @@ namespace Tacs.Models
             if (this.Wallets == null)
                 this.Wallets = new List<Wallet>();
         }
-
-        
-       
     }
 }

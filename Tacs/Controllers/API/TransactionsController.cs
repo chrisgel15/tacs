@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using Tacs.Models;
 using Tacs.Models.Contracts;
@@ -11,13 +12,16 @@ using Tacs.Services;
 
 namespace Tacs.Controllers
 {
-    [RoutePrefix("api/users/{userId}/wallets/{walletId}/transactions")]
+    [RoutePrefix("api/user/wallets/{walletId}/transactions")]
     public class TransactionsController : ApiController
     {
         //Comprar o vender
         [Authorize, Route(""), HttpPost]
-        public HttpResponseMessage Post([FromBody]NewTransactionRequest transactionRequest, int userId, string walletId)
+        public HttpResponseMessage Post([FromBody]NewTransactionRequest transactionRequest, string walletId)
         {
+            // Desde el Identity, recupero el Id del usuario
+            int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
+
             var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
 
             if (!ModelState.IsValid) return BadRequestResponse();
@@ -58,8 +62,11 @@ namespace Tacs.Controllers
 
         //Ver las transacciones de un wallet de un usuario
         [Authorize, Route(""), HttpGet]
-        public IHttpActionResult Get(int userId, string walletId)
+        public IHttpActionResult Get(string walletId)
         {
+            // Desde el Identity, recupero el Id del usuario
+            int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
+
             //var transactions = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId).Transactions;
             var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
             if (wallet == null)
