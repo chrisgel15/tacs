@@ -16,7 +16,7 @@ namespace TelegramBot
 
         public void AddSesion(long id, string token)
         {
-            sesiones.Add(id, token);
+            sesiones[id] = token;
         }
 
         public string GetToken(long id)

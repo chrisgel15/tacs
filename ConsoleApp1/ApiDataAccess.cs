@@ -20,7 +20,7 @@ namespace TelegramBot
         //Desarrollo
         //static string apiBaseUrl = "http://localhost:51882/api/";
         //Produccion
-        static string apiBaseUrl = "https://tacscripto.azurewebsites.net/api/";
+        static string apiBaseUrl = "http://tacscripto.azurewebsites.net/api/";
 
         public UserWallet GetWallet(string token)
         {
