@@ -46,6 +46,7 @@ namespace Tacs.Controllers
         [Authorize, Route(""), HttpPost]
         public async Task<HttpResponseMessage> NewWallet([FromBody]NewWalletRequest newWalletRequest)
         {
+            if (!ModelState.IsValid) return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos Incorrectos");
             // Desde el Identity, recupero el Id del usuario
             int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
 

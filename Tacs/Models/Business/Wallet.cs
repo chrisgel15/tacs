@@ -29,22 +29,5 @@ namespace Tacs.Models
             this.Coin = moneda;
             this.Balance = balanceInicial;
         }
-
-        public void Buy(int amount)
-        {
-            this.Balance += amount;
-        }
-
-        public void Sell(int amount)
-        {
-            if (this.Balance >= amount)
-            {
-                this.Balance -= amount;
-            }
-            else
-            {
-                throw new InsufficientAmountException("You are trying to sell more than you have.");
-            }
-        }
     }
 }
