@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CryptoTacs</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="application.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
+</head>
+<body class="body">
+    <header class="navbar">
+        <img class="logo" src="assets/logo.svg">
+        <ul class="tabs">
+            <li class="tab"><a href="Wallet.html">Wallet</a></li>
+            <li class="tab active"><a href="Transactions.html">Transactions</a></li>
+        </ul>
+        <a class="sign-out">Sign Out</a>
+    </header>
+    
+    <div class="container">
+        <form class="transaction-form">
+            <div class="tabs">
+                <div class="tab active">Buy</div>
+                <div class="tab">Sell</div>
+            </div>
+            <input class="coin" type="text" placeholder="Coin">
+            <div class="price">
+                <span class="price-coin">
+                    Bitcoin
+                </span>
+                <span class="dash"> - </span>
+                <span class="amount">
+                    8900
+                </span>
+            </div>
+            <div class="amount-inputs">
+                <input class="amount-input" type="number" placeholder="amount">
+                <span class="dash"> - </span>
+                <input class="amount-input" type="number" placeholder="$USD">
+            </div>
+
+            <button class="buy-button">
+                Buy
+            </button>
+
+        </form>
+    </div>
+
+    <footer class="footer">
+        <img class="logo" src="assets/logo.svg" alt="logo">
+        <span class="copyright">Copyright © 2018 CryptoTACS Inc. All rights reserved.</span>
+    </footer>
+
+</body>
+</html>

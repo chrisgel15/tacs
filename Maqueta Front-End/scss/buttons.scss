@@ -1,0 +1,23 @@
+button {
+    min-width: 100px;
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    background: $green;
+    display: inline-block;
+    zoom: 1;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    padding: .5em 1em;
+    font-size: 100%;
+    border: 1px solid #999;
+    border: transparent;
+    text-decoration: none;
+    transition: all 0.3 ease;
+
+    &:hover {
+        background: #43A047;
+    }
+}

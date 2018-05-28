@@ -1,0 +1,77 @@
+.transaction-form {
+    width: 700px;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .tabs {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        border-bottom: 2px solid black;
+
+        .tab {
+            width: 50%;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .active {
+            color: white;
+            background-color: $green;
+        }
+    }
+
+    .coin {
+        width: 200px;
+        margin-top: 30px;
+    }
+
+    .price {
+        margin-top: 30px;
+        display: flex;
+        width: 500px;
+        justify-content: space-between;
+
+        .price-coin {
+            width: 200px;
+            &:before {
+                content: '1 ';
+            }
+        }
+
+        .amount {
+            width: 200px;
+            text-align: right;
+
+            &:before {
+                content: '$USD ';
+            }
+        }
+
+        .dash {
+            align-self: center;
+        }
+    }
+
+    .amount-inputs {
+        margin-top: 20px;
+        display: flex;
+        width: 500px;
+        justify-content: space-between;
+
+        .amount-input {
+            width: 100px;
+        }
+
+        .dash {
+            justify-self: center;
+        }
+    }
+
+    .buy-button {
+        margin-top: 30px;
+    }
+}
