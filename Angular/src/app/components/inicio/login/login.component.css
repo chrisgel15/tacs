@@ -1,0 +1,36 @@
+.error-login {
+    color: red;
+    font-size: .7em;
+}
+.login {
+    background: white;
+    border-radius: 1em;
+    padding: 2em;
+    box-shadow: 0 0 2em 0 rgba(0, 0, 0, 0.2), 0 .5em .5em 0 rgba(0, 0, 0, 0.24);
+    text-align: center;
+}
+
+.login input {
+    background: #eee;
+    border-style: none;
+    border-radius: .5em;
+    width: 100%;
+    padding: .5em;
+}
+
+.login input:focus {
+    outline: none;
+}
+
+.login span {
+    display: block;
+    overflow: hidden;
+}
+
+.login button {
+    width: 100%
+}
+
+.login form {
+    text-align: center;
+}

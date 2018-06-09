@@ -1,0 +1,14 @@
+.inicio {
+  background: linear-gradient(to left, #76b852, #8DC26F);
+  text-align: center;
+}
+
+.inicio .formulario {
+  min-width: 20%;
+  max-width: 40%;
+  margin: auto;
+}
+
+.inicio h1 {
+  color: white;
+}

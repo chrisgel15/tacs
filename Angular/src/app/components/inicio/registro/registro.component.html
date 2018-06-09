@@ -1,0 +1,17 @@
+<div class="registro">
+  <form style="text-align: center">
+    <div class="form-group">
+      <span><input type="text" placeholder="Nombre" [(ngModel)]="nombre" name="nombre"></span>
+      <div ng-if="err_nombre" class="error-register">{{msg_nombre}}</div>
+    </div>
+    <div class="form-group">
+      <span><input type="email" placeholder="Email" [(ngModel)]="email" name="email"></span>
+      <div ng-if="err_email" class="error-register">{{msg_email}}</div>
+    </div>
+    <div class="form-group">
+      <span><input type="password" placeholder="Password" [(ngModel)]="password" name="password"></span>
+      <div ng-if="err_password" class="error-register">{{msg_password}}</div>
+    </div>
+      <button type="button" class="btn btn-success" (click)="registrar()">Registrarse</button>
+  </form>
+</div>

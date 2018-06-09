@@ -1,0 +1,13 @@
+<div class="login">
+  <form>
+    <div class="form-group">
+      <span><input type="text" placeholder="Nombre" [(ngModel)]="name" name="nombre"></span>
+      <div ng-if="err_name" class="error-login">{{msg_name}}</div>
+    </div>
+    <div class="form-group">
+      <span><input type="password" placeholder="Password" [(ngModel)]="pass" name="password"></span>
+      <div ng-if="err_pass" class="error-login">{{msg_pass}}</div>
+    </div>
+      <button type="button" class="btn btn-success" (click)="login()">Iniciar Sesión</button>
+  </form>
+</div>
