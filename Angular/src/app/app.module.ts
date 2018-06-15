@@ -9,6 +9,8 @@ import { LoginComponent } from './components/inicio/login/login.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { AuthComponent } from './components/auth/auth/auth.component';
 import { AppRoutingModule } from './app-routing.module';
+import { WalletComponent } from './components/auth/wallet/wallet.component';
+import { TransactionComponent } from './components/auth/transaction/transaction.component';
 
 
 
@@ -18,7 +20,9 @@ import { AppRoutingModule } from './app-routing.module';
     RegistroComponent,
     LoginComponent,
     InicioComponent,
-    AuthComponent
+    AuthComponent,
+    WalletComponent,
+    TransactionComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,47 @@
+.balance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;}
+    .balance .text {
+      font-weight: bold;
+      margin-right: 5px;
+      font-size: 24px; }
+    .balance .amount {
+      font-size: 32px; }
+      .balance .amount:before {
+        content: '$USD '; }
+  
+  .wallet-title {
+    margin-top: 40px;
+    text-decoration: underline;
+    font-size: 22px; }
+  
+  .positive {
+    color: #4CAF50; }
+  
+  .negative {
+    color: red; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    overflow: hidden; }
+    table:nth-child(even) {
+        background-color: #f2f2f2; }
+    table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: #4CAF50;
+        color: white;
+        border: 1px solid #ddd;
+        padding: 8px; }
+    table tbody tr:hover {
+        background-color: #ddd; }
+    table tbody td {
+        border: 1px solid #ddd;
+        padding: 8px; }
+
+

@@ -63,11 +63,11 @@ grid-template-areas: ". . . . . . ." ". image image text text . ." ". image imag
     font-size: 12px;
     grid-area: cpr; }
 
-.container {
+.main-container {
   display: flex;
   flex-direction: column;
-  margin-top: 60px;
-  padding: 50px 15%;
+  margin: 60px 0 0 0;
+  padding: 50px 10%;
   min-height: 470px; }
 
 .body {
