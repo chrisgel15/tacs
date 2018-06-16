@@ -1,36 +1,11 @@
-.error-login {
-    color: red;
-    font-size: .7em;
-}
-.login {
+#login {
     background: white;
     border-radius: 1em;
-    padding: 2em;
-    box-shadow: 0 0 2em 0 rgba(0, 0, 0, 0.2), 0 .5em .5em 0 rgba(0, 0, 0, 0.24);
-    text-align: center;
+    padding: 2em 2em .7em 2em;
+    box-shadow: 0 0 4em 0 #00000033, 0 .7em .7em 0 #0000003d;
 }
 
-.login input {
-    background: #eee;
-    border-style: none;
-    border-radius: .5em;
-    width: 100%;
-    padding: .5em;
-}
-
-.login input:focus {
-    outline: none;
-}
-
-.login span {
-    display: block;
-    overflow: hidden;
-}
-
-.login button {
-    width: 100%
-}
-
-.login form {
-    text-align: center;
+.error-login {
+    color: red;
+    font-size: .8em;
 }

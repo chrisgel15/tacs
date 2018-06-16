@@ -1,17 +1,22 @@
-<div class="registro">
-  <form style="text-align: center">
-    <div class="form-group">
-      <span><input type="text" placeholder="Nombre" [(ngModel)]="nombre" name="nombre"></span>
-      <div ng-if="err_nombre" class="error-register">{{msg_nombre}}</div>
-    </div>
-    <div class="form-group">
-      <span><input type="email" placeholder="Email" [(ngModel)]="email" name="email"></span>
-      <div ng-if="err_email" class="error-register">{{msg_email}}</div>
-    </div>
-    <div class="form-group">
-      <span><input type="password" placeholder="Password" [(ngModel)]="password" name="password"></span>
-      <div ng-if="err_password" class="error-register">{{msg_password}}</div>
-    </div>
-      <button type="button" class="btn btn-success" (click)="registrar()">Registrarse</button>
-  </form>
+<div class="row justify-content-center">
+  <div class="col-12">
+    <form id="registro">
+      <div class="form-group">
+        <input type="text" class="form-control" style="background: #eee" placeholder="Nombre" [(ngModel)]="nombre" name="nombre">
+        <span ng-if="err_nombre" class="error-register">{{msg_nombre}}</span>
+      </div>
+      <div class="form-group">
+        <input type="email" class="form-control" style="background: #eee" placeholder="Email" [(ngModel)]="email" name="email">
+        <div ng-if="err_email" class="error-register">{{msg_email}}</div>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" style="background: #eee" placeholder="Password" [(ngModel)]="password" name="password">
+        <span ng-if="err_password" class="error-register">{{msg_password}}</span>
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-success" (click)="registrar()">Registrarse</button>
+      </div>
+      <p>Si ya estas registrado, <a routerLink="">Inicia Sesion</a></p>
+    </form>  
+  </div>
 </div>

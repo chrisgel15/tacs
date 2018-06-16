@@ -1,32 +1,12 @@
 .error-register {
     color: red;
-    font-size: .7em;
+    font-size: .8em;
 }
 
-.registro {
+#registro {
     background: white;
     border-radius: 1em;
     padding: 2em;
-    box-shadow: 0 0 2em 0 rgba(0, 0, 0, 0.2), 0 .5em .5em 0 rgba(0, 0, 0, 0.24);
+    box-shadow: 0 0 2em 0 #00000033, 0 .5em .5em 0 #0000003d;
 }
 
-.registro input {
-    background: #eeeeee;
-    border-radius: .5em;
-    border-style: none;
-    padding: .5em;
-    width: 100%;
-}
-
-.registro input:focus {
-    outline: none;
-}
-
-.registro span {
-    display: block;
-    overflow: hidden;
-}
-
-.registro button {
-    width: 100%;
-}
