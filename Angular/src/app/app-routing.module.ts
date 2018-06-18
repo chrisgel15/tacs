@@ -6,6 +6,8 @@ import { RegistroComponent } from './components/inicio/registro/registro.compone
 import { AuthComponent } from './components/auth/auth/auth.component';
 import { WalletComponent } from './components/auth/wallet/wallet.component';
 import { TransactionComponent } from './components/auth/transaction/transaction.component';
+import { PurchaseComponent } from './components/auth/transaction/purchase/purchase.component';
+import { SaleComponent } from './components/auth/transaction/sale/sale.component';
 
 //This is my case 
 const routes: Routes = [
@@ -38,7 +40,17 @@ const routes: Routes = [
             },
             {
                 path: 'transaction',
-                component: TransactionComponent
+                component: TransactionComponent,
+                children: [
+                    {
+                        path: 'purchase',
+                        component: PurchaseComponent
+                    },
+                    {
+                        path: 'sale',
+                        component: SaleComponent
+                    }
+                ]
             }
         ]
     }

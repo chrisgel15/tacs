@@ -14,6 +14,8 @@ import { WalletComponent } from './components/auth/wallet/wallet.component';
 import { TransactionComponent } from './components/auth/transaction/transaction.component';
 
 import { InicioService } from './services/inicio.service';
+import { PurchaseComponent } from './components/auth/transaction/purchase/purchase.component';
+import { SaleComponent } from './components/auth/transaction/sale/sale.component';
 
 
 
@@ -25,7 +27,9 @@ import { InicioService } from './services/inicio.service';
     InicioComponent,
     AuthComponent,
     WalletComponent,
-    TransactionComponent
+    TransactionComponent,
+    PurchaseComponent,
+    SaleComponent
   ],
   imports: [
     BrowserModule,
