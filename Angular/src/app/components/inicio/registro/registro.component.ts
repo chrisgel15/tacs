@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { InicioService } from '../../../services/inicio.service';
 
 @Component({
   selector: 'app-registro',
@@ -6,56 +8,40 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./registro.component.css']
 })
 
+
 export class RegistroComponent implements OnInit {
 
-  nombre: string = '';
-  email: string = '';
+  username: string = '';
   password: string = '';
 
-  err_nombre: boolean = false;
-  err_email: boolean = false;
-  err_password: boolean = false;
+  constructor(private servicio: InicioService, private router: Router) {}
 
-  msg_nombre: string = '';
-  msg_email: string = '';
-  msg_password: string = '';
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   validarCampos(){
-    if (this.nombre == '') {
-      this.err_nombre = true;
-      this.msg_nombre = 'El nombre no es correcto.';
+    var validation;
+    if (this.username == '' || !/^([a-z0-9]{5,})$/.test(this.username.toLowerCase())) {
+      validation = { isError: true, msg: 'Username incorrecto, minimo 5 caracteres alfanumerico.' };
+    } else if (this.password == '' || !/^([a-z0-9]{8,})$/.test(this.password.toLowerCase())) {
+      validation = { isError: true, msg: 'Password incorrecto, minimo 8 caracteres alfanumerico.' };
     } else {
-      this.err_nombre = false;
-      this.msg_nombre = '';
+      validation = { isError: false, msg: null };
     }
-    if (this.email == '') {
-      this.err_email = true;
-      this.msg_email = 'El email no es correcto.';
-    } else {
-      this.err_email = false;
-      this.msg_email = '';
-    }
-    if (this.password == '') {
-      this.err_password = true;
-      this.msg_password = 'El password no es correcto.';
-    } else {
-      this.err_password = false;
-      this.msg_password = '';
-    }
-
-    return this.err_nombre && this.err_email && this.err_password;
+    this.servicio.EmitirError(validation);
+    return validation.isError;
   }
 
   registrar(){
-    if (this.validarCampos()){
-
-    } else {
-      
+    if (!this.validarCampos()){
+      this.servicio.Registrar({username: this.username, password: this.password}, (response) => {
+        if (response.status >= 400){
+          this.servicio.EmitirError({ isError: true, msg: 'Ocurrio un error, intente de nuevo.' });
+        }
+        if (response.status >= 200 && response.status < 300) {
+          this.servicio.EmitirError({ isError: false, msg: 'Se creo exitosamente el usuario.' });
+          this.router.navigate(['/']);
+        }
+      })
     }
   }
 

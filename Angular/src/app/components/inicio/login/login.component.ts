@@ -1,46 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { InicioService } from '../../../services/inicio.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
-  err_name: boolean = false;
-  err_pass: boolean = false;
-  msg_name: string = '';
-  msg_pass: string = '';
+  username: string = '';
+  password: string = '';
 
-  name: string = '';
-  pass: string = '';
-
-  constructor() { }
+  constructor(private servicio: InicioService, private router: Router) {
+  }
 
   ngOnInit() {
   }
 
   validarCampos(){
-    if (this.name == '') {
-      this.err_name = true;
-      this.msg_name = 'El nombre no debe ser vacio.';
+    var validation;
+    if (this.username == '' || !/^([a-z0-9]{5,})$/.test(this.username.toLowerCase())) {
+      validation = { isError: true, msg: 'Username incorrecto, minimo 5 caracteres alfanumerico.' };
+    } else if (this.password == '' || !/^([a-z0-9]{8,})$/.test(this.password.toLowerCase())) {
+      validation = { isError: true, msg: 'Password incorrecto, minimo 8 caracteres alfanumerico.' };
     } else {
-      this.err_name = false;
-      this.msg_name = '';
+      validation = { isError: false, msg: null };
     }
-    if (this.pass == '') {
-      this.err_pass = true;
-      this.msg_pass = 'El password no debe ser vacio.';
-    } else {
-      this.err_pass = false;
-      this.msg_pass = '';
-    }
-
-    return this.err_name && this.err_pass;
+    this.servicio.EmitirError(validation);
+    return validation.isError;
   }
 
   login(){
-    this.validarCampos();
+    if (!this.validarCampos()){
+      this.servicio.IniciarSesion({username: this.username, password: this.password}, (response) => {
+        if (response.status >= 400){
+          this.servicio.EmitirError({ isError: true, msg: 'Credenciales incorrectas' });
+        }
+        if (response.status >= 200 && response.status < 300) {
+          this.servicio.EmitirError({ isError: false, msg: 'Sesion Iniciada' });
+          sessionStorage.setItem('tacs-token', response.body['access_token']);
+          console.log(response.body); // sacar en produccion!!!
+          this.router.navigate(['/']); // averiguar la ruta de la pantalla del cliente
+        }
+      });
+    }
   }
 
 

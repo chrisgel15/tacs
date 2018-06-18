@@ -2,8 +2,20 @@
   text-align: center;
 }
 
+.inicio h1 {
+  color: white; 
+  margin:1em 0 2em 0;
+  text-shadow: .1em .1em #476d49;
+}
+
 .inicio .formulario {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#error-msg, #success-msg {
+  cursor: pointer;
+  position: fixed;
+  z-index: 1000;
 }

@@ -2,21 +2,15 @@
   <div class="col-12">
     <form id="registro">
       <div class="form-group">
-        <input type="text" class="form-control" style="background: #eee" placeholder="Nombre" [(ngModel)]="nombre" name="nombre">
-        <span ng-if="err_nombre" class="error-register">{{msg_nombre}}</span>
+        <input type="text" class="form-control" style="background:#eee" placeholder="Username" [(ngModel)]="username" name="username">
       </div>
-      <div class="form-group">
-        <input type="email" class="form-control" style="background: #eee" placeholder="Email" [(ngModel)]="email" name="email">
-        <div ng-if="err_email" class="error-register">{{msg_email}}</div>
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control" style="background: #eee" placeholder="Password" [(ngModel)]="password" name="password">
-        <span ng-if="err_password" class="error-register">{{msg_password}}</span>
+     <div class="form-group">
+        <input type="password" class="form-control" style="background:#eee" placeholder="Password" [(ngModel)]="password" name="password">
       </div>
       <div class="form-group">
         <button type="button" class="btn btn-success" (click)="registrar()">Registrarse</button>
       </div>
-      <p>Si ya estas registrado, <a routerLink="">Inicia Sesion</a></p>
+      <p>Si ya estas registrado, <a routerLink="">Inicia Sesion</a>.</p>
     </form>  
   </div>
 </div>
