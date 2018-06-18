@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
           this.servicio.EmitirError({ isError: false, msg: 'Sesion Iniciada' });
           sessionStorage.setItem('tacs-token', response.body['access_token']);
           console.log(response.body); // sacar en produccion!!!
-          this.router.navigate(['/']); // averiguar la ruta de la pantalla del cliente
+          this.router.navigate(['/auth/wallet']); // averiguar la ruta de la pantalla del cliente
         }
       });
     }

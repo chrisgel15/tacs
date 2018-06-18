@@ -22,7 +22,9 @@ export class InicioComponent implements OnInit {
     success: { show: boolean, msg: string }
   };
 
-  constructor(private servicio: InicioService) {}
+  constructor(private servicio: InicioService) {
+    document.body.style.background = "linear-gradient(to left, #76b852, #8DC26F)";
+  }
 
   ngOnInit() {
     this.servicio.InfoInicio.subscribe(result => {
@@ -44,5 +46,9 @@ export class InicioComponent implements OnInit {
   toggle(){
     this.validation.error.show = false;
     this.validation.success.show = false;
+  }
+
+  ngOnDestroy(){
+    document.body.style.background = "white";
   }
 }
