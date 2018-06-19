@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+const coinmarket = 'https://api.coinmarketcap.com/v2';
+
 @Injectable()
 export class TransactionService {
 
-  public coins: {
+  public coins: Array<{
     id: number,
     code: string,
     name: string,
@@ -12,14 +14,13 @@ export class TransactionService {
     price: number,
     rank: number,
     last_update: number
-  }
+  }>;
 
   constructor(private http: HttpClient) {
-    //this.http.get
+    
   }
 
   getCoins(){
-
   }
 
 }

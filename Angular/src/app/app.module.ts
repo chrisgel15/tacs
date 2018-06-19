@@ -14,6 +14,8 @@ import { WalletComponent } from './components/auth/wallet/wallet.component';
 import { TransactionComponent } from './components/auth/transaction/transaction.component';
 
 import { InicioService } from './services/inicio.service';
+import { TransactionService } from './services/transaction.service';
+
 import { PurchaseComponent } from './components/auth/transaction/purchase/purchase.component';
 import { SaleComponent } from './components/auth/transaction/sale/sale.component';
 
@@ -39,7 +41,8 @@ import { SaleComponent } from './components/auth/transaction/sale/sale.component
     HttpClientModule    
   ],
   providers: [
-    InicioService
+    InicioService,
+    TransactionService
   ],
   bootstrap: [AppComponent]
 })
