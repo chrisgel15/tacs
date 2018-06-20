@@ -1,11 +1,41 @@
-<div class="container">
-  <ul class="nav nav-pills nav-fill">
-    <li class="nav-item">
-      <a class="nav-link green active" href="#">Comprar</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Vender</a>
-    </li>
-  </ul>
-  <router-outlet></router-outlet>
+<div class="container ">
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active" id="nav-compra-tab" data-toggle="tab" href="#nav-compra" role="tab" aria-controls="nav-compra" aria-selected="true"><b>Compra</b></a>
+      <a class="nav-item nav-link" id="nav-venta-tab" data-toggle="tab" href="#nav-venta" role="tab" aria-controls="nav-venta" aria-selected="false"><b>Venta</b></a>
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-compra" role="tabpanel" aria-labelledby="nav-compra-tab">
+      <div style="margin:1em">
+        <div class="row">
+          <select #shcoin class="selectpicker" title="Elige una moneda"
+            data-live-search="true" (change)="getPrecio(shcoin.options[shcoin.selectedIndex].value)">
+            <option *ngFor="let coin of coins">{{coin.name}}</option>
+          </select>
+        </div>
+        <div class="row mt-3">
+          <div class="form-group">
+            <input #monto type="number" min="0" class="form-control" name="precio" placeholder="USD" [(ngModel)]="precio" 
+              (keyup)="CalcularCantidad(monto.value)" style="text-align: right">
+          </div>
+          <div class="mx-2" style="color: gray">
+            <i class="fas fa-arrows-alt-h fa-3x"></i>
+          </div>          
+          <div class="form-group">
+            <input #cant type="number" min="0" class="form-control" name="cantidad" placeholder="Cantidad" [(ngModel)]="cantidad" 
+              (keyup)="CalcularPrecio(cant.value)" style="text-align: right">
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="form-group">
+            <button type="button" class="btn btn-success">Comprar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="nav-venta" role="tabpanel" aria-labelledby="nav-venta-tab">
+      wewfwefwfw
+    </div>
+  </div>
 </div>
