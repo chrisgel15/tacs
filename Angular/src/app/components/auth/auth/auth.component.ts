@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -7,4 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthComponent {
 
+  constructor(private router: Router) {
+
+  }
+
+  signOut() {
+    sessionStorage.removeItem('tacs-token');
+    this.router.navigate(['']);
+  }
 }

@@ -15,6 +15,8 @@ import { TransactionComponent } from './components/auth/transaction/transaction.
 
 import { InicioService } from './services/inicio.service';
 import { TransactionService } from './services/transaction.service';
+import { AuthGuardGuard } from './guards/auth-guard.guard';
+import { UnauthGuardGuard } from './guards/unauth-guard.guard';
 
 
 
@@ -38,7 +40,9 @@ import { TransactionService } from './services/transaction.service';
   ],
   providers: [
     InicioService,
-    TransactionService
+    TransactionService,
+    AuthGuardGuard,
+    UnauthGuardGuard
   ],
   bootstrap: [AppComponent]
 })
