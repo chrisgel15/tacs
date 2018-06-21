@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { RegistroComponent } from './components/inicio/registro/registro.component';
@@ -13,10 +13,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { WalletComponent } from './components/auth/wallet/wallet.component';
 import { TransactionComponent } from './components/auth/transaction/transaction.component';
 
+import { Authorization } from './services/authorization'
 import { InicioService } from './services/inicio.service';
 import { TransactionService } from './services/transaction.service';
-
-
 
 
 @NgModule({
@@ -34,11 +33,12 @@ import { TransactionService } from './services/transaction.service';
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule    
+    HttpClientModule
   ],
   providers: [
     InicioService,
-    TransactionService
+    TransactionService,
+    Authorization
   ],
   bootstrap: [AppComponent]
 })

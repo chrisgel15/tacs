@@ -68,7 +68,9 @@ grid-template-areas: ". . . . . . ." ". image image text text . ." ". image imag
   flex-direction: column;
   margin: 60px 0 0 0;
   padding: 50px 10%;
-  min-height: 470px; }
+  min-height: 470px; 
+  /*background: linear-gradient(to left, #76b852, #8DC26F);*/
+}
 
 .body {
   display: flex;
