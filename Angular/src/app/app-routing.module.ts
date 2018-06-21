@@ -6,12 +6,15 @@ import { RegistroComponent } from './components/inicio/registro/registro.compone
 import { AuthComponent } from './components/auth/auth/auth.component';
 import { WalletComponent } from './components/auth/wallet/wallet.component';
 import { TransactionComponent } from './components/auth/transaction/transaction.component';
+import { AuthGuardGuard } from './guards/auth-guard.guard';
+import { UnauthGuardGuard } from './guards/unauth-guard.guard';
 
 //This is my case 
 const routes: Routes = [
     {
         path: '',
         component: InicioComponent,
+        canActivate: [UnauthGuardGuard],
         children: [
             {
                 path: '',
@@ -26,6 +29,7 @@ const routes: Routes = [
     {
         path: 'auth',
         component: AuthComponent,
+        canActivate: [AuthGuardGuard],
         children: [
             {
                 path: '',

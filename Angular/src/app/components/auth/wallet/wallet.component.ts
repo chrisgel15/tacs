@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WalletService } from '../../../services/wallet.service';
 
 @Component({
   selector: 'app-wallet',
@@ -7,13 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WalletComponent implements OnInit {
 
-  wallet = {
-    balance: 123
-  }
+  wallets: any; 
 
-  constructor() { }
+  constructor(private walletService: WalletService) { }
 
   ngOnInit() {
+    this.walletService.getWallet()
+      .subscribe(x => this.wallets = x);
+  }
+
+  balance() {
+    return this.wallets.reduce( function(total, wallet) {
+        return total + (wallet.Result.Cotizacion * wallet.Result.Balance)
+      }, 0).toFixed(2);
   }
 
 }

@@ -16,6 +16,10 @@ import { TransactionComponent } from './components/auth/transaction/transaction.
 import { Authorization } from './services/authorization'
 import { InicioService } from './services/inicio.service';
 import { TransactionService } from './services/transaction.service';
+import { AuthGuardGuard } from './guards/auth-guard.guard';
+import { UnauthGuardGuard } from './guards/unauth-guard.guard';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { WalletService } from './services/wallet.service';
 
 
 @NgModule({
@@ -38,7 +42,14 @@ import { TransactionService } from './services/transaction.service';
   providers: [
     InicioService,
     TransactionService,
-    Authorization
+    WalletService,
+    AuthGuardGuard,
+    UnauthGuardGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
