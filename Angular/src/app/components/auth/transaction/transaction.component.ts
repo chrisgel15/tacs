@@ -5,7 +5,6 @@ import { TransactionService } from './../../../services/transaction.service';
 
 
 declare var $: any;
-//const coinmarket = 'https://api.coinmarketcap.com/v2';
 const coinmarket = 'https://api.coinmarketcap.com/v1';
 
 @Component({
@@ -21,19 +20,11 @@ export class TransactionComponent implements OnInit {
   public cantidad: number;
   public moneda: string;
 
+  public procesando: boolean = false;
+
   constructor(private http: HttpClient, private transac: TransactionService) { 
     document.body.style.background = "linear-gradient(to left, #76b852, #8DC26F)";
     this.http.get<any>(coinmarket + '/ticker').subscribe(resp => {
-      // this.coins = Object.values(resp.data).map((coin: any) => {
-        // return {
-        //   id: coin.id,
-        //   code: coin.website_slug,
-        //   name: coin.name,
-        //   symbol: coin.symbol,
-        //   price: coin.quotes["USD"].price,
-        //   rank: coin.rank,
-        //   last_update: coin.last_updated
-        // };
       this.coins = resp.map((coin: any) => {
         return {
           id: coin.id,
@@ -74,19 +65,24 @@ export class TransactionComponent implements OnInit {
   }
 
   Comprar(){
-    $('btn-compra').button('loading');
+    // activo el boton de cargando
+    this.procesando = true;
+
     const payload = {
       data: { type: 'compra', amount: this.cantidad },
       moneda: this.coins.find(c => c.name === this.moneda).id
     };
 
     this.transac.Comprar(payload, res => {
-      console.log('Ok: ' + res.status);
+      this.cantidad = null;
+      this.precio = null;
+      $('.selectpicker').val('default');
+      $('.selectpicker').selectpicker('refresh');
+      this.procesando = false;
     }, err => {
       console.log('Error: ' + err.status);
+      this.procesando = false;
     });
-
-    $('btn-compra').button('reset');
   }
 
 }

@@ -13,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { WalletComponent } from './components/auth/wallet/wallet.component';
 import { TransactionComponent } from './components/auth/transaction/transaction.component';
 
-import { Authorization } from './services/authorization'
 import { InicioService } from './services/inicio.service';
 import { TransactionService } from './services/transaction.service';
 import { AuthGuardGuard } from './guards/auth-guard.guard';
