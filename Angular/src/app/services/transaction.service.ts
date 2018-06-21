@@ -9,7 +9,6 @@ export class TransactionService {
   constructor(private http: HttpClient) {}
 
   Comprar(payload, callbackOk, callbackError){
-
     this.http
       .post(`${api}/user/wallets/${payload.moneda}/transactions`, payload.data, { observe: 'response' })
       .subscribe(callbackOk, callbackError);
@@ -17,6 +16,12 @@ export class TransactionService {
 
   Vender(payload, callback){
 
+  }
+
+  GetMyCoins(callbackOk, callbackError){
+    this.http
+      .get(`${api}/user/wallets`, { observe: 'response' })
+      .subscribe(callbackOk, callbackError);
   }
 
 }
