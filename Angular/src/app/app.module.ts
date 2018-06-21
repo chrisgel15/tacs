@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { RegistroComponent } from './components/inicio/registro/registro.component';
@@ -17,6 +17,8 @@ import { InicioService } from './services/inicio.service';
 import { TransactionService } from './services/transaction.service';
 import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { UnauthGuardGuard } from './guards/unauth-guard.guard';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { WalletService } from './services/wallet.service';
 
 
 
@@ -41,8 +43,14 @@ import { UnauthGuardGuard } from './guards/unauth-guard.guard';
   providers: [
     InicioService,
     TransactionService,
+    WalletService,
     AuthGuardGuard,
-    UnauthGuardGuard
+    UnauthGuardGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

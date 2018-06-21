@@ -2,8 +2,8 @@
   <span class="text">
     Balance:
   </span> 
-  <div class="amount">
-    {{wallet.balance}}
+  <div class="amount" *ngIf="wallets != null">
+    {{balance() | number}}
   </div> 
 </div>
     
@@ -11,7 +11,7 @@
   Your Wallet:
 </h3>
 
-<table>
+<table *ngIf="wallets != null" >
     <thead>
         <tr>
             <th>Coin</th>
@@ -21,11 +21,11 @@
         </tr>
     </thead>        
     <tbody>
-        <tr>
-            <td >Bitcoin</td>
-            <td >13.2</td>
-            <td>8800.32</td>
-            <td>32655.67</td>
+        <tr *ngFor="let wallet of wallets">
+            <td >{{wallet.Result.NombreMoneda}}</td>
+            <td >{{wallet.Result.Balance | number}}</td>
+            <td> {{wallet.Result.Cotizacion | currency}}</td>
+            <td> {{(wallet.Result.Cotizacion * wallet.Result.Balance).toFixed(2) | currency}}</td>
         </tr>
     </tbody>
 </table>
