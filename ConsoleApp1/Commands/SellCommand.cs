@@ -27,9 +27,9 @@ namespace TelegramBot.Commands
                 apiDataAccess.MakeTransaction("venta", token, coinID, amount);
                 response = "Transaction Completed.";
             }
-            catch
+            catch (Exception exception)
             {
-                response = "You don't have enough coins";
+                response = exception.Message;
             }
          
             var chatId = messageEvent.Message.Chat.Id;

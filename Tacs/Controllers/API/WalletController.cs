@@ -28,7 +28,7 @@ namespace Tacs.Controllers
 
             if (!ModelState.IsValid) return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos Invalidos");
             if (new WalletService().VerPortfolio(userId).Count == 0) return Request.CreateResponse(HttpStatusCode.NotFound, "El usuario no tiene wallets");
-            return Request.CreateResponse(HttpStatusCode.OK,new WalletService().VerPortfolio(userId).Select(async w => await new WalletService().GetWalletInfo(w)));
+            return Request.CreateResponse(HttpStatusCode.OK,new WalletService().VerPortfolio(userId).Select(w => new WalletService().GetWalletInfo(w).Result));
         }
 
         //Listar detalles de un wallet (incluyendo cotizacion al momento)

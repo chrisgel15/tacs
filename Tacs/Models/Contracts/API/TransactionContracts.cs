@@ -70,7 +70,7 @@ namespace Tacs.Models.Contracts
             this.User = transaction.User.Name;
             this.Amount = transaction.Amount;
             this.Date = transaction.Date.ToString();
-            this.Type = transaction.GetType().ToString();
+            this.Type = transaction.Type().ToString();
         }
 
     }

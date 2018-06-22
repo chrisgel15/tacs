@@ -63,7 +63,6 @@ namespace Tacs.Models
             return "venta";
         }
 
-
     }
 
     public class Compra : Transaction

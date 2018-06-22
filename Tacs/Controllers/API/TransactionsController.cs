@@ -48,14 +48,9 @@ namespace Tacs.Controllers
                 else return Request.CreateResponse(HttpStatusCode.BadRequest, "La transaccion debe ser del tipo \"compra\" o \"venta\"");
             }
 
-            catch (BusinnesException businessException)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, businessException); ;
-            }
             catch (Exception exception)
             {
-                // log error
-                throw exception;
+                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, exception.Message); ;
             }
         }
 

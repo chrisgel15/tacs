@@ -84,7 +84,7 @@ namespace TelegramBot
             
             if(!response.IsSuccessStatusCode)
             {
-                throw new Exception();
+                throw new Exception(response.Content.ToString());
             }
         }
 

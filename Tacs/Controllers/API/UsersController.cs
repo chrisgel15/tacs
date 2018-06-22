@@ -21,6 +21,16 @@ namespace Tacs.Controllers
             return Ok<UserViewModel>(new UserService().GetUserInfo(userId));
         }
 
+        [Authorize, Route("transactions"), HttpGet]
+        public HttpResponseMessage GetTransactions()
+        {
+            // Desde el Identity, recupero el Id del usuario
+            int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
+            var transactions = new UserService().GetUserById(userId).Transactions;
+            var transactionsInfos = transactions.Select(t => new TransactionService().GetTransactionInfo(t));
+            return Request.CreateResponse<IList<TransactionViewModel>>(HttpStatusCode.OK, transactionsInfos.ToList());
+        }
+
         //Agregar un nuevo usuario
         [AllowAnonymous, Route(""), HttpPost]
         public HttpResponseMessage Post([FromBody]SignupRequest user)
