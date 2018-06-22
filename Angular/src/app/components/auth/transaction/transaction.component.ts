@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { trigger, state, animate, style, transition } from '@angular/animations';
 
 import { TransactionService } from './../../../services/transaction.service';
+
 
 
 declare var $: any;
@@ -10,7 +12,15 @@ const coinmarket = 'https://api.coinmarketcap.com/v1';
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.css']
+  styleUrls: ['./transaction.component.css'],
+  animations: [
+    trigger('FadeTransaccion', [
+      state('shown', style({ opacity:1})),
+      state('hidden', style({ opacity:0, display:'none' })),
+      transition('shown => hidden', animate('1000ms ease-out')),
+      transition('hidden => shown', animate('300ms ease-in')),
+    ])
+  ]
 })
 export class TransactionComponent implements OnInit {
 
@@ -22,7 +32,11 @@ export class TransactionComponent implements OnInit {
     habilitado: false,
     cantidad: null,
     precio: null,
-    moneda: null
+    moneda: null,
+    resultado: {
+      success: { is: false, msg: null },
+      error: { is: false, msg: null }      
+    }
   };
 
   public venta = {
@@ -31,7 +45,11 @@ export class TransactionComponent implements OnInit {
     cantidad: null,
     cantidadMax: null,
     precio: null,
-    moneda: null
+    moneda: null,
+    resultado: {
+      success: { is: false, msg: null },
+      error: { is: false, msg: null }
+    }
   }
 
   constructor(private http: HttpClient, private transac: TransactionService) { 
@@ -76,7 +94,7 @@ export class TransactionComponent implements OnInit {
   CompraOnKeyUpCantidad(){
     const price = this.coins.find(c => c.name === this.compra.moneda).price;
     this.compra.cantidad = this.round10(this.compra.cantidad,-5);
-    this.compra.precio = this.round10(this.compra.cantidad * price, -3);
+    this.compra.precio = this.round10(this.compra.cantidad * price,-3);
   }
 
   VentaOnKeyUpPrecio(){
@@ -94,6 +112,7 @@ export class TransactionComponent implements OnInit {
       this.venta.precio = this.round10(this.venta.cantidadMax * price,-3);
     } else {
       this.venta.precio = this.round10(this.venta.cantidad * price,-3);
+      this.venta.cantidad = this.round10(this.venta.cantidad, -5);
     }
   }
 
@@ -110,7 +129,11 @@ export class TransactionComponent implements OnInit {
         precio: null,
         procesando: false,
         habilitado: false,
-        moneda: null
+        moneda: null,
+        resultado: {
+          success: { is: true, msg: 'La compra se realizo exitosamente.' },
+          error: { is: false, msg: null}
+        }
       };
       $('#selec-coin-purchase').val('default');
       $('#selec-coin-purchase').selectpicker('refresh');
@@ -118,7 +141,12 @@ export class TransactionComponent implements OnInit {
       console.log('Error: ' + err.status);
       this.compra.procesando = false;
       this.compra.habilitado = false;
+      this.compra.resultado.error = {
+        is: true,
+        msg: 'Ocurrio un error al momento de realizar la compra.'
+      }
     });
+    setTimeout(() => { this.toggle() }, 2000);
   }
 
   Vender(){
@@ -135,7 +163,11 @@ export class TransactionComponent implements OnInit {
         precio: null,
         procesando: false,
         habilitado: false,
-        moneda: null
+        moneda: null,
+        resultado: {
+          success: { is: true, msg: 'La venta se realizo exitosamente.' },
+          error: { is: false, msg: null }
+        }
       };
       $('#selec-coin-sale').val('default');
       $('#selec-coin-sale').selectpicker('refresh');
@@ -143,7 +175,12 @@ export class TransactionComponent implements OnInit {
       console.log('Error: ' + err.status);
       this.venta.procesando = false;
       this.venta.habilitado = false;
+      this.venta.resultado.error = {
+        is: false,
+        msg: 'Ocurrio un error al momento de realizar la venta.'
+      }
     });
+    setTimeout(() => { this.toggle() }, 2000);
   }
 
   ActualizarBilletera(){
@@ -208,5 +245,12 @@ export class TransactionComponent implements OnInit {
     } else {
       return this.decimalAdjust('round', value, exp);
     }    
-  }  
+  }
+
+  toggle(){
+    this.compra.resultado.error.is = false;
+    this.compra.resultado.success.is = false;
+    this.venta.resultado.error.is = false;
+    this.venta.resultado.success.is = false;
+  }
 }

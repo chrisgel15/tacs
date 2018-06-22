@@ -12,3 +12,28 @@ input[type=number]::-webkit-outer-spin-button {
     appearance: none;
     margin: 0; 
 }
+
+table th {
+  color: white;
+  background: #4CAF50;
+}
+
+table tbody td {
+  cursor: pointer;
+}
+
+.card {
+  box-shadow: 0 0 2em 0 #00000033, 0 .5em .5em 0 #0000003d;
+}
+
+.mensaje {
+  cursor: pointer;
+  position: fixed;
+  z-index: 1000;
+}
+
+#mensajes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
