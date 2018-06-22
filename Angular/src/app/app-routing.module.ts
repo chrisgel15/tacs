@@ -8,6 +8,7 @@ import { WalletComponent } from './components/auth/wallet/wallet.component';
 import { TransactionComponent } from './components/auth/transaction/transaction.component';
 import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { UnauthGuardGuard } from './guards/unauth-guard.guard';
+import { AdminComponent } from './components/admin/admin.component';
 
 //This is my case 
 const routes: Routes = [
@@ -45,6 +46,10 @@ const routes: Routes = [
                 component: TransactionComponent,
             }
         ]
+    },
+    {
+        path: 'admin',
+        component: AdminComponent
     }
 ];
 
