@@ -42,7 +42,8 @@ export class LoginComponent implements OnInit {
           this.servicio.EmitirError({ isError: false, msg: 'Sesion Iniciada' });
           sessionStorage.setItem('tacs-token', response.body['access_token']);
           console.log(response.body); // sacar en produccion!!!
-          this.router.navigate(['/auth/wallet']);
+          //this.router.navigate(['/auth/wallet']);
+          this.router.navigate(['/admin']);
         }
       });
     }

@@ -1,72 +1,3 @@
-<!-- <div class="container ">
-  <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-compra-tab" data-toggle="tab" href="#nav-compra" role="tab" aria-controls="nav-compra" aria-selected="true"><b>Compra</b></a>
-      <a class="nav-item nav-link" id="nav-venta-tab" data-toggle="tab" href="#nav-venta" role="tab" aria-controls="nav-venta" aria-selected="false"><b>Venta</b></a>
-    </div>
-  </nav>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-compra" role="tabpanel" aria-labelledby="nav-compra-tab">
-      <div class="row" style="margin:1em">
-        <div class="form-group p-2">
-          <select #shcoin id="selec-coin-purchase" class="selectpicker" title="Elige una moneda" data-style="btn-success"
-            data-live-search="true" (change)="getDatosCompra(shcoin.options[shcoin.selectedIndex].value)">
-            <option *ngFor="let coin of coins">{{coin.name}}</option>
-          </select>
-        </div>
-        <div class="form-group p-2">
-          <div class="input-group">
-            <div class="input-group-prepend"><span class="input-group-text">U$S</span></div>
-            <input type="number" class="form-control" name="precio" placeholder="Monto" [(ngModel)]="compra.precio" 
-              [disabled]="!compra.habilitado" (keyup)="CompraOnKeyUpPrecio()" min="0">
-          </div>
-        </div>
-        <div class="form-group p-2">
-          <div class="input-group">
-            <div class="input-group-prepend"><span class="input-group-text">Cant.</span></div>
-            <input type="number" class="form-control" name="cantidad" [(ngModel)]="compra.cantidad" 
-              [disabled]="!compra.habilitado" (keyup)="CompraOnKeyUpCantidad()" min="0">
-          </div>
-        </div>
-        <div class="form-group p-2">
-          <button *ngIf="!compra.procesando" type="button" class="btn btn-success" (click)="Comprar()">Comprar</button>
-          <button *ngIf="compra.procesando" type="button" class="btn btn-success">
-            <i class="fa fa-spinner fa-spin"></i> Procesando</button>
-        </div>
-      </div>
-    </div>
-    <div class="tab-pane fade" id="nav-venta" role="tabpanel" aria-labelledby="nav-venta-tab">
-      <div class="row" style="margin:1em">
-        <div class="form-group p-2">
-          <select #shcoinsale id="selec-coin-sale" class="selectpicker" title="Elige una moneda" data-style="btn-success"
-            data-live-search="true" (change)="getDatosVenta(shcoinsale.options[shcoinsale.selectedIndex].value)">
-            <option *ngFor="let coin of myCoins">{{coin.name}}</option>
-          </select>
-        </div>
-        <div class="form-group p-2">
-          <div class="input-group">
-            <div class="input-group-prepend"><span class="input-group-text">U$S</span></div>
-            <input #monto type="number" class="form-control" name="precio" placeholder="Monto" [(ngModel)]="venta.precio" 
-              [disabled]="!venta.habilitado" (keyup)="VentaOnKeyUpPrecio()" min="0">
-          </div>
-        </div>
-        <div class="form-group p-2">
-          <div class="input-group">
-            <div class="input-group-prepend"><span class="input-group-text">Cant.</span></div>
-            <input #cant type="number" class="form-control" name="cantidad" [(ngModel)]="venta.cantidad" 
-              [disabled]="!venta.habilitado" (keyup)="VentaOnKeyUpCantidad(cant.value)" min="0">
-              <div *ngIf="venta.habilitado" class="input-group-prepend"><span class="input-group-text"><b>{{venta.cantidadMax}}</b></span></div>
-          </div>
-        </div>
-        <div class="form-group p-2">
-          <button *ngIf="!venta.procesando" type="button" class="btn btn-success" (click)="Vender()">Vender</button>
-          <button *ngIf="venta.procesando" type="button" class="btn btn-success">
-            <i class="fa fa-spinner fa-spin"></i> Procesando</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 <div id="mensajes">
   <div ng-if="compra.resultado.error.is" [@FadeTransaccion]="compra.resultado.error.is ? 'shown' : 'hidden'" 
     class="alert alert-danger mensajes" role="alert" (click)="toggle()">
@@ -153,26 +84,26 @@
     <div class="card">
       <h3 class="card-header mt-0">Transacciones</h3>
       <div class="card-body">
-          <table class="table table-sm table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">Fecha</th>
-                  <th scope="col">Tipo</th>
-                  <th scope="col">Moneda</th>
-                  <th scope="col">Cantidad</th>
-                  <th scope="col">Precio c/u (U$S)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>23/12/2017</td>
-                  <td>Compra</td>
-                  <td>Bitcoin</td>
-                  <td>0,54</td>
-                  <td>6500</td>
-                </tr>
-              </tbody>
-            </table>
+        <table class="table table-sm table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Moneda</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Precio c/u (U$S)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>23/12/2017</td>
+              <td>Compra</td>
+              <td>Bitcoin</td>
+              <td>0,54</td>
+              <td>6500</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
