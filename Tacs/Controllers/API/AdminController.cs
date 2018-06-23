@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Tacs.Models.Contracts;
 using Tacs.Services;
+using System.Linq;
 
 namespace Tacs.Controllers
 {
@@ -38,6 +38,11 @@ namespace Tacs.Controllers
 
             if (user == null) return Request.CreateResponse(HttpStatusCode.NotFound, "Usuario no encontrado");
             return Request.CreateResponse(HttpStatusCode.OK, new UserService().GetUserAdminInfo(userId));
+        }
+        [Route("users"), HttpGet]
+        public HttpResponseMessage GetUsers()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, new UserService().GetUsers().Select(u => new UserService().GetUserAdminInfo(u.Id)));
         }
 
         //Agregar un nuevo administrador
