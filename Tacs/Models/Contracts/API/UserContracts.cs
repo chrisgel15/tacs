@@ -19,6 +19,8 @@ namespace Tacs.Models.Contracts
         public string Password { get; set; }
         [DataMember]
         public string LastAccessDate { get; set; }
+        [DataMember]
+        public string EsAdmin { get; set; }
 
         public UserViewModel(User user)
         {
@@ -26,6 +28,7 @@ namespace Tacs.Models.Contracts
             Name = user.Name;
             Password = user.Password;
             LastAccessDate = user.LastAccessDate.ToString();
+            EsAdmin = user.EsAdmin.ToString();
         }
     }
 
