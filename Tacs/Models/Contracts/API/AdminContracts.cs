@@ -53,7 +53,7 @@ namespace Tacs.Models.Contracts
         {
             this.Id = user.Id;
             this.Name = user.Name;
-            this.NumberOfWallets = user.Wallets.Count();
+            this.NumberOfWallets = user.Wallets.Count(w => w.Balance > 0);
             this.Transactions = user.Wallets.Sum(uc => uc.Transactions.Count);
             this.LastAccess = DateTime.Now.ToString();
         }
