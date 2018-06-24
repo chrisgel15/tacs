@@ -9,6 +9,7 @@ import { TransactionComponent } from './components/auth/transaction/transaction.
 import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { UnauthGuardGuard } from './guards/unauth-guard.guard';
 import { AdminComponent } from './components/admin/admin.component';
+import { UsersComponent } from './components/admin/users/users.component';
 
 //This is my case 
 const routes: Routes = [
@@ -49,7 +50,13 @@ const routes: Routes = [
     },
     {
         path: 'admin',
-        component: AdminComponent
+        component: AdminComponent,
+        children: [
+            {
+                path: 'users',
+                component: UsersComponent
+            }
+        ]
     }
 ];
 

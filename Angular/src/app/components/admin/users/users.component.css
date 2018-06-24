@@ -1,0 +1,15 @@
+.fondo {
+  margin: 1em;
+  padding: 1em;
+  background: white;
+  box-shadow: 0 0 2em 0 #00000033, 0 .5em .5em 0 #0000003d;
+}
+
+input[type=date]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  display: none;
+}
+
+#table-usuarios {
+  cursor: pointer;
+}

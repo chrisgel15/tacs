@@ -1,22 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins');
-
 .logo {
     width: 35px;
     height: 35px;
-}
-
-.fondo {
-    margin: 1em;
-    padding: 1em;
-    background: white;
-    box-shadow: 0 0 2em 0 #00000033, 0 .5em .5em 0 #0000003d;
-}
-
-* {
-    font-family: 'Poppins', sans-serif;
-}
-
-input[type=date]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    display: none;
 }

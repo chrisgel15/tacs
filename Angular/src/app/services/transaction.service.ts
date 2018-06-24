@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { apiTacs } from '../config';
 
 const api = 'https://tacscripto.azurewebsites.net/api';
 
@@ -8,19 +9,15 @@ export class TransactionService {
 
   constructor(private http: HttpClient) {}
 
-  Comprar(payload, callbackOk, callbackError){
+  CrearTransaccion(payload, callbackOk, callbackError){
     this.http
-      .post(`${api}/user/wallets/${payload.moneda}/transactions`, payload.data, { observe: 'response' })
+      .post(`${apiTacs}/user/wallets/${payload.moneda}/transactions`, payload.data, { observe: 'response' })
       .subscribe(callbackOk, callbackError);
-  }
-
-  Vender(payload, callback){
-
   }
 
   GetMyCoins(callbackOk, callbackError){
     this.http
-      .get(`${api}/user/wallets`, { observe: 'response' })
+      .get(`${apiTacs}/user/wallets`, { observe: 'response' })
       .subscribe(callbackOk, callbackError);
   }
 

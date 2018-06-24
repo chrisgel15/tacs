@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { apiTacs } from '../config';
 
 const api = 'https://tacscripto.azurewebsites.net/api';
 //const api = 'http://localhost:51882/api';
@@ -16,13 +17,18 @@ export class InicioService {
   }
 
   IniciarSesion(data, callback){
-    this.http.post(api + '/token', data, { observe: 'response' })
+    this.http.post(apiTacs + '/token', data, { observe: 'response' })
       .subscribe(resp => callback(resp), err => callback(err));
   }
 
   Registrar(data, callback){
-    this.http.post(api + '/user', data, { observe: 'response' })
+    this.http.post(apiTacs + '/user', data, { observe: 'response' })
       .subscribe(resp => callback(resp), err => callback(err));
+  }
+
+  InfoDelCliente(callbackOk, callbackError){
+    this.http.get(apiTacs + '/user', { observe: 'response' })
+      .subscribe( res => callbackOk(res.body), err => callbackError(err));
   }
 
   EmitirError(data) {

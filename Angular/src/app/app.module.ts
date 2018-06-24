@@ -4,14 +4,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
-import { AppComponent } from './app.component';
-import { RegistroComponent } from './components/inicio/registro/registro.component';
-import { LoginComponent } from './components/inicio/login/login.component';
-import { InicioComponent } from './components/inicio/inicio.component';
-import { AuthComponent } from './components/auth/auth/auth.component';
 import { AppRoutingModule } from './app-routing.module';
+
+import { AppComponent } from './app.component';
+import { InicioComponent } from './components/inicio/inicio.component';
+import { LoginComponent } from './components/inicio/login/login.component';
+import { RegistroComponent } from './components/inicio/registro/registro.component';
+import { AuthComponent } from './components/auth/auth/auth.component';
 import { WalletComponent } from './components/auth/wallet/wallet.component';
 import { TransactionComponent } from './components/auth/transaction/transaction.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { UsersComponent } from './components/admin/users/users.component';
 
 import { InicioService } from './services/inicio.service';
 import { TransactionService } from './services/transaction.service';
@@ -19,7 +22,7 @@ import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { UnauthGuardGuard } from './guards/unauth-guard.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { WalletService } from './services/wallet.service';
-import { AdminComponent } from './components/admin/admin.component';
+import { AdminService } from './services/admin.service';
 
 
 @NgModule({
@@ -31,7 +34,8 @@ import { AdminComponent } from './components/admin/admin.component';
     AuthComponent,
     WalletComponent,
     TransactionComponent,
-    AdminComponent
+    AdminComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +48,7 @@ import { AdminComponent } from './components/admin/admin.component';
     InicioService,
     TransactionService,
     WalletService,
+    AdminService,
     AuthGuardGuard,
     UnauthGuardGuard,
     {
