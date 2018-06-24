@@ -6,10 +6,16 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent {
+
+export class AuthComponent  implements OnInit  {
+  isAdmin: boolean;
 
   constructor(private router: Router) {
+  }
 
+  ngOnInit() {
+    this.isAdmin = (sessionStorage.getItem('admin') == 'SI');
+    console.log(this.isAdmin);
   }
 
   signOut() {

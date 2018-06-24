@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
           this.servicio.InfoDelCliente(data => {
             //if (data.EsAdmin){
               this.router.navigate(['/auth']);
+              sessionStorage.setItem('admin', data.EsAdmin);
           }, err => {
             this.servicio.EmitirError({ isError: true, msg: 'Credenciales Incorrectos' });
           });
