@@ -1,0 +1,46 @@
+<div class="container" *ngIf="transacciones != null">
+  <div class="block">
+    <div class="label">
+    Cantidad de transacciones en el dia de hoy:
+    </div>
+    <div class="value">
+      {{transacciones.TransaccionesHoy}}
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="label">
+    Cantidad de transacciones en los últimos tres dias:
+    </div>
+    <div class="value">
+      {{transacciones.TransaccionesUltimosTresDias}}
+    </div>
+  </div>
+
+    <div class="block">
+        <div class="label">
+      Cantidad de transacciones en la última semana:
+      </div>
+      <div class="value">
+        {{transacciones.TransaccionesUltimaSemana}}
+      </div>
+    </div>
+
+      <div class="block">
+        <div class="label">
+        Cantidad de transacciones en el último mes:
+        </div>
+        <div class="value">
+          {{transacciones.TransaccionesUltimoMes}}
+        </div>
+      </div>
+
+        <div class="block">
+          <div class="label">
+          Cantidad de transacciones desde el inicio de los tiempos:
+          </div>
+          <div class="value">
+            {{transacciones.TransaccionesTotales}}
+          </div>
+        </div>
+</div>

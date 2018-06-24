@@ -20,6 +20,8 @@ import { UnauthGuardGuard } from './guards/unauth-guard.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { WalletService } from './services/wallet.service';
 import { AdminComponent } from './components/admin/admin.component';
+import { ReportsComponent } from './components/admin/reports/reports.component';
+import { ReportService } from './services/report.service';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { AdminComponent } from './components/admin/admin.component';
     AuthComponent,
     WalletComponent,
     TransactionComponent,
-    AdminComponent
+    AdminComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { AdminComponent } from './components/admin/admin.component';
     InicioService,
     TransactionService,
     WalletService,
+    ReportService,
     AuthGuardGuard,
     UnauthGuardGuard,
     {

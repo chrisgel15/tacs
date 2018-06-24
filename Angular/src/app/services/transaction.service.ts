@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const api = 'https://tacscripto.azurewebsites.net/api';
+//const api = 'http://localhost:51882/api'
 
 @Injectable()
 export class TransactionService {
