@@ -10,6 +10,7 @@ import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { UnauthGuardGuard } from './guards/unauth-guard.guard';
 import { AdminComponent } from './components/admin/admin.component';
 import { ReportsComponent } from './components/admin/reports/reports.component';
+import { UsersComponent } from './components/admin/users/users.component';
 
 //This is my case 
 const routes: Routes = [
@@ -51,6 +52,15 @@ const routes: Routes = [
     {
         path: 'admin',
         component: AdminComponent
+    },
+    {
+        component: AdminComponent,
+        children: [
+            {
+                path: 'users',
+                component: UsersComponent
+            }
+        ]
     },
     {
         path: 'admin2',

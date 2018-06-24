@@ -123,7 +123,7 @@ export class TransactionComponent implements OnInit {
       data: { type: 'compra', amount: this.compra.cantidad },
       moneda: this.coins.find(c => c.name === this.compra.moneda).id
     };
-    this.transac.Comprar(payload, res => {
+    this.transac.CrearTransaccion(payload, res => {
       this.compra = {
         cantidad: null,
         precio: null,
@@ -132,7 +132,7 @@ export class TransactionComponent implements OnInit {
         moneda: null,
         resultado: {
           success: { is: true, msg: 'La compra se realizo exitosamente.' },
-          error: { is: false, msg: null}
+          error: { is: false, msg: null }
         }
       };
       $('#selec-coin-purchase').val('default');
@@ -156,7 +156,7 @@ export class TransactionComponent implements OnInit {
       data: { type: 'venta', amount: this.venta.cantidad },
       moneda: this.coins.find(c => c.name === this.venta.moneda).id
     };
-    this.transac.Comprar(payload, res => {
+    this.transac.CrearTransaccion(payload, res => {
       this.venta = {
         cantidad: null,
         cantidadMax: null,
