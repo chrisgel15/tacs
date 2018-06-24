@@ -20,6 +20,7 @@ export class AuthComponent  implements OnInit  {
 
   signOut() {
     sessionStorage.removeItem('tacs-token');
+    sessionStorage.removeItem('admin');
     this.router.navigate(['']);
   }
 }
