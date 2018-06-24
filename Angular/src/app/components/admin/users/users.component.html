@@ -1,0 +1,39 @@
+<div class="container fondo">
+  <h2>Usuarios</h2>
+  <div class="row">
+    <div class="col-xs-5 col-sm-8 col-md-6 col-lg-3">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend"><span class="input-group-text">Nombre</span></div>
+          <input type="text" class="form-control" name="nombre" placeholder="pepito" [(ngModel)]="criteria.nombre">
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-5 col-sm-8 col-md-6 col-lg-4">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend"><span class="input-group-text">Fecha Acceso</span></div>
+          <input type="date" class="form-control" name="fecha" [(ngModel)]="criteria.fecha">
+        </div>
+      </div>
+    </div>
+  </div>
+  <table id="table-usuarios" class="table table-sm table-bordered table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Transacciones</th>
+        <th scope="col">Monedas</th>
+        <th scope="col">Ultimo Acceso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of usuarios">
+        <td *ngIf="filtrarPorParametros(user)">{{user.Name}}</td>
+        <td *ngIf="filtrarPorParametros(user)">{{user.Transactions}}</td>
+        <td *ngIf="filtrarPorParametros(user)">{{user.NumberOfWallets}}</td>
+        <td *ngIf="filtrarPorParametros(user)">{{user.LastAccess}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

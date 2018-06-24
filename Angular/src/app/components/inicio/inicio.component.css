@@ -1,0 +1,23 @@
+.inicio {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.inicio h1 {
+  color: white; 
+  padding: 1em 0 2em 0;
+  text-shadow: .08em .08em #476d49;
+}
+
+.inicio .formulario {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#error-msg, #success-msg {
+  cursor: pointer;
+  position: fixed;
+  z-index: 1000;
+}
