@@ -43,11 +43,8 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('tacs-token', response.body['access_token']);
           console.log(response.body); // sacar en produccion!!!
           this.servicio.InfoDelCliente(data => {
-            if (data.EsAdmin){
-              this.router.navigate(['/admin/users']);
-            } else {
-              this.router.navigate(['/auth/wallet']);
-            }
+            //if (data.EsAdmin){
+              this.router.navigate(['/auth']);
           }, err => {
             this.servicio.EmitirError({ isError: true, msg: 'Credenciales Incorrectos' });
           });

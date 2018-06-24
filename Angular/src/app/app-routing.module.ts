@@ -46,25 +46,16 @@ const routes: Routes = [
             {
                 path: 'transaction',
                 component: TransactionComponent,
-            }
-        ]
-    },
-    {
-        path: 'admin',
-        component: AdminComponent
-    },
-    {
-        component: AdminComponent,
-        children: [
+            },
+            {
+                path: 'reports',
+                component: ReportsComponent
+            },
             {
                 path: 'users',
                 component: UsersComponent
-            }
+            }   
         ]
-    },
-    {
-        path: 'admin2',
-        component: ReportsComponent
     }
 ];
 

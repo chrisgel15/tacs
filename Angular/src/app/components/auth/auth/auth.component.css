@@ -55,7 +55,7 @@ height: 200px;
 display: grid;
 grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-grid-template-areas: ". . . . . . ." ". image image text text . ." ". image image text text . ."  ". . . . . . ." ". . . . . cpr cpr"; }
+grid-template-areas: ". . . . . . ." ". image image . . . ." ". image image . . . ."  ". . . . . . ." ". . . . . cpr cpr"; }
 .footer .logo {
     width: 100px;
     grid-area: image; }
