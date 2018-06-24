@@ -19,7 +19,7 @@ export class WalletComponent implements OnInit {
 
   balance() {
     return this.wallets.reduce( function(total, wallet) {
-        return total + (wallet.Result.Cotizacion * wallet.Result.Balance)
+        return total + (wallet.Cotizacion * wallet.Balance)
       }, 0).toFixed(2);
   }
 
