@@ -13,8 +13,14 @@ const coinmarket = 'https://api.coinmarketcap.com/v1';
 export class TransactionComponent implements OnInit {
 
   public coins: Array<any>;
-  public myCoins: Array<any>;
+  public MisMonedas: Array<any>;
+  public MisTransacciones: Array<any>;
 
+  public carga = {
+    itemsCompra: true,
+    itemsVenta: true
+  }
+ 
   public compra = {
     procesando: false,
     habilitado: false,
@@ -40,7 +46,6 @@ export class TransactionComponent implements OnInit {
 
   ngOnInit() {
     this.TraerDatosMonedas();
-    setTimeout(() => { this.ActualizarBilletera() }, 500);    
   }
 
   ngOnDestroy(){
@@ -57,7 +62,7 @@ export class TransactionComponent implements OnInit {
 
   getDatosVenta(moneda: string){
     this.venta.habilitado = true;
-    this.venta.cantidadMax = this.myCoins.find(c => c.name === moneda).amount;
+    this.venta.cantidadMax = this.MisMonedas.find(c => c.name === moneda).amount;
     this.venta.precio = this.round10(this.coins.find(c => c.name === moneda).price * this.venta.cantidadMax,-3);
     this.venta.moneda = moneda;
     this.venta.cantidad = this.round10(this.venta.cantidadMax,-5);
@@ -113,6 +118,7 @@ export class TransactionComponent implements OnInit {
         habilitado: false,
         moneda: null
       };
+      this.TraerDatosMonedas();
       this.mostrarModal('success', 'Compra', 'La compra se realizo exitosamente.');
       $('#selec-coin-purchase').val('default');
       $('#selec-coin-purchase').selectpicker('refresh');
@@ -139,6 +145,7 @@ export class TransactionComponent implements OnInit {
         habilitado: false,
         moneda: null
       };
+      this.TraerDatosMonedas();
       this.mostrarModal('success', 'Venta', 'La venta se realizo exitosamente.');
       $('#selec-coin-sale').val('default');
       $('#selec-coin-sale').selectpicker('refresh');
@@ -152,7 +159,7 @@ export class TransactionComponent implements OnInit {
   ActualizarBilletera(){
     this.transac.GetMyCoins(
       res => {
-        this.myCoins = res.body.map(w => {
+        this.MisMonedas = res.body.filter(m => m.Balance > 0).map(w => {
           let name = this.coins.find(c => c.id === w.NombreMoneda).name;
           return {
             code: w.NombreMoneda,
@@ -160,15 +167,19 @@ export class TransactionComponent implements OnInit {
             amount: w.Balance
           }
         });
+        this.carga.itemsVenta = false;
         setTimeout(() => { $('#selec-coin-sale').selectpicker('refresh') }, 200);
       },
       err => {
+        this.carga.itemsVenta = false;
         this.mostrarModal('error', 'Carga de Datos', 'Ocurrio un error al traer las monedas del cliente');
       }
     );
   }
 
-  TraerDatosMonedas(){
+  TraerDatosMonedas() {
+    this.carga.itemsCompra = true;
+    this.carga.itemsVenta = true;
     this.http
       .get<any>(coinmarket + '/ticker')
       .subscribe(resp => {
@@ -182,8 +193,22 @@ export class TransactionComponent implements OnInit {
             last_update: coin.last_updated
           }
         });
+        this.carga.itemsCompra = false;
         setTimeout(() => { $('#selec-coin-purchase').selectpicker('refresh') }, 200);
+        this.TraeMisTransacciones();
+        this.ActualizarBilletera();
       });
+  }
+
+  TraeMisTransacciones(){
+    this.transac.GetMyTransactions(data => { 
+      data.sort((a,b) => { return b.TransactionId - a.TransactionId});
+      this.MisTransacciones = data.map(t => { 
+        return Object.assign({}, t, {
+          Coin: this.coins.find(c => c.id === t.Coin).name
+        });
+      });
+    });
   }
 
   decimalAdjust(type, value, exp) {
