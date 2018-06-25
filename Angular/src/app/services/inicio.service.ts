@@ -28,6 +28,18 @@ export class InicioService {
       .subscribe( res => callbackOk(res.body), err => callbackError(err));
   }
 
+  signOut(callbackOk, callbackError){
+    this.http
+      .delete(apiTacs + '/token', { observe: 'response' })
+      .subscribe(res => {
+        if (res.status === 200){
+          callbackOk();
+        } else {
+          callbackError();
+        }
+      }, err => callbackError())
+  }
+
   EmitirError(data) {
     this.EmitirErrorSubject.next(data);
   }

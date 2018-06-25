@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { trigger, state, animate, style, transition } from '@angular/animations';
-
 import { TransactionService } from './../../../services/transaction.service';
-
-
 
 declare var $: any;
 const coinmarket = 'https://api.coinmarketcap.com/v1';
@@ -12,15 +8,7 @@ const coinmarket = 'https://api.coinmarketcap.com/v1';
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.css'],
-  animations: [
-    trigger('FadeTransaccion', [
-      state('shown', style({ opacity:1})),
-      state('hidden', style({ opacity:0, display:'none' })),
-      transition('shown => hidden', animate('1000ms ease-out')),
-      transition('hidden => shown', animate('300ms ease-in')),
-    ])
-  ]
+  styleUrls: ['./transaction.component.css']
 })
 export class TransactionComponent implements OnInit {
 
@@ -32,11 +20,7 @@ export class TransactionComponent implements OnInit {
     habilitado: false,
     cantidad: null,
     precio: null,
-    moneda: null,
-    resultado: {
-      success: { is: false, msg: null },
-      error: { is: false, msg: null }      
-    }
+    moneda: null
   };
 
   public venta = {
@@ -45,12 +29,10 @@ export class TransactionComponent implements OnInit {
     cantidad: null,
     cantidadMax: null,
     precio: null,
-    moneda: null,
-    resultado: {
-      success: { is: false, msg: null },
-      error: { is: false, msg: null }
-    }
-  }
+    moneda: null
+  };
+
+  public modal = { tipo: '', titulo: '', mensaje: '' };
 
   constructor(private http: HttpClient, private transac: TransactionService) { 
     document.body.style.background = "linear-gradient(to left, #76b852, #8DC26F)";
@@ -58,7 +40,7 @@ export class TransactionComponent implements OnInit {
 
   ngOnInit() {
     this.TraerDatosMonedas();
-    this.ActualizarBilletera();
+    setTimeout(() => { this.ActualizarBilletera() }, 500);    
   }
 
   ngOnDestroy(){
@@ -79,10 +61,6 @@ export class TransactionComponent implements OnInit {
     this.venta.precio = this.round10(this.coins.find(c => c.name === moneda).price * this.venta.cantidadMax,-3);
     this.venta.moneda = moneda;
     this.venta.cantidad = this.round10(this.venta.cantidadMax,-5);
-  }
-
-  ValidaCantidad(cantidad: number){
-
   }
 
   CompraOnKeyUpPrecio(){
@@ -117,6 +95,10 @@ export class TransactionComponent implements OnInit {
   }
 
   Comprar(){
+    if (!this.compra.cantidad && !this.compra.precio && !this.compra.moneda){
+      this.mostrarModal('success','Compra', 'Complete los campos faltantes de compra.');
+      return;
+    }
     // activo el boton de cargando
     this.compra.procesando = true;
     const payload = {
@@ -129,24 +111,16 @@ export class TransactionComponent implements OnInit {
         precio: null,
         procesando: false,
         habilitado: false,
-        moneda: null,
-        resultado: {
-          success: { is: true, msg: 'La compra se realizo exitosamente.' },
-          error: { is: false, msg: null }
-        }
+        moneda: null
       };
+      this.mostrarModal('success', 'Compra', 'La compra se realizo exitosamente.');
       $('#selec-coin-purchase').val('default');
       $('#selec-coin-purchase').selectpicker('refresh');
     }, err => {
-      console.log('Error: ' + err.status);
       this.compra.procesando = false;
       this.compra.habilitado = false;
-      this.compra.resultado.error = {
-        is: true,
-        msg: 'Ocurrio un error al momento de realizar la compra.'
-      }
+      this.mostrarModal('error', 'Compra', 'Ocurrio un error al momento de realizar la compra.');
     });
-    setTimeout(() => { this.toggle() }, 2000);
   }
 
   Vender(){
@@ -163,41 +137,33 @@ export class TransactionComponent implements OnInit {
         precio: null,
         procesando: false,
         habilitado: false,
-        moneda: null,
-        resultado: {
-          success: { is: true, msg: 'La venta se realizo exitosamente.' },
-          error: { is: false, msg: null }
-        }
+        moneda: null
       };
+      this.mostrarModal('success', 'Venta', 'La venta se realizo exitosamente.');
       $('#selec-coin-sale').val('default');
       $('#selec-coin-sale').selectpicker('refresh');
     }, err => {
-      console.log('Error: ' + err.status);
       this.venta.procesando = false;
       this.venta.habilitado = false;
-      this.venta.resultado.error = {
-        is: false,
-        msg: 'Ocurrio un error al momento de realizar la venta.'
-      }
+      this.mostrarModal('error', 'Venta', 'Ocurrio un error al momento de realizar la venta.');
     });
-    setTimeout(() => { this.toggle() }, 2000);
   }
 
   ActualizarBilletera(){
     this.transac.GetMyCoins(
       res => {
         this.myCoins = res.body.map(w => {
-          let name = this.coins.find(c => c.id === w.Result.NombreMoneda).name;
+          let name = this.coins.find(c => c.id === w.NombreMoneda).name;
           return {
-            code: w.Result.NombreMoneda,
+            code: w.NombreMoneda,
             name: name,
-            amount: w.Result.Balance
+            amount: w.Balance
           }
         });
         setTimeout(() => { $('#selec-coin-sale').selectpicker('refresh') }, 200);
       },
       err => {
-        console.log(err);
+        this.mostrarModal('error', 'Carga de Datos', 'Ocurrio un error al traer las monedas del cliente');
       }
     );
   }
@@ -247,10 +213,13 @@ export class TransactionComponent implements OnInit {
     }    
   }
 
-  toggle(){
-    this.compra.resultado.error.is = false;
-    this.compra.resultado.success.is = false;
-    this.venta.resultado.error.is = false;
-    this.venta.resultado.success.is = false;
+  mostrarModal(type, title, message){
+    this.modal = {
+      tipo: type,
+      titulo: title,
+      mensaje: message
+    }
+    $('#modal-popup').modal('show');
+    setTimeout(() => { $('#modal-popup').modal('hide'); }, 4000);
   }
 }

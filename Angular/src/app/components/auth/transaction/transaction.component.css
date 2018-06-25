@@ -26,14 +26,12 @@ table tbody td {
   box-shadow: 0 0 2em 0 #00000033, 0 .5em .5em 0 #0000003d;
 }
 
-.mensaje {
-  cursor: pointer;
-  position: fixed;
-  z-index: 1000;
+.modal-success {
+  background: #5cb85c;
+  color: white;
 }
 
-#mensajes {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.modal-error {
+  background: #f0ad4e;
+  color: white;
 }
