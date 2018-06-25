@@ -9,25 +9,35 @@ using System.Security.Claims;
 
 namespace Tacs.Controllers
 {
+    /// <summary>
+    /// Permite registrar nuevos usuarios y da acceso a las operaciones regulares al usuario autenticado.
+    /// </summary>
     [RoutePrefix("api/user")]
     public class UsersController : ApiController
     {
         TransactionService _transactionService;
         UserService _userService;
+        /// <summary>
+        /// Permite registrar nuevos usuarios y da acceso a las operaciones regulares al usuario autenticado.
+        /// </summary>
         public UsersController(TransactionService transactionService, UserService userService)
         {
             _transactionService = transactionService;
             _userService = userService;
         }
-        //Obtener todos los datos de un usuario. Solo lo tendria que poder usar el usuario logueado
+        /// <summary>
+        /// Devuelve los datos del usuario.
+        /// </summary>
         [Authorize, Route(""), HttpGet]
-        public IHttpActionResult GetById()
+        public IHttpActionResult GetUser()
         {
             // Desde el Identity, recupero el Id del usuario
             int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
             return Ok<UserViewModel>(_userService.GetUserInfo(userId));
         }
-
+        /// <summary>
+        /// Devuelve todas las transacciones del usuario.
+        /// </summary>
         [Authorize, Route("transactions"), HttpGet]
         public HttpResponseMessage GetTransactions()
         {
@@ -37,8 +47,10 @@ namespace Tacs.Controllers
             var transactionsInfos = transactions.Select(t => _transactionService.GetTransactionInfo(t));
             return Request.CreateResponse<IList<TransactionViewModel>>(HttpStatusCode.OK, transactionsInfos.ToList());
         }
-
-        //Agregar un nuevo usuario
+        /// <summary>
+        /// Agrega un nuevo usuario regular (sin privilegios de admin).
+        /// </summary>
+        /// <param name="user">El nombre y la contraseña del nuevo usuario</param>
         [AllowAnonymous, Route(""), HttpPost]
         public HttpResponseMessage Post([FromBody]SignupRequest user)
         {

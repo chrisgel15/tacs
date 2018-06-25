@@ -12,6 +12,9 @@ using Tacs.Services;
 
 namespace Tacs.Controllers
 {
+    /// <summary>
+    /// Permite ver transacciones existentes de un wallet del usuario, asi como crear nuevas transacciones (vender o comprar).
+    /// </summary>
     [RoutePrefix("api/user/wallets/{walletId}/transactions")]
     public class TransactionsController : ApiController
     {
@@ -19,6 +22,9 @@ namespace Tacs.Controllers
         TransactionService _transactionService;
         UserService _userService;
         WalletService _walletService;
+        /// <summary>
+        /// Permite ver transacciones existentes de un wallet del usuario, asi como crear nuevas transacciones (vender o comprar).
+        /// </summary>
         public TransactionsController(CoinService coinService, TransactionService transactionService, UserService userService, WalletService walletService)
         {
             _coinService = coinService;
@@ -26,8 +32,10 @@ namespace Tacs.Controllers
             _userService = userService;
             _walletService = walletService;
         }
-
-        //Comprar o vender
+        /// <summary>
+        /// Compra o vende una cantidad de una criptomoneda del usuario.
+        /// </summary>
+        /// <param name="transactionRequest">El tipo de la transaccione ("compra" o "venta") y la cantidad de criptomoneda a comprar/vender.</param>
         [Authorize, Route(""), HttpPost]
         public HttpResponseMessage Post([FromBody]NewTransactionRequest transactionRequest, string walletId)
         {
@@ -64,8 +72,9 @@ namespace Tacs.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.Forbidden, exception.Message); ;
             }
         }
-
-        //Ver las transacciones de un wallet de un usuario
+        /// <summary>
+        /// Devuelve los detalles de todas las transacciones de un wallet (de un tipo de moneda) del usuario.
+        /// </summary>
         [Authorize, Route(""), HttpGet]
         public HttpResponseMessage Get(string walletId)
         {
@@ -84,8 +93,9 @@ namespace Tacs.Controllers
             }
             
         }
-
-        //Ver detalles de una transaccion
+        /// <summary>
+        /// Devuelve los detalles de una transaccion.
+        /// </summary>
         [Authorize, Route("{transactionId}"), HttpGet]
         public HttpResponseMessage GetById(int transactionId)
         {

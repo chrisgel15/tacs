@@ -16,19 +16,27 @@ using System.Security.Claims;
 
 namespace Tacs.Controllers
 {
+    /// <summary>
+    /// Permite al usuario autenticado, crear y mostrar wallets correspondientes a distintos tipos de moneda.
+    /// </summary>
     [RoutePrefix("api/user/wallets")]
     public class WalletController : ApiController
     {
         CoinService _coinService;
         UserService _userService;
         WalletService _walletService;
+        /// <summary>
+        /// Permite al usuario autenticado, crear y mostrar wallets correspondientes a distintos tipos de moneda.
+        /// </summary>
         public WalletController(CoinService coinService, UserService userService, WalletService walletService)
         {
             _coinService = coinService;
             _userService = userService;
             _walletService = walletService;
         }
-        //Listar Wallets de un usuario
+        /// <summary>
+        /// Lista wallets del usuario autenticado, correspondientes a cada tipo de moneda que el usuario posee.
+        /// </summary>
         [Authorize, Route(""), HttpGet]
         public HttpResponseMessage GetWallets()
         {
@@ -38,8 +46,10 @@ namespace Tacs.Controllers
             if (!ModelState.IsValid) return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos Invalidos");
             return Request.CreateResponse(HttpStatusCode.OK,_walletService.VerPortfolio(userId).Select(w => _walletService.GetWalletInfo(w).Result));
         }
-
-        //Listar detalles de un wallet (incluyendo cotizacion al momento)
+        /// <summary>
+        /// Lista detalles de un wallet (incluyendo cotizacion al momento).
+        /// </summary>
+        /// <param name="walletId">El Id del wallet. Alternativamente se puede usar el nombre de la moneda.</param>
         [Authorize, Route("{walletId}"), HttpGet]
         public async Task<HttpResponseMessage> GetWallet(string walletId)
         {
@@ -51,6 +61,10 @@ namespace Tacs.Controllers
             else return Request.CreateResponse<WalletViewModel>(HttpStatusCode.OK ,await _walletService.GetWalletInfo(wallet));
         }
         //Crear nuevo wallet para usuarioId
+        /// <summary>
+        /// Agrega un nuevo wallet correspondiente a una moneda.
+        /// </summary>
+        /// <param name="newWalletRequest">Contiene el balance inicial y el tipo de moneda</param>
         [Authorize, Route(""), HttpPost]
         public async Task<HttpResponseMessage> NewWallet([FromBody]NewWalletRequest newWalletRequest)
         {
