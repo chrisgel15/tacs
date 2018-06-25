@@ -9,7 +9,6 @@ namespace Tacs.Models.Repositories
     {
         public UserRepository(TacsDataContext context) : base(context)
         {
-
         }
 
         public void SetUserLastAccessDate(User user)

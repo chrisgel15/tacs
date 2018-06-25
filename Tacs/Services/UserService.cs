@@ -21,7 +21,7 @@ namespace Tacs.Services
         }
         public IList<User> GetUsers()
         {
-                return _unitOfWork.Users.GetAll().ToList();
+           return _unitOfWork.Users.GetAll().ToList();
         }
 
         public User GetUserByNameAndPass(string username, string password)
@@ -55,7 +55,7 @@ namespace Tacs.Services
 
         public User GetUserByName(string userName)
         {
-            return _unitOfWork.Users.Find(u => u.Name.ToLower() == userName.ToLower()).First();
+            return _unitOfWork.Users.Find(u => u.Name.ToLower() == userName.ToLower()).FirstOrDefault();
         }
 
         public User GetUserById(int userId)
@@ -63,20 +63,20 @@ namespace Tacs.Services
             return _unitOfWork.Users.Get(userId);
         }
 
-        public bool SignUp(string username, string password, bool EsAdmin)
+        public User SignUp(string username, string password, bool EsAdmin)
         {
                 var dbUsers = _unitOfWork.Users;
 
                 if (dbUsers.ExistUserByName(username))
                 {
-                    return false;
+                    return null;
                 }
 
                 int id = dbUsers.GetMaxId() + 1;
                 SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
                 string hashedPassword = Encoding.Default.GetString(provider.ComputeHash(Encoding.UTF8.GetBytes(password)));
 
-                if (dbUsers.GetAll().Count() == 0) // si es el primero, sera administrador.
+                if (dbUsers.GetAll().Where(u => u.EsAdmin == "SI").Count() == 0) // si no hay admins, sera administrador (si se crea por /api/admin).
                 {
                     dbUsers.AddNewUser(new User(id, username, hashedPassword, "SI"));
                 }
@@ -87,7 +87,8 @@ namespace Tacs.Services
 
                 _unitOfWork.Complete();
 
-                return true;
+
+                return _unitOfWork.Users.Find(u => u.Name == username).FirstOrDefault();
         }
 
         public async Task<UserComparisonResponse> GetUserComparisonResponse(User user1, User user2)

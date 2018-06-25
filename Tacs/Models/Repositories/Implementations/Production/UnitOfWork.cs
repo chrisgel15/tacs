@@ -5,6 +5,7 @@ namespace Tacs.Models.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly TacsDataContext _context;
+        public static TacsDataContext sessionContext;
         public IUserRepository Users { get; set; }
         public ICoinRepository Coins { get; set; }
         public IWalletRepository Wallets { get; set; }
@@ -13,11 +14,12 @@ namespace Tacs.Models.Repositories
 
         public UnitOfWork(TacsDataContext context)
         {
-            _context = context;
-            Users = new UserRepository(context);
-            Coins = new CoinRepository(context);
-            Wallets = new WalletRepository(context);
-            Transactions = new TransactionRepository(context);
+            if (UnitOfWork.sessionContext == null) UnitOfWork.sessionContext = context;
+            _context = UnitOfWork.sessionContext;
+            Users = new UserRepository(sessionContext);
+            Coins = new CoinRepository(sessionContext);
+            Wallets = new WalletRepository(sessionContext);
+            Transactions = new TransactionRepository(sessionContext);
         }
 
         public int Complete()
