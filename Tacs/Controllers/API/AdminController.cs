@@ -77,10 +77,10 @@ namespace Tacs.Controllers
             if (!ModelState.IsValid)
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos incorrectos");
 
-            bool estado = _userService.SignUp(user.Username, user.Password, true);
-            if (estado)
+            var usuario = _userService.SignUp(user.Username, user.Password, true);
+            if (usuario != null)
             {
-                return Request.CreateResponse(HttpStatusCode.Created); 
+                return Request.CreateResponse(HttpStatusCode.Created, new UserViewModel(usuario)); 
             }
             else
             {
