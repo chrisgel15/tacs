@@ -120,8 +120,8 @@ export class TransactionComponent implements OnInit {
       };
       this.TraerDatosMonedas();
       this.mostrarModal('success', 'Compra', 'La compra se realizo exitosamente.');
-      $('#selec-coin-purchase').val('default');
-      $('#selec-coin-purchase').selectpicker('refresh');
+      // $('#selec-coin-purchase').val('default');
+      // $('#selec-coin-purchase').selectpicker('refresh');
     }, err => {
       this.compra.procesando = false;
       this.mostrarModal('error', 'Compra', 'Ocurrio un error al momento de realizar la compra.');
@@ -146,8 +146,8 @@ export class TransactionComponent implements OnInit {
       };
       this.TraerDatosMonedas();
       this.mostrarModal('success', 'Venta', 'La venta se realizo exitosamente.');
-      $('#selec-coin-sale').val('default');
-      $('#selec-coin-sale').selectpicker('refresh');
+      // $('#selec-coin-sale').val('default');
+      // $('#selec-coin-sale').selectpicker('refresh');
     }, err => {
       this.venta.procesando = false;
       this.mostrarModal('error', 'Venta', 'Ocurrio un error al momento de realizar la venta.');
@@ -233,7 +233,7 @@ export class TransactionComponent implements OnInit {
       return value;
     } else {
       return this.decimalAdjust('round', value, exp);
-    }    
+    }
   }
 
   mostrarModal(type, title, message){
@@ -241,7 +241,7 @@ export class TransactionComponent implements OnInit {
       tipo: type,
       titulo: title,
       mensaje: message
-    }
+    };
     $('#modal-popup').modal('show');
     setTimeout(() => { $('#modal-popup').modal('hide'); }, 4000);
   }

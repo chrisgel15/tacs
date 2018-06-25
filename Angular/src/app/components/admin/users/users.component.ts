@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
+import * as moment from 'moment';
 
 declare var $: any;
 
@@ -22,14 +23,19 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.getUsers((data) => {
+    this.service.getUsers(data => {
       this.usuarios = data;
+      // this.usuarios = data.map(u => {
+      //   let fechaInt = moment(u.LastAccess,'DD/MM/YYYY').format('MM/DD/YYYY');
+      //   return Object.assign({}, u, { LastAccess: Date.parse(fechaInt) });
+      // })
     });
   }
 
   filtrarPorParametros(user){
     const nombre = this.criteria.nombre;
     const fecha = this.criteria.fecha;
+    console.log(fecha);
     if (nombre === '' && fecha === '') {
       return true;
     } else if (nombre !== '' && fecha !== '') {
