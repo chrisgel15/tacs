@@ -11,14 +11,23 @@ using Tacs.Services;
 
 namespace Tacs.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SigninController : ApiController
     {
         AccessService _accessService;
+        /// <summary>
+        /// 
+        /// </summary>
         public SigninController(AccessService accessService)
         {
             _accessService = accessService;
         }
-        // POST api/signin
+        /// <summary>
+        /// Obtiene un token, con las credenciales del usuario.
+        /// </summary>
+        /// <param name="request">El usuario y el Password del usuario.</param>
         public HttpResponseMessage Post([FromBody]SignInRequest request)
         {
             if (!ModelState.IsValid)
@@ -35,7 +44,6 @@ namespace Tacs.Controllers
                 return NotFoundResponse();
             }
         }
-
         private HttpResponseMessage BadRequesResponse()
         {
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Incorret input");

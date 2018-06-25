@@ -25,6 +25,10 @@ namespace Tacs.Controllers.API
     [RoutePrefix("api/token")]
     public class TokenController : ApiController
     {
+        /// <summary>
+        /// Obtiene un token, con las credenciales del usuario.
+        /// </summary>
+        /// <param name="req">El usuario y el Password del usuario.</param>
         [AllowAnonymous, Route(""), HttpPost]
         public async Task<HttpResponseMessage> GetToken([FromBody]TokenRequest req)
         {
@@ -48,7 +52,9 @@ namespace Tacs.Controllers.API
                 return Request.CreateResponse(HttpStatusCode.Forbidden, "Credenciales Incorrectos");
             }
         }
-
+        /// <summary>
+        /// Elimina un Token registrado
+        /// </summary>
         [Authorize, Route(""), HttpDelete]
         public HttpResponseMessage RemoveToken()
         {

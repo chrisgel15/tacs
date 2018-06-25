@@ -10,10 +10,13 @@ namespace Tacs.Models.Repositories
     public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly DbContext Context;
+        static protected DbContext sessionContext;
 
         public Repository(DbContext context)
         {
-            Context = context;
+            if (sessionContext == null) sessionContext = context;
+            Context = sessionContext;
+
         }
 
         public void Add(T entity)
