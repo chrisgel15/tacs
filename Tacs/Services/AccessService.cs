@@ -11,9 +11,6 @@ namespace Tacs.Services
     public class AccessService
     {
         IUnitOfWork _unitOfWork;
-        public AccessService()
-        {
-        }
         public AccessService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

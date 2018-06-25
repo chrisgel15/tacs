@@ -12,10 +12,6 @@ namespace Tacs.Services
     public class TransactionService
     {
         public IUnitOfWork _unitOfWork;
-        public TransactionService()
-        {
-
-        }
         public TransactionService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

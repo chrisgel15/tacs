@@ -19,6 +19,15 @@ namespace Tacs.Controllers
     [RoutePrefix("api/user/wallets")]
     public class WalletController : ApiController
     {
+        CoinService _coinService;
+        UserService _userService;
+        WalletService _walletService;
+        WalletController(CoinService coinService, UserService userService, WalletService walletService)
+        {
+            _coinService = coinService;
+            _userService = userService;
+            _walletService = walletService;
+        }
         //Listar Wallets de un usuario
         [Authorize, Route(""), HttpGet]
         public HttpResponseMessage GetWallets()
@@ -27,8 +36,7 @@ namespace Tacs.Controllers
             int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
 
             if (!ModelState.IsValid) return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos Invalidos");
-            //if (new WalletService().VerPortfolio(userId).Count == 0) return Request.CreateResponse(HttpStatusCode.NotFound, "El usuario no tiene wallets");
-            return Request.CreateResponse(HttpStatusCode.OK,new WalletService().VerPortfolio(userId).Select(w => new WalletService().GetWalletInfo(w).Result));
+            return Request.CreateResponse(HttpStatusCode.OK,_walletService.VerPortfolio(userId).Select(w => _walletService.GetWalletInfo(w).Result));
         }
 
         //Listar detalles de un wallet (incluyendo cotizacion al momento)
@@ -38,9 +46,9 @@ namespace Tacs.Controllers
             // Desde el Identity, recupero el Id del usuario
             int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
 
-            var wallet = new WalletService().GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
+            var wallet = _walletService.GetWalletByCoinNameOrWalletIdAndUser(walletId, userId);
             if (wallet == null) return Request.CreateResponse(HttpStatusCode.NotFound,"Wallet no encontrada");
-            else return Request.CreateResponse<WalletViewModel>(HttpStatusCode.OK ,await new WalletService().GetWalletInfo(wallet));
+            else return Request.CreateResponse<WalletViewModel>(HttpStatusCode.OK ,await _walletService.GetWalletInfo(wallet));
         }
         //Crear nuevo wallet para usuarioId
         [Authorize, Route(""), HttpPost]
@@ -52,10 +60,10 @@ namespace Tacs.Controllers
 
             if (!CoinService.ExisteEnCoinMarketCap(newWalletRequest.NombreMoneda)) return Request.CreateResponse(HttpStatusCode.Forbidden, "La moneda debe existir en CoinMarketCap");
             if (newWalletRequest.Balance < 0) return Request.CreateResponse(HttpStatusCode.Forbidden, "El balance no puede ser negativo");
-            Coin moneda = new CoinService().GetCoinByName(newWalletRequest.NombreMoneda);
-            User usuario = new UserService().GetUserById(userId);
-            var wallet = await new WalletService().AddWallet(moneda, newWalletRequest.Balance, usuario);
-            return Request.CreateResponse<WalletViewModel>(HttpStatusCode.Created, await new WalletService().GetWalletInfo(wallet));
+            Coin moneda = _coinService.GetCoinByName(newWalletRequest.NombreMoneda);
+            User usuario = _userService.GetUserById(userId);
+            var wallet = await _walletService.AddWallet(moneda, newWalletRequest.Balance, usuario);
+            return Request.CreateResponse<WalletViewModel>(HttpStatusCode.Created, await _walletService.GetWalletInfo(wallet));
         }
 
 

@@ -13,10 +13,6 @@ namespace Tacs.Services
     public class WalletService
     {
         public IUnitOfWork _unitOfWork;
-        public WalletService()
-        {
-
-        }
         public WalletService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

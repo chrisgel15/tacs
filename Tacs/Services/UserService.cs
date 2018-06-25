@@ -15,10 +15,6 @@ namespace Tacs.Services
     public class UserService
     {
         public IUnitOfWork _unitOfWork;
-        public UserService()
-        {
-
-        }
         public UserService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

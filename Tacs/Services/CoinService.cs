@@ -17,10 +17,6 @@ namespace Tacs.Services
     public class CoinService 
     {
         public IUnitOfWork _unitOfWork;
-        public CoinService()
-        {
-
-        }
         public CoinService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

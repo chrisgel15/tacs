@@ -218,7 +218,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\API\WalletController.cs" />
     <Compile Include="Controllers\WEB\HomeController.cs" />
-    <Compile Include="Controllers\WEB\AccessController.cs" />
+    <Compile Include="Controllers\API\AccessController.cs" />
     <Compile Include="Controllers\API\TransactionsController.cs" />
     <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Global.asax.cs">
