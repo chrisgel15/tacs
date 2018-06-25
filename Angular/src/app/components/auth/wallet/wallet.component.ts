@@ -14,7 +14,7 @@ export class WalletComponent implements OnInit {
 
   ngOnInit() {
     this.walletService.getWallet()
-      .subscribe(x => this.wallets = x);
+      .subscribe(x => {this.wallets = x; console.log(this.wallets);});
   }
 
   balance() {

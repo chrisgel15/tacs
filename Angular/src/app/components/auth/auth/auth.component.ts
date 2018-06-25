@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { InicioService } from '../../../services/inicio.service';
 
 @Component({
   selector: 'app-auth',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 export class AuthComponent  implements OnInit  {
   isAdmin: boolean;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private service: InicioService) {
   }
 
   ngOnInit() {
@@ -19,8 +20,14 @@ export class AuthComponent  implements OnInit  {
   }
 
   signOut() {
-    sessionStorage.removeItem('tacs-token');
-    sessionStorage.removeItem('admin');
-    this.router.navigate(['']);
+    this.service.signOut(
+      () => {
+        sessionStorage.removeItem('tacs-token');
+        this.router.navigate(['']);
+      },
+      () => {
+        alert('Ocurrio un error al desconectarte del sitio.');
+      }
+    );
   }
 }

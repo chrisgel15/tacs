@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
         this.procesando = true;
         if (response.status >= 400){
           this.servicio.EmitirError({ isError: true, msg: 'Credenciales incorrectas' });
+          this.procesando = false;
         }
         if (response.status >= 200 && response.status < 300) {
           sessionStorage.setItem('tacs-token', response.body['access_token']);

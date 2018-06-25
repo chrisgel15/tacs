@@ -39,10 +39,10 @@ export class RegistroComponent implements OnInit {
     return validation.isError;
   }
 
-  registrar(){    
+  registrar(){
     if (!this.validarCampos()){
+      this.procesando = true;
       this.servicio.Registrar({username: this.username, password: this.password}, (response) => {
-        this.procesando = true;
         if (response.status >= 400){
           this.servicio.EmitirError({ isError: true, msg: 'Ocurrio un error, intente de nuevo.' });
         }
@@ -51,7 +51,7 @@ export class RegistroComponent implements OnInit {
           this.router.navigate(['/']);
         }
         this.procesando = false;  
-      })
+      });
     }
   }
 }
