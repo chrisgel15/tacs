@@ -14,6 +14,8 @@ export class RegistroComponent implements OnInit {
   username: string = '';
   password: string = '';
 
+  procesando: boolean = false;
+
   constructor(private servicio: InicioService, private router: Router) {}
 
   ngOnInit() {}
@@ -37,9 +39,10 @@ export class RegistroComponent implements OnInit {
     return validation.isError;
   }
 
-  registrar(){
+  registrar(){    
     if (!this.validarCampos()){
       this.servicio.Registrar({username: this.username, password: this.password}, (response) => {
+        this.procesando = true;
         if (response.status >= 400){
           this.servicio.EmitirError({ isError: true, msg: 'Ocurrio un error, intente de nuevo.' });
         }
@@ -47,8 +50,8 @@ export class RegistroComponent implements OnInit {
           this.servicio.EmitirError({ isError: false, msg: 'Se creo exitosamente el usuario.' });
           this.router.navigate(['/']);
         }
+        this.procesando = false;  
       })
     }
   }
-
 }

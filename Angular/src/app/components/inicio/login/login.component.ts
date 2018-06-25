@@ -10,8 +10,11 @@ import { Router } from '@angular/router';
 
 export class LoginComponent implements OnInit {
 
+  // atributos
   username: string = '';
   password: string = '';
+
+  public procesando: boolean = false;
 
   constructor(private servicio: InicioService, private router: Router) {
   }
@@ -41,6 +44,7 @@ export class LoginComponent implements OnInit {
   login(){
     if (!this.validarCampos()){
       this.servicio.IniciarSesion({username: this.username, password: this.password}, (response) => {
+        this.procesando = true;
         if (response.status >= 400){
           this.servicio.EmitirError({ isError: true, msg: 'Credenciales incorrectas' });
         }
@@ -52,9 +56,10 @@ export class LoginComponent implements OnInit {
             // } else {
             //   this.router.navigate(['/auth/wallet']);
             // }
-            this.router.navigate(['/auth']);
+            this.router.navigate(['/auth']);          
           }, err => {
             this.servicio.EmitirError({ isError: true, msg: 'Credenciales Incorrectos' });
+            this.procesando = false;
           });
         }
       });
