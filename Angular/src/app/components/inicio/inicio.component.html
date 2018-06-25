@@ -1,0 +1,16 @@
+<div class="inicio">
+  <h1>CryptoTACS</h1>
+  <div class="formulario">
+    <div id="error-msg" ng-if="validation.error.show" [@fadeMessage]="validation.error.show ? 'shown' : 'hidden'" 
+      class="alert alert-danger" role="alert" (click)="toggle()">
+      <strong>Atencion!</strong> {{validation.error.msg}}
+    </div>
+    <div id="success-msg" ng-if="validation.success.show" [@fadeMessage]="validation.success.show ? 'shown' : 'hidden'" 
+      class="alert alert-success" role="alert" (click)="toggle()">
+      <strong>Perfecto!</strong> {{validation.success.msg}}
+    </div>
+  </div>
+  <div class="formulario">
+    <router-outlet></router-outlet>
+  </div>
+</div>

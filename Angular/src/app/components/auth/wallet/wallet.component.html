@@ -1,0 +1,37 @@
+<div *ngIf="wallets != null else spinner">
+  <div class="balance"> 
+    <span class="text">
+      Balance:
+    </span> 
+    <div class="amount">
+      {{balance() | number}}
+    </div> 
+  </div>
+      
+  <h3 class="wallet-title">
+    Your Wallet:
+  </h3>
+
+  <table>
+      <thead>
+          <tr>
+              <th>Coin</th>
+              <th>Amount</th>
+              <th>Price (USD)</th>
+              <th>Total</th>
+          </tr>
+      </thead>        
+      <tbody>
+          <tr *ngFor="let wallet of wallets">
+              <td >{{wallet.NombreMoneda}}</td>
+              <td >{{wallet.Balance | number}}</td>
+              <td> {{wallet.Cotizacion | currency}}</td>
+              <td> {{(wallet.Cotizacion * wallet.Balance).toFixed(2) | currency}}</td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+<ng-template #spinner>
+    <div class="loader"></div>
+</ng-template>

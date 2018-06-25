@@ -1,0 +1,21 @@
+<div class="row justify-content-center">
+  <div class="col-12">
+    <form id="registro">
+      <div class="form-group">
+        <input type="text" class="form-control" style="background:#eee" placeholder="Username" 
+          [(ngModel)]="username" name="username" (keyup)="valEnter($event)" autofocus>
+      </div>
+     <div class="form-group">
+        <input type="password" class="form-control" style="background:#eee" placeholder="Password" 
+          [(ngModel)]="password" name="password" (keyup)="valEnter($event)">
+      </div>
+      <div class="form-group">
+        <button id="signup" *ngIf="!procesando" type="button" class="btn btn-success" (click)="registrar()">Registrarse</button>
+        <button *ngIf="procesando" type="button" class="btn btn-success">
+          <i class="fa fa-spinner fa-spin"></i> Procesando
+        </button>
+      </div>
+      <p>Si ya estas registrado, <a routerLink=""><b style="color:green">Inicia Sesion</b></a>.</p>
+    </form>
+  </div>
+</div>

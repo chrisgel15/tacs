@@ -1,0 +1,12 @@
+.error-register {
+    color: red;
+    font-size: .8em;
+}
+
+#registro {
+    background: white;
+    border-radius: 1em;
+    padding: 2em;
+    box-shadow: 0 0 2em 0 #00000033, 0 .5em .5em 0 #0000003d;
+}
+

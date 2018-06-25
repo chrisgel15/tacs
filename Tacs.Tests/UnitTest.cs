@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tacs.Models;
 using Tacs.Models.Exceptions;
+using Tacs.Services;
 
 namespace Tacs.Tests
 {
@@ -25,6 +27,21 @@ namespace Tacs.Tests
         }
 
         [TestMethod]
+        public void UserHasWallet()
+        {
+            const string coinName = "bitcoin";
+            User user = new User("u", "p");
+            user.Id = 1;
+            Coin coin = new Coin(coinName, 1);
+
+            Assert.IsTrue(user.Wallets.Count == 0, "User should have a empty wallet");
+
+            user.Buy(coin, 50);
+
+            Assert.IsTrue(user.Wallets.Count == 1, "User should have a wallet");
+        }
+
+        [TestMethod]
         public void UserBuysAmount()
         {
             const string coinName = "bitcoin";
@@ -37,19 +54,11 @@ namespace Tacs.Tests
             Wallet userCoin = user.Wallets.First(uc => uc.Coin.Id == coin.Id);
             Assert.AreEqual(50, userCoin.Balance);
 
-      //      Assert.AreEqual(1, user.Wallets.Count);
-      //      Wallet w = user.Wallets.First(d => d.Coin.Name == coinName);
-       //     Assert.AreEqual(50, w.Amount);
-
             user.Buy(coin, 100);
 
             Assert.AreEqual(1, user.Wallets.Count);
             userCoin = user.Wallets.First(uc => uc.Coin.Id == coin.Id);
-            Assert.AreEqual(150, user.Wallets.Sum(u => u.Balance)  /*userCoin.Amount*/);
-
-            //            Assert.AreEqual(1, user.Wallets.Count);
-            //          w = user.Wallets.First(d => d.Coin.Name == coinName);
-            //        Assert.AreEqual(150, w.Amount);
+            Assert.AreEqual(150, user.Wallets.Sum(u => u.Balance));
         }
         [TestMethod]
         public void PasswordEncription()
@@ -70,25 +79,17 @@ namespace Tacs.Tests
             Coin coin = new Coin(coinName);
             user.Buy(coin, 500);
 
-
             user.Sell(coin, 80);
 
-            //Assert.AreEqual(1, user.Wallets.Count);
             Assert.AreEqual(1, user.Wallets.Count);
-            //Wallet w = user.Wallets.First(d => d.Coin.Name == coinName);
             Wallet userCoin = user.Wallets.First(uc => uc.Coin.Id == coin.Id);
-            //Assert.AreEqual(w.Amount, 420);
             Assert.AreEqual(420, user.Wallets.Sum(uc => uc.Balance));
 
             user.Sell(coin, 120);
 
-            //Assert.AreEqual(1, user.Wallets.Count);
             Assert.AreEqual(1, user.Wallets.Count);
-            //w = user.Wallets.First(d => d.Coin.Name == coinName);
             userCoin = user.Wallets.First(uc => uc.Coin.Id == coin.Id);
-            //Assert.AreEqual(w.Amount, 300);
             Assert.AreEqual(300, user.Wallets.Sum(uc => uc.Balance));
-
         }
 
         [TestMethod]
@@ -99,20 +100,14 @@ namespace Tacs.Tests
             Coin coin = new Coin(coinName);
             user.Buy(coin, 500);
 
-            //Assert.AreEqual(1, user.Wallets.Count);
             Assert.AreEqual(1, user.Wallets.Count);
-            //Wallet w = user.Wallets.First(d => d.Coin.Name == coinName);
             Wallet usercoin = user.Wallets.First(uc => uc.Coin.Name == coin.Name);
-            //Assert.AreEqual(w.Amount, 500);
             Assert.AreEqual(500, user.Wallets.Sum(uc => uc.Balance));
 
             user.Sell(coin, 75);
 
-            //Assert.AreEqual(1, user.Wallets.Count);
             Assert.AreEqual(1, user.Wallets.Count);
-            //w = user.Wallets.First(d => d.Coin.Name == coinName);
             usercoin = user.Wallets.First(uc => uc.Coin.Name == coin.Name);
-            //Assert.AreEqual(w.Amount, 425);
             Assert.AreEqual(425, user.Wallets.Sum(uc => uc.Balance));
         }
 
@@ -156,17 +151,25 @@ namespace Tacs.Tests
         {
             const string coinName = "coindigit";
             User user = new User("u", "p");
-            Coin coin = new Coin(coinName);
+            Coin coin = new Coin(coinName, 1);
             user.Buy(coin, 45);
 
-            //Assert.AreEqual(1, user.Wallets.Count);
-            //Wallet w = user.Wallets.First(d => d.Coin.Name == coinName);
-            //Assert.AreEqual(w.Amount, 45);
-
             Assert.ThrowsException<InsufficientAmountException>(() => user.Sell(coin, 50));
-            //Assert.AreEqual(w.Amount, 45);  
         }
-        
+
+        [TestMethod]
+        public void UserTriesToSellACoinHeDoesNotOwn()
+        {
+            const string coinName = "coindigit", anotherCoin = "otherCoin";
+            User user = new User("u", "p");
+            Coin coin = new Coin(coinName, 1);
+            Coin other = new Coin(anotherCoin, 2);
+
+            user.Buy(coin, 45);
+
+            Assert.ThrowsException<InvalidOperationException>(() => user.Sell(other, 50));
+        }
+
         [TestMethod]
         public void VerPortfolioDeUsuarioPorId()
         {
@@ -205,6 +208,62 @@ namespace Tacs.Tests
             Assert.AreEqual(1, unUsuarioWallets.Count());
 
         }
-            //Assert.AreEqual(w.Amount, 45);  
-        }     
-    }
+
+        [TestMethod]
+        public void UsuarioTieneCeroPatrimonio()
+        {
+            User user = new User("user", "p");
+            Task<decimal> value = user.GetPatrimonio();
+            Task.WaitAll();
+            Assert.AreEqual(value.Result, 0);
+        }
+
+        [TestMethod]
+        public void UsuarioTienePatrimonio()
+        {
+            User user = new User(1, "user", "p");
+            Coin coin = new Coin("bitcoin", 1);
+            user.Buy(coin, 1);
+            Task<decimal> value = user.GetPatrimonio();
+            Task.WaitAll();
+            Assert.IsTrue(value.Result > 0);
+        }
+
+        [TestMethod]
+        public void MonedaTieneCotizacion()
+        {
+            Coin coin = new Coin("bitcoin", 1);
+            Task<decimal> value = coin.GetCotizacion();
+            Task.WaitAll();
+            Assert.IsTrue(value.Result > 0);
+
+        }
+
+        [TestMethod]
+        public void WalletTieneBalanceInicial()
+        {
+            User user = new User(1, "user", "p");
+            Coin coin = new Coin("bitcoin", 1);
+
+            Wallet wallet = new Wallet(user, coin, 10);
+
+            Assert.AreEqual(10, wallet.Balance);
+
+        }
+
+        [TestMethod]
+        public void WalletTieneTransacciones()
+        {
+            User user = new User(1, "user", "p");
+            Coin coin = new Coin("bitcoin", 1);
+
+            Wallet wallet = new Wallet(user, coin, 10);
+
+            Assert.IsTrue(wallet.Transactions != null);
+
+        }
+
+    }     
+
+
+}
