@@ -3,9 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { apiTacs } from '../config';
 
-const api = 'https://tacscripto.azurewebsites.net/api';
-//const api = 'http://localhost:51882/api';
-
 @Injectable()
 export class InicioService {
   

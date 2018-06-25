@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { apiTacs } from '../config';
 
 @Injectable()
-export class WalletService {
+export class ReportService {
+
   constructor(private http: HttpClient) { }
 
-  getWallet() {
-    return this.http.get(apiTacs + "/user/wallets");
+  getReports() {
+    return this.http.get(apiTacs + "/admin/reporte");
   }
+
 }

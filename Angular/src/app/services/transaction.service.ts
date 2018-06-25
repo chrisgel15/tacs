@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiTacs } from '../config';
 
-const api = 'https://tacscripto.azurewebsites.net/api';
-
 @Injectable()
 export class TransactionService {
 

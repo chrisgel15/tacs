@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { LoginComponent } from './components/inicio/login/login.component';
@@ -9,6 +9,7 @@ import { TransactionComponent } from './components/auth/transaction/transaction.
 import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { UnauthGuardGuard } from './guards/unauth-guard.guard';
 import { AdminComponent } from './components/admin/admin.component';
+import { ReportsComponent } from './components/admin/reports/reports.component';
 import { UsersComponent } from './components/admin/users/users.component';
 
 //This is my case 
@@ -45,17 +46,15 @@ const routes: Routes = [
             {
                 path: 'transaction',
                 component: TransactionComponent,
-            }
-        ]
-    },
-    {
-        path: 'admin',
-        component: AdminComponent,
-        children: [
+            },
+            {
+                path: 'reports',
+                component: ReportsComponent
+            },
             {
                 path: 'users',
                 component: UsersComponent
-            }
+            }   
         ]
     }
 ];

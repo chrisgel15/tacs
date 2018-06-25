@@ -22,6 +22,8 @@ import { AuthGuardGuard } from './guards/auth-guard.guard';
 import { UnauthGuardGuard } from './guards/unauth-guard.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { WalletService } from './services/wallet.service';
+import { ReportsComponent } from './components/admin/reports/reports.component';
+import { ReportService } from './services/report.service';
 import { AdminService } from './services/admin.service';
 
 
@@ -35,6 +37,7 @@ import { AdminService } from './services/admin.service';
     WalletComponent,
     TransactionComponent,
     AdminComponent,
+    ReportsComponent,
     UsersComponent
   ],
   imports: [
@@ -48,6 +51,7 @@ import { AdminService } from './services/admin.service';
     InicioService,
     TransactionService,
     WalletService,
+    ReportService,
     AdminService,
     AuthGuardGuard,
     UnauthGuardGuard,
