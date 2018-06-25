@@ -19,7 +19,7 @@ namespace Tacs.Controllers
         TransactionService _transactionService;
         UserService _userService;
         WalletService _walletService;
-        TransactionsController(CoinService coinService, TransactionService transactionService, UserService userService, WalletService walletService)
+        public TransactionsController(CoinService coinService, TransactionService transactionService, UserService userService, WalletService walletService)
         {
             _coinService = coinService;
             _transactionService = transactionService;

@@ -14,7 +14,7 @@ namespace Tacs.Controllers
     public class SigninController : ApiController
     {
         AccessService _accessService;
-        SigninController(AccessService accessService)
+        public SigninController(AccessService accessService)
         {
             _accessService = accessService;
         }

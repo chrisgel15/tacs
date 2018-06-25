@@ -22,7 +22,7 @@ namespace Tacs.Controllers
         CoinService _coinService;
         UserService _userService;
         WalletService _walletService;
-        WalletController(CoinService coinService, UserService userService, WalletService walletService)
+        public WalletController(CoinService coinService, UserService userService, WalletService walletService)
         {
             _coinService = coinService;
             _userService = userService;

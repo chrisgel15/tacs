@@ -14,7 +14,7 @@ namespace Tacs.Controllers
     {
         TransactionService _transactionService;
         UserService _userService;
-        UsersController(TransactionService transactionService, UserService userService)
+        public UsersController(TransactionService transactionService, UserService userService)
         {
             _transactionService = transactionService;
             _userService = userService;
