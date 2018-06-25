@@ -43,8 +43,8 @@ export class LoginComponent implements OnInit {
 
   login(){
     if (!this.validarCampos()){
+      this.procesando = true;
       this.servicio.IniciarSesion({username: this.username, password: this.password}, (response) => {
-        this.procesando = true;
         if (response.status >= 400){
           this.servicio.EmitirError({ isError: true, msg: 'Credenciales incorrectas' });
           this.procesando = false;

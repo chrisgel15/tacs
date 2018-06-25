@@ -124,7 +124,6 @@ export class TransactionComponent implements OnInit {
       $('#selec-coin-purchase').selectpicker('refresh');
     }, err => {
       this.compra.procesando = false;
-      this.compra.habilitado = false;
       this.mostrarModal('error', 'Compra', 'Ocurrio un error al momento de realizar la compra.');
     });
   }
@@ -151,7 +150,6 @@ export class TransactionComponent implements OnInit {
       $('#selec-coin-sale').selectpicker('refresh');
     }, err => {
       this.venta.procesando = false;
-      this.venta.habilitado = false;
       this.mostrarModal('error', 'Venta', 'Ocurrio un error al momento de realizar la venta.');
     });
   }
