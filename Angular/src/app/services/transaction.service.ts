@@ -19,4 +19,10 @@ export class TransactionService {
       .subscribe(callbackOk, callbackError);
   }
 
+  GetMyTransactions(callback){
+    this.http
+      .get(`${apiTacs}/user/transactions`)
+      .subscribe(callback);
+  }
+
 }
