@@ -2,13 +2,15 @@
   <div class="col-12">
     <form id="registro">
       <div class="form-group">
-        <input type="text" class="form-control" style="background:#eee" placeholder="Username" [(ngModel)]="username" name="username">
+        <input type="text" class="form-control" style="background:#eee" placeholder="Username" 
+          [(ngModel)]="username" name="username" (keyup)="valEnter($event)">
       </div>
      <div class="form-group">
-        <input type="password" class="form-control" style="background:#eee" placeholder="Password" [(ngModel)]="password" name="password">
+        <input type="password" class="form-control" style="background:#eee" placeholder="Password" 
+          [(ngModel)]="password" name="password" (keyup)="valEnter($event)">
       </div>
       <div class="form-group">
-        <button type="button" class="btn btn-success" (click)="registrar()">Registrarse</button>
+        <button id="signup" type="button" class="btn btn-success" (click)="registrar()">Registrarse</button>
       </div>
       <p>Si ya estas registrado, <a routerLink=""><b style="color:green">Inicia Sesion</b></a>.</p>
     </form>

@@ -18,6 +18,12 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit() {}
 
+  valEnter(event){
+    if (event.keyCode === 13) {
+      document.getElementById("signup").click();
+    }
+  }
+
   validarCampos(){
     var validation;
     if (this.username == '' || !/^([a-z0-9]{5,})$/.test(this.username.toLowerCase())) {

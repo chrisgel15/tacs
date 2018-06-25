@@ -19,6 +19,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  valEnter(event){
+    if (event.keyCode === 13) {
+      document.getElementById("btn-login").click();
+    }
+  }
+
   validarCampos(){
     var validation;
     if (this.username == '' || !/^([a-z0-9]{5,})$/.test(this.username.toLowerCase())) {
@@ -39,11 +45,9 @@ export class LoginComponent implements OnInit {
           this.servicio.EmitirError({ isError: true, msg: 'Credenciales incorrectas' });
         }
         if (response.status >= 200 && response.status < 300) {
-          //this.servicio.EmitirError({ isError: false, msg: 'Sesion Iniciada' });
           sessionStorage.setItem('tacs-token', response.body['access_token']);
-          console.log(response.body); // sacar en produccion!!!
           this.servicio.InfoDelCliente(data => {
-            if (data.EsAdmin){
+            if (data.EsAdmin === "SI"){
               this.router.navigate(['/admin/users']);
             } else {
               this.router.navigate(['/auth/wallet']);

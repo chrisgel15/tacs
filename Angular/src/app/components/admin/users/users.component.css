@@ -10,6 +10,16 @@ input[type=date]::-webkit-inner-spin-button {
   display: none;
 }
 
-#table-usuarios {
+#table-usuarios tr {
   cursor: pointer;
+}
+
+.modal-success {
+  background: #5cb85c;
+  color: white;
+}
+
+.modal-error {
+  background: #f0ad4e;
+  color: white;
 }
