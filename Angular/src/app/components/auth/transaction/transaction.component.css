@@ -35,3 +35,10 @@ table tbody td {
   background: #f0ad4e;
   color: white;
 }
+
+.table-wrapper {
+  display: block;
+  max-height: 545px;
+  overflow-y: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}

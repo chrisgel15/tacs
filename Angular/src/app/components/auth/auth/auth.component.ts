@@ -16,18 +16,14 @@ export class AuthComponent  implements OnInit  {
 
   ngOnInit() {
     this.isAdmin = (sessionStorage.getItem('admin') == 'SI');
-    console.log(this.isAdmin);
   }
 
   signOut() {
-    this.service.signOut(
-      () => {
-        sessionStorage.removeItem('tacs-token');
-        this.router.navigate(['']);
-      },
-      () => {
-        alert('Ocurrio un error al desconectarte del sitio.');
-      }
-    );
+    this.service.signOut(() => {
+      sessionStorage.removeItem('tacs-token');
+      this.router.navigate(['']);
+    }, () => {
+      alert('Ocurrio un error al desconectarte del sitio.');
+    });
   }
 }
