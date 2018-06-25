@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { apiTacs } from '../config' ;
 
@@ -11,6 +11,13 @@ export class AdminService {
 
   getUsers(callback){
     this.http.get(apiTacs + '/admin/users').subscribe(callback);
+  }
+
+  compareUsers(user1, user2, callbackOk, callbackError){
+    const params = new HttpParams().set('userName1', user1).set('userName2', user2);
+    this.http
+      .get(apiTacs + '/admin/compare', { params: params, observe: 'response' })
+      .subscribe(callbackOk, callbackError);
   }
 
   signOut(callbackOk, callbackError){

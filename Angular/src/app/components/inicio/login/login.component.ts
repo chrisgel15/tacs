@@ -10,13 +10,22 @@ import { Router } from '@angular/router';
 
 export class LoginComponent implements OnInit {
 
+  // atributos
   username: string = '';
   password: string = '';
+
+  public procesando: boolean = false;
 
   constructor(private servicio: InicioService, private router: Router) {
   }
 
   ngOnInit() {
+  }
+
+  valEnter(event){
+    if (event.keyCode === 13) {
+      document.getElementById("btn-login").click();
+    }
   }
 
   validarCampos(){
@@ -35,19 +44,23 @@ export class LoginComponent implements OnInit {
   login(){
     if (!this.validarCampos()){
       this.servicio.IniciarSesion({username: this.username, password: this.password}, (response) => {
+        this.procesando = true;
         if (response.status >= 400){
           this.servicio.EmitirError({ isError: true, msg: 'Credenciales incorrectas' });
         }
         if (response.status >= 200 && response.status < 300) {
-          //this.servicio.EmitirError({ isError: false, msg: 'Sesion Iniciada' });
           sessionStorage.setItem('tacs-token', response.body['access_token']);
-          console.log(response.body); // sacar en produccion!!!
           this.servicio.InfoDelCliente(data => {
-            //if (data.EsAdmin){
               this.router.navigate(['/auth']);
               sessionStorage.setItem('admin', data.EsAdmin);
+            // if (data.EsAdmin === "SI"){
+            //   this.router.navigate(['/admin/users']);
+            // } else {
+            //   this.router.navigate(['/auth/wallet']);
+            // }
           }, err => {
             this.servicio.EmitirError({ isError: true, msg: 'Credenciales Incorrectos' });
+            this.procesando = false;
           });
         }
       });
