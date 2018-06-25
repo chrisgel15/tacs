@@ -29,14 +29,14 @@ export class LoginComponent implements OnInit {
   }
 
   validarCampos(){
-    var validation;/*
+    var validation;
     if (this.username == '' || !/^([a-z0-9]{5,})$/.test(this.username.toLowerCase())) {
       validation = { isError: true, msg: 'Username incorrecto, minimo 5 caracteres alfanumerico.' };
     } else if (this.password == '' || !/^([a-z0-9]{8,})$/.test(this.password.toLowerCase())) {
       validation = { isError: true, msg: 'Password incorrecto, minimo 8 caracteres alfanumerico.' };
-    } else {*/
+    } else {
       validation = { isError: false, msg: null };
-    //}
+    }
     this.servicio.EmitirError(validation);
     return validation.isError;
   }
