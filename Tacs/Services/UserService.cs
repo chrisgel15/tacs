@@ -14,32 +14,30 @@ namespace Tacs.Services
 {
     public class UserService
     {
+        public IUnitOfWork _unitOfWork;
+        public UserService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         public IList<User> GetUsers()
         {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                return unitOfWork.Users.GetAll().ToList();
-            }
+                return _unitOfWork.Users.GetAll().ToList();
         }
 
         public User GetUserByNameAndPass(string username, string password)
         {
-            var context = new UnitOfWork(new TacsDataContext());
-            return context.Users.Find(u => u.Name.ToLower() == username.ToLower() && u.Password == password).First();
+            return _unitOfWork.Users.Find(u => u.Name.ToLower() == username.ToLower() && u.Password == password).First();
         }
 
         public AdminUserInfoResponse GetUserAdminInfo(int id)
         {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                User info = unitOfWork.Users.GetUserInfoById(id);
+                User info = _unitOfWork.Users.GetUserInfoById(id);
                 if (info != null)
                 {
                     // no muestro el campo password
                     return new AdminUserInfoResponse(info);
                 }                
                 return null;
-            }
         }
 
         public UserViewModel GetUserInfo (int userId)
@@ -49,32 +47,25 @@ namespace Tacs.Services
 
         public async Task<UserComparisonResponse> CompareUsers(int userId1, int userId2)
         {
-            var context = new UnitOfWork(new TacsDataContext());
+            User user1 = _unitOfWork.Users.GetUserInfoById(userId1);
+            User user2 = _unitOfWork.Users.GetUserInfoById(userId2);
 
-            User user1 = context.Users.GetUserInfoById(userId1);
-            User user2 = context.Users.GetUserInfoById(userId2);
-
-            return await new UserService().GetUserComparisonResponse(user1, user2);
-
+            return await GetUserComparisonResponse(user1, user2);
         }
 
         public User GetUserByName(string userName)
         {
-            var context = new UnitOfWork(new TacsDataContext());
-            return context.Users.Find(u => u.Name.ToLower() == userName.ToLower()).First();
+            return _unitOfWork.Users.Find(u => u.Name.ToLower() == userName.ToLower()).First();
         }
 
         public User GetUserById(int userId)
         {
-            var context = new UnitOfWork(new TacsDataContext());
-            return context.Users.Get(userId);
+            return _unitOfWork.Users.Get(userId);
         }
 
         public bool SignUp(string username, string password, bool EsAdmin)
         {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                var dbUsers = unitOfWork.Users;
+                var dbUsers = _unitOfWork.Users;
 
                 if (dbUsers.ExistUserByName(username))
                 {
@@ -94,10 +85,9 @@ namespace Tacs.Services
                     dbUsers.AddNewUser(new User(id, username, hashedPassword, EsAdmin ? "SI" : "NO"));
                 }
 
-                unitOfWork.Complete();
+                _unitOfWork.Complete();
 
                 return true;
-            }
         }
 
         public async Task<UserComparisonResponse> GetUserComparisonResponse(User user1, User user2)
@@ -110,7 +100,5 @@ namespace Tacs.Services
 
             return response;
         }
-
-
     }
 }

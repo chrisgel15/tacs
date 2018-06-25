@@ -13,13 +13,18 @@ namespace Tacs.Controllers
 {
     public class SigninController : ApiController
     {
+        AccessService _accessService;
+        public SigninController(AccessService accessService)
+        {
+            _accessService = accessService;
+        }
         // POST api/signin
         public HttpResponseMessage Post([FromBody]SignInRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequesResponse();
 
-            AccessService loginService = new AccessService();
+            AccessService loginService = _accessService;
 
             if (loginService.Login(request.User))
             {

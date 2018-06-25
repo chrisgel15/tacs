@@ -10,21 +10,25 @@ namespace Tacs.Services
 {
     public class AccessService
     {
+        IUnitOfWork _unitOfWork;
+        public AccessService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         public bool Login(User user)
         {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                var exists = unitOfWork.Users.ExistsUserByNameAndPassword(user);
+   
+                var exists = _unitOfWork.Users.ExistsUserByNameAndPassword(user);
 
                 if (exists)
                 { 
-                    unitOfWork.Users.SetUserLastAccessDate(user);
-                    unitOfWork.Complete();
+                    _unitOfWork.Users.SetUserLastAccessDate(user);
+                    _unitOfWork.Complete();
                     return true;
                 }
 
                 return false;
-            }
+            
 
         }
     }

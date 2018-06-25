@@ -145,6 +145,18 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.3.0\lib\net45\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.AspNet.WebApi, Version=5.0.13.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.AspNet.WebApi.5.0.13\lib\net45\Unity.AspNet.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.7.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.7.0\lib\net45\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -181,6 +193,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -218,7 +232,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\API\WalletController.cs" />
     <Compile Include="Controllers\WEB\HomeController.cs" />
-    <Compile Include="Controllers\WEB\AccessController.cs" />
+    <Compile Include="Controllers\API\AccessController.cs" />
     <Compile Include="Controllers\API\TransactionsController.cs" />
     <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -235,18 +249,24 @@
     <Compile Include="Models\Contracts\WEB\SignInResponse.cs" />
     <Compile Include="Models\Contracts\WEB\SignInRequest.cs" />
     <Compile Include="Models\Exceptions\InsufficientAmountException.cs" />
-    <Compile Include="Models\Repositories\Implementations\WalletRepository.cs" />
-    <Compile Include="Models\Repositories\Implementations\TransactionRepository.cs" />
-    <Compile Include="Models\Repositories\Implementations\CoinRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Production\WalletRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Production\TransactionRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Production\CoinRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Test\TestCoinRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Test\TestRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Test\TestTransactionRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Test\TestUnitOfWork.cs" />
+    <Compile Include="Models\Repositories\Implementations\Test\TestUserRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Test\TestWalletRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IWalletRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\ITransactionRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\ICoinRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IUnitOfWork.cs" />
     <Compile Include="Models\Repositories\Interfaces\IUserRepository.cs" />
-    <Compile Include="Models\Repositories\Implementations\Repository.cs" />
-    <Compile Include="Models\Repositories\Implementations\UnitOfWork.cs" />
-    <Compile Include="Models\Repositories\Implementations\UserRepository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Production\Repository.cs" />
+    <Compile Include="Models\Repositories\Implementations\Production\UnitOfWork.cs" />
+    <Compile Include="Models\Repositories\Implementations\Production\UserRepository.cs" />
     <Compile Include="Models\Business\Transaction.cs" />
     <Compile Include="Models\Business\User.cs" />
     <Compile Include="Models\Business\Wallet.cs" />

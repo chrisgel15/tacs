@@ -12,13 +12,20 @@ namespace Tacs.Controllers
     [RoutePrefix("api/user")]
     public class UsersController : ApiController
     {
+        TransactionService _transactionService;
+        UserService _userService;
+        public UsersController(TransactionService transactionService, UserService userService)
+        {
+            _transactionService = transactionService;
+            _userService = userService;
+        }
         //Obtener todos los datos de un usuario. Solo lo tendria que poder usar el usuario logueado
         [Authorize, Route(""), HttpGet]
         public IHttpActionResult GetById()
         {
             // Desde el Identity, recupero el Id del usuario
             int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
-            return Ok<UserViewModel>(new UserService().GetUserInfo(userId));
+            return Ok<UserViewModel>(_userService.GetUserInfo(userId));
         }
 
         [Authorize, Route("transactions"), HttpGet]
@@ -26,8 +33,8 @@ namespace Tacs.Controllers
         {
             // Desde el Identity, recupero el Id del usuario
             int userId = TokenService.GetIdClient(User.Identity as ClaimsIdentity);
-            var transactions = new UserService().GetUserById(userId).Transactions;
-            var transactionsInfos = transactions.Select(t => new TransactionService().GetTransactionInfo(t));
+            var transactions = _userService.GetUserById(userId).Transactions;
+            var transactionsInfos = transactions.Select(t => _transactionService.GetTransactionInfo(t));
             return Request.CreateResponse<IList<TransactionViewModel>>(HttpStatusCode.OK, transactionsInfos.ToList());
         }
 
@@ -38,10 +45,10 @@ namespace Tacs.Controllers
             if (!ModelState.IsValid)
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Campos incorrectos");
 
-            bool estado = new UserService().SignUp(user.Username, user.Password, false);
+            bool estado = _userService.SignUp(user.Username, user.Password, false);
             if (estado)
             {
-                return Request.CreateResponse<UserViewModel>(HttpStatusCode.Created, new UserViewModel(new UserService().GetUserByName(user.Username)));
+                return Request.CreateResponse<UserViewModel>(HttpStatusCode.Created, new UserViewModel(_userService.GetUserByName(user.Username)));
             }
             else
             {

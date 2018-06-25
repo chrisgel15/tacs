@@ -8,15 +8,5 @@ namespace Tacs.Models.Repositories
         public CoinRepository(TacsDataContext context) : base(context)
         {
         }
-
-        public IEnumerable<Coin> GetTopUsers(int count)
-        {
-            return TacsDataContext.Coins;
-        }
-
-        public TacsDataContext TacsDataContext
-        {
-            get { return Context as TacsDataContext; }
-        }
     }
 }

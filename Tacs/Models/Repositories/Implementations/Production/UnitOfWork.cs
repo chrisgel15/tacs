@@ -5,12 +5,11 @@ namespace Tacs.Models.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly TacsDataContext _context;
-        public IUserRepository Users { get; private set; }
-        public ICoinRepository Coins { get; private set; }
-    //    public IWalletRepository Wallets { get; private set; }
-        public IWalletRepository Wallets { get; private set; }
+        public IUserRepository Users { get; set; }
+        public ICoinRepository Coins { get; set; }
+        public IWalletRepository Wallets { get; set; }
 
-        public ITransactionRepository Transactions { get; private set; }
+        public ITransactionRepository Transactions { get; set; }
 
         public UnitOfWork(TacsDataContext context)
         {
