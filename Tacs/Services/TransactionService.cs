@@ -11,41 +11,44 @@ namespace Tacs.Services
 {
     public class TransactionService
     {
+        public IUnitOfWork _unitOfWork;
+        public TransactionService()
+        {
+
+        }
+        public TransactionService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         public Transaction Buy(int walletId, decimal amount)
         {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                var wallet = unitOfWork.Wallets.Get(walletId);
+            var wallet = _unitOfWork.Wallets.Get(walletId);
 
-                wallet.User.Buy(wallet.Coin, amount);
-                
-                unitOfWork.Transactions.Add(new Compra(wallet, amount));
+            wallet.User.Buy(wallet.Coin, amount);
 
-                unitOfWork.Complete();
+            _unitOfWork.Transactions.Add(new Compra(wallet, amount));
 
-                return wallet.Transactions.OrderBy(t => t.Date).Last();
-            }
+            _unitOfWork.Complete();
+
+            return wallet.Transactions.OrderBy(t => t.Date).Last();
         }
 
         public Transaction Sell(int walletId, decimal amount)
         {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                var wallet = unitOfWork.Wallets.Get(walletId);
+            var wallet = _unitOfWork.Wallets.Get(walletId);
 
-                wallet.User.Sell(wallet.Coin, amount);
+            wallet.User.Sell(wallet.Coin, amount);
 
-                unitOfWork.Transactions.Add(new Venta(wallet, amount));
+            _unitOfWork.Transactions.Add(new Venta(wallet, amount));
 
-                unitOfWork.Complete();
+            _unitOfWork.Complete();
 
-                return wallet.Transactions.OrderBy(t => t.Date).Last();
-            }
+            return wallet.Transactions.OrderBy(t => t.Date).Last();
         }
 
         public TransactionViewModel GetTransactionInfo(int transactionId)
         {
-            Transaction transaction = new UnitOfWork(new TacsDataContext()).Transactions.Get(transactionId);
+            Transaction transaction = _unitOfWork.Transactions.Get(transactionId);
             return GetTransactionInfo(transaction);
         }
         public TransactionViewModel GetTransactionInfo(Transaction transaction)
@@ -56,7 +59,7 @@ namespace Tacs.Services
         public AdminTransactionsResponse ListarTransacciones()
         {
             AdminTransactionsResponse response = new AdminTransactionsResponse();
-            var context = new UnitOfWork(new TacsDataContext());
+            var context = _unitOfWork;
 
             var date = DateTime.Today.AddDays(-1);
             response.TransaccionesHoy = context.Transactions.Find(t => t.Date > date).Count();

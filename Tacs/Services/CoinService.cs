@@ -16,7 +16,15 @@ namespace Tacs.Services
 {
     public class CoinService 
     {
+        public IUnitOfWork _unitOfWork;
+        public CoinService()
+        {
 
+        }
+        public CoinService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         public static bool ExisteEnCoinMarketCap(string coinName)
         {
             var client = new HttpClient();
@@ -24,20 +32,31 @@ namespace Tacs.Services
             else return false;
         }
 
-        public static int GetCoinId(string coinName)
+        public int GetCoinIdByName(string coinName)
         {
             //verificar que existe en CMC antes de crearla si no existe en nuestra app
-            var coin = new UnitOfWork(new Context.TacsDataContext()).Coins.Find(c => c.Name.ToLower() == coinName.ToLower()).FirstOrDefault();
+            var coin = _unitOfWork.Coins.Find(c => c.Name.ToLower() == coinName.ToLower()).FirstOrDefault();
             if (coin == null) return AddCoin(coinName);
             else return coin.Id;
         }
 
-        public static int AddCoin(string coinName)
+        public Coin GetCoinById(int id)
         {
-            var contexto = new UnitOfWork(new Context.TacsDataContext());
-            contexto.Coins.Add(new Coin(coinName));
-            contexto.Complete();
-            return GetCoinId(coinName);
+            return _unitOfWork.Coins.Get(id);
+        }
+
+        public Coin GetCoinByName(string name)
+        {
+            return _unitOfWork.Coins.Get(GetCoinIdByName(name));
+        }
+
+
+
+        public int AddCoin(string coinName)
+        {
+            _unitOfWork.Coins.Add(new Coin(coinName));
+            _unitOfWork.Complete();
+            return GetCoinIdByName(coinName);
         }
 
 

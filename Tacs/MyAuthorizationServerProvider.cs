@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Owin.Security.OAuth;
 using Tacs.Services;
+using Tacs.Models.Repositories;
 
 namespace Tacs
 {
@@ -19,7 +20,7 @@ namespace Tacs
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var user = new UserService().GetUserByNameAndPass(context.UserName, context.Password);
+            var user = new UserService(new UnitOfWork(new Context.TacsDataContext())).GetUserByNameAndPass(context.UserName, context.Password);
 
             if (user == null)
             {

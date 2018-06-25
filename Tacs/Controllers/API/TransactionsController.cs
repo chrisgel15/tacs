@@ -28,10 +28,9 @@ namespace Tacs.Controllers
             //Si no se encontro el wallet y el request usa el shortcut de nombre de moneda existente en CMC, creo un nuevo wallet
             if (wallet == null && CoinService.ExisteEnCoinMarketCap(walletId))
             {
-                var newWalletRequest = new NewWalletRequest();
-                newWalletRequest.Balance = 0;
-                newWalletRequest.NombreMoneda = walletId;
-                wallet = new WalletService().AddWallet(newWalletRequest, userId).Result;
+                Coin moneda = new CoinService().GetCoinByName(walletId);
+                User usuario = new UserService().GetUserById(userId);
+                wallet = new WalletService().AddWallet(moneda, 0, usuario).Result;
             }
 
             if (wallet == null && walletId.All(c => Char.IsDigit(c))) return Request.CreateResponse(HttpStatusCode.NotFound, "Id de wallet inexistente");

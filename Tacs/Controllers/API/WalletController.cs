@@ -52,7 +52,9 @@ namespace Tacs.Controllers
 
             if (!CoinService.ExisteEnCoinMarketCap(newWalletRequest.NombreMoneda)) return Request.CreateResponse(HttpStatusCode.Forbidden, "La moneda debe existir en CoinMarketCap");
             if (newWalletRequest.Balance < 0) return Request.CreateResponse(HttpStatusCode.Forbidden, "El balance no puede ser negativo");
-            var wallet = await new WalletService().AddWallet(newWalletRequest, userId);
+            Coin moneda = new CoinService().GetCoinByName(newWalletRequest.NombreMoneda);
+            User usuario = new UserService().GetUserById(userId);
+            var wallet = await new WalletService().AddWallet(moneda, newWalletRequest.Balance, usuario);
             return Request.CreateResponse<WalletViewModel>(HttpStatusCode.Created, await new WalletService().GetWalletInfo(wallet));
         }
 

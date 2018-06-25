@@ -12,23 +12,30 @@ namespace Tacs.Services
 {
     public class WalletService
     {
+        public IUnitOfWork _unitOfWork;
+        public WalletService()
+        {
+
+        }
+        public WalletService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         public IList<Wallet> VerPortfolio(int userid)
         {
-            using (var unitOfWork = new UnitOfWork(new TacsDataContext()))
-            {
-                return unitOfWork.Users.Get(userid).Wallets.ToList();
-            }
+                return _unitOfWork.Users.Get(userid).Wallets.ToList();
         }
 
         public Wallet GetWalletById(int walletId)
         {
-            var context = new UnitOfWork(new TacsDataContext());
+            var context = _unitOfWork;
             return context.Wallets.Get(walletId);
         }
 
         public Wallet GetWalletByCoinNameAndUser (string coin, int userId)
         {
-            var context = new UnitOfWork(new TacsDataContext());
+            var context = _unitOfWork;
             return context.Users.Get(userId).Wallets.Where(w => w.Coin.Name.ToLower() == coin.ToLower()).FirstOrDefault();
         }
 
@@ -37,18 +44,18 @@ namespace Tacs.Services
             Wallet wallet;
             if (!coinNameOrWalletId.All(c => Char.IsDigit(c)))
             {
-                wallet = new WalletService().GetWalletByCoinNameAndUser(coinNameOrWalletId, userId);
+                wallet = GetWalletByCoinNameAndUser(coinNameOrWalletId, userId);
             }
             else
             {
-                wallet = new WalletService().GetWalletById(Int32.Parse(coinNameOrWalletId));
+                wallet = GetWalletById(Int32.Parse(coinNameOrWalletId));
             }
             return wallet;
         }
 
         public async Task<WalletViewModel> GetWalletInfo(Wallet w)
         {
-            var wallet = new WalletService().GetWalletById(w.Id);
+            var wallet = GetWalletById(w.Id);
             var viewModel = new WalletViewModel();
             viewModel.NombreMoneda = wallet.Coin.Name;
             viewModel.Balance = wallet.Balance;
@@ -58,18 +65,17 @@ namespace Tacs.Services
             return viewModel;
         }
 
-        public async Task<Wallet> AddWallet(NewWalletRequest newWalletRequest, int ownerId)
+        public async Task<Wallet> AddWallet(Coin coin, decimal balanceInicial, User usuario)
         {
-            var context = new UnitOfWork(new TacsDataContext());
+            var context = _unitOfWork;
 
-            var newWallet = new Wallet(context.Users.Get(ownerId), context.Coins.Get(CoinService.GetCoinId(newWalletRequest.NombreMoneda)), newWalletRequest.Balance);
+            var newWallet = new Wallet(usuario, coin, balanceInicial);
 
             context.Wallets.Add(newWallet);
 
             context.Complete();
 
-            return  newWallet;
-
+            return newWallet;
         }
     }
 }
