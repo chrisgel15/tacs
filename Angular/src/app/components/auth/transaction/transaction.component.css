@@ -18,10 +18,6 @@ table th {
   background: #4CAF50;
 }
 
-table tbody td {
-  cursor: pointer;
-}
-
 .card {
   box-shadow: 0 0 2em 0 #00000033, 0 .5em .5em 0 #0000003d;
 }
