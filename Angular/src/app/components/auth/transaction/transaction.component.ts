@@ -14,11 +14,12 @@ export class TransactionComponent implements OnInit {
 
   public coins: Array<any>;
   public MisMonedas: Array<any>;
-  public MisTransacciones: Array<any>;
+  public MisTransacciones: Array<any> = [];
 
   public carga = {
     itemsCompra: true,
-    itemsVenta: true
+    itemsVenta: true,
+    itemsTrans: true
   }
  
   public compra = {
@@ -101,7 +102,7 @@ export class TransactionComponent implements OnInit {
 
   Comprar(){
     if (!this.compra.cantidad && !this.compra.precio && !this.compra.moneda){
-      this.mostrarModal('success','Compra', 'Complete los campos faltantes de compra.');
+      this.mostrarModal('error','Compra', 'Complete los campos faltantes de compra.');
       return;
     }
     // activo el boton de cargando
@@ -120,8 +121,6 @@ export class TransactionComponent implements OnInit {
       };
       this.TraerDatosMonedas();
       this.mostrarModal('success', 'Compra', 'La compra se realizo exitosamente.');
-      // $('#selec-coin-purchase').val('default');
-      // $('#selec-coin-purchase').selectpicker('refresh');
     }, err => {
       this.compra.procesando = false;
       this.mostrarModal('error', 'Compra', 'Ocurrio un error al momento de realizar la compra.');
@@ -129,6 +128,10 @@ export class TransactionComponent implements OnInit {
   }
 
   Vender(){
+    if (!this.venta.cantidad && !this.venta.moneda && !this.venta.precio){
+      this.mostrarModal('error', 'Venta', 'Complete los campos para realizar una venta.');
+      return;
+    }
     // activo el boton de cargando
     this.venta.procesando = true;
     const payload = {
@@ -146,8 +149,6 @@ export class TransactionComponent implements OnInit {
       };
       this.TraerDatosMonedas();
       this.mostrarModal('success', 'Venta', 'La venta se realizo exitosamente.');
-      // $('#selec-coin-sale').val('default');
-      // $('#selec-coin-sale').selectpicker('refresh');
     }, err => {
       this.venta.procesando = false;
       this.mostrarModal('error', 'Venta', 'Ocurrio un error al momento de realizar la venta.');
@@ -165,19 +166,21 @@ export class TransactionComponent implements OnInit {
             amount: w.Balance
           }
         });
-        this.carga.itemsVenta = false;
-        setTimeout(() => { $('#selec-coin-sale').selectpicker('refresh') }, 200);
+        // this.carga.itemsVenta = false;
+        setTimeout(() => { 
+          $('#selec-coin-sale').val('default'); 
+          $('#selec-coin-sale').selectpicker('refresh');
+        }, 200);
       },
       err => {
-        this.carga.itemsVenta = false;
+        // this.carga.itemsVenta = false;
         this.mostrarModal('error', 'Carga de Datos', 'Ocurrio un error al traer las monedas del cliente');
       }
     );
   }
 
   TraerDatosMonedas() {
-    this.carga.itemsCompra = true;
-    this.carga.itemsVenta = true;
+    this.carga.itemsTrans = false;
     this.http
       .get<any>(coinmarket + '/ticker')
       .subscribe(resp => {
@@ -191,8 +194,12 @@ export class TransactionComponent implements OnInit {
             last_update: coin.last_updated
           }
         });
-        this.carga.itemsCompra = false;
-        setTimeout(() => { $('#selec-coin-purchase').selectpicker('refresh') }, 200);
+        // this.carga.itemsCompra = false;
+
+        setTimeout(() => { 
+          $('#selec-coin-purchase').val('default');
+          $('#selec-coin-purchase').selectpicker('refresh') 
+        }, 200);
         this.TraeMisTransacciones();
         this.ActualizarBilletera();
       });
@@ -206,6 +213,7 @@ export class TransactionComponent implements OnInit {
           Coin: this.coins.find(c => c.id === t.Coin).name
         });
       });
+      this.carga.itemsTrans = true;
     });
   }
 

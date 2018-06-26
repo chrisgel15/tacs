@@ -4,10 +4,7 @@
       <h3 class="card-header mt-0">Compra</h3>
       <div class="card-body">
         <div class="form-group">
-          <button *ngIf="carga.itemsCompra" type="button" class="btn btn-success" style="width: 100%" disabled>
-            <i class="fa fa-spinner fa-spin"></i> Cargando Monedas
-          </button>
-          <select #shcoin id="selec-coin-purchase" *ngIf="!carga.itemsCompra" class="selectpicker" title="Elige una moneda" data-style="btn-success" 
+          <select #shcoin id="selec-coin-purchase" class="selectpicker" title="Elige una moneda" data-style="btn-success" 
             data-width="100%" data-live-search="true" (change)="getDatosCompra(shcoin.options[shcoin.selectedIndex].value)">
             <option *ngFor="let coin of coins">{{coin.name}}</option>
           </select>
@@ -37,10 +34,7 @@
       <h3 class="card-header mt-0">Venta</h3>
       <div class="card-body">
         <div class="form-group">
-          <button *ngIf="carga.itemsVenta" type="button" class="btn btn-success" style="width: 100%" disabled>
-            <i class="fa fa-spinner fa-spin"></i> Actualizando mi billetera
-          </button>
-          <select #shcoinsale id="selec-coin-sale" *ngIf="!carga.itemsVenta" class="selectpicker" title="Elige una moneda" data-style="btn-success" data-width="100%"
+          <select #shcoinsale id="selec-coin-sale" class="selectpicker" title="Elige una moneda" data-style="btn-success" data-width="100%"
             data-live-search="true" (change)="getDatosVenta(shcoinsale.options[shcoinsale.selectedIndex].value)">
             <option *ngFor="let coin of MisMonedas">{{coin.name}}</option>
           </select>
@@ -71,7 +65,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
     <div class="card">
       <h3 class="card-header mt-0">Transacciones</h3>
-      <div class="card-body table-wrapper">
+      <div class="card-body table-wrapper" *ngIf="carga.itemsTrans else spinner">
         <table class="table table-fixed table-sm table-bordered">
           <thead>
             <tr>
@@ -106,12 +100,14 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        {{modal.mensaje}}
-      </div>
+      <div class="modal-body">{{modal.mensaje}}</div>
       <div class="modal-footer">
         <button type="button" class="btn" [ngClass]="{'modal-success': modal.tipo=='success', 'modal-error': modal.tipo=='error'}" data-dismiss="modal">Ok</button>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #spinner>
+  <div class="loader"></div>
+</ng-template>
