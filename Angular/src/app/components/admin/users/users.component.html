@@ -17,6 +17,16 @@
         </div>
       </div>
     </div>
+    <div class="col-xs-4 col-sm-5 col-md-2 col-lg-2">
+      <div class="form-group">
+        <button type="button" class="btn btn-success" (click)="buscarUsuariosPorCriterio()">Buscar</button>
+      </div>
+    </div>
+    <div class="col-xs-4 col-sm-5 col-md-2 col-lg-2">
+      <div class="form-group">
+        <button type="button" class="btn btn-success" (click)="limpiarFiltros()">Limpiar</button>
+      </div>
+    </div>
   </div>
   <table id="table-usuarios" class="table table-sm table-bordered table-hover">
     <thead>
@@ -28,19 +38,27 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of usuarios;" id="usuario-{{user.Id}}" (click)="seleccionarUsuario(user.Id)">
+      <!-- <tr *ngFor="let user of usuarios" id="usuario-{{user.Id}}" (click)="seleccionarUsuario(user.Id)">
         <td *ngIf="filtrarPorParametros(user)">{{user.Name}}</td>
         <td *ngIf="filtrarPorParametros(user)">{{user.Transactions}}</td>
         <td *ngIf="filtrarPorParametros(user)">{{user.NumberOfWallets}}</td>
         <td *ngIf="filtrarPorParametros(user)">{{user.LastAccess}}</td>
+      </tr> -->
+      <tr *ngFor="let user of filtrados" id="usuario-{{user.Id}}" (click)="seleccionarUsuario(user.Id)">
+        <td>{{user.Name}}</td>
+        <td>{{user.Transactions}}</td>
+        <td>{{user.NumberOfWallets}}</td>
+        <td>{{user.LastAccess}}</td>
       </tr>
     </tbody>
   </table>
   <div class="form-group">
-    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top"
+    <button type="button" *ngIf="!comparando" class="btn btn-success" 
       title="Quien de los 2 tiene mas capital." (click)="compararDosUsuarios()">
       Comparar 2 Usuarios
     </button>
+    <button *ngIf="comparando" type="button" class="btn btn-success">
+        <i class="fa fa-spinner fa-spin"></i> Comparando</button>
   </div>
 </div>
 <div class="modal fade" id="modalResponse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
