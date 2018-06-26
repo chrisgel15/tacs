@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import * as moment from 'moment';
-import { access } from 'fs';
+//import { access } from 'fs';
 
 declare var $: any;
 
@@ -17,6 +17,11 @@ export class UsersComponent implements OnInit {
   public criteria = { nombre: '', fecha: '' };
   public comparacion = [];
   public comparando = false;
+  public compareResultado = {
+    user1: { name: null, total: null },
+    user2: { name: null, total: null },
+    resultado: null
+  };
   public message = { isOk: false, msg: null };
 
   constructor(private service: AdminService) {
@@ -104,16 +109,21 @@ export class UsersComponent implements OnInit {
       let u2 = this.usuarios.find(u => u.Id === this.comparacion[1]).Name;
       this.service.compareUsers(u1, u2, res => {
         const data = res.body.Result;
-        let resultado;
+        let resultado ;
         if(data.Patrimonio1 === data.Patrimonio2){
-          resultado = 'Ambos usuarios tiene la misma cantidad de capital.';
+          resultado = 'iguales';
         } else if(data.Patrimonio1 > data.Patrimonio2){
-          resultado = `El usuario \"${u1}\" tiene mayor capital que el usuario \"${u2}\".`;
+          resultado = 'mayor';
         } else {
-          resultado = `El usuario \"${u2}\" tiene mayor capital que el usuario \"${u1}\".`;
+          resultado = 'menor';
         }
-        this.message = { isOk: true, msg: resultado };
-        $('#modalResponse').modal('show');
+        // this.message = { isOk: true, msg: resultado };
+        this.compareResultado = { 
+          user1: { name: u1, total: data.Patrimonio1 },
+          user2: { name: u2, total: data.Patrimonio2 },
+          resultado: resultado
+        }
+        $('#compareResponse').modal('show');
         this.comparando = false;
         this.comparacion.map(i => {
           document.getElementById('usuario-'+i).style.background = "white";
