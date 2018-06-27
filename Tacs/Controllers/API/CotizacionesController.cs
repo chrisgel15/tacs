@@ -49,14 +49,9 @@ namespace Tacs.Controllers
 
             List<Ticker> items = JsonConvert.DeserializeObject<List<Ticker>>(jsonString);
 
+            List<TickerResponse> response = items.Select(i => new TickerResponse(i)).ToList();
 
-           // HttpClient client = new HttpClient();
-           // client.BaseAddress = new Uri("https://api.coinmarketcap.com/v1/ticker/");
-           // client.DefaultRequestHeaders.Accept.Clear();
-           // client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-           // client.GetAsync("https://api.coinmarketcap.com/v1/ticker/");
-
-            return Ok<List<Ticker>>(items);
+            return Ok<List<TickerResponse>>(response);
         }
     }
 
@@ -76,5 +71,25 @@ namespace Tacs.Controllers
         public string percent_change_24h { get; set; }
         public string percent_change_7d { get; set; }
         public string last_updated { get; set; }
+    }
+
+    public class TickerResponse
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string symbol { get; set; }
+        public string rank { get; set; }
+        public string price_usd { get; set; }
+        public string last_updated { get; set; }
+
+        public TickerResponse(Ticker ticker)
+        {
+            id = ticker.id;
+            name = ticker.name;
+            symbol = ticker.symbol;
+            rank = ticker.rank;
+            price_usd = ticker.price_usd;
+            last_updated = ticker.last_updated;
+        }
     }
 }
