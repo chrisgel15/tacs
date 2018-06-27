@@ -1,0 +1,32 @@
+.fondo {
+  margin: 1em;
+  padding: 1em;
+  background: white;
+  box-shadow: 0 0 2em 0 #00000033, 0 .5em .5em 0 #0000003d;
+}
+
+input[type=date]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  display: none;
+}
+
+#table-usuarios tr {
+  cursor: pointer;
+}
+
+.modal-success {
+  background: #5cb85c;
+  color: white;
+}
+
+.modal-error {
+  background: #f0ad4e;
+  color: white;
+}
+
+.table-wrapper {
+  display: block;
+  max-height: 400px;
+  overflow-y: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}

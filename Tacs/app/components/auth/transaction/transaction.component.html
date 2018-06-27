@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-4 mb-2">
+    <div class="card mb-3">
+      <h3 class="card-header mt-0">Compra</h3>
+      <div class="card-body">
+        <div class="form-group">
+          <select #shcoin id="selec-coin-purchase" class="selectpicker" title="Elige una moneda" data-style="btn-success" 
+            data-width="100%" data-live-search="true" (change)="getDatosCompra(shcoin.options[shcoin.selectedIndex].value)">
+            <option *ngFor="let coin of coins">{{coin.name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text">U$S</span></div>
+            <input type="number" class="form-control" name="precio" placeholder="Monto" [(ngModel)]="compra.precio" 
+              [disabled]="!compra.habilitado" (keyup)="CompraOnKeyUpPrecio()" min="0" step="0.001">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text">Cant.</span></div>
+            <input type="number" class="form-control" name="cantidad" [(ngModel)]="compra.cantidad" 
+              [disabled]="!compra.habilitado" (keyup)="CompraOnKeyUpCantidad()" min="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <button *ngIf="!compra.procesando" type="button" class="btn btn-success" (click)="Comprar()">Comprar</button>
+          <button *ngIf="compra.procesando" type="button" class="btn btn-success">
+            <i class="fa fa-spinner fa-spin"></i> Procesando</button>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <h3 class="card-header mt-0">Venta</h3>
+      <div class="card-body">
+        <div class="form-group">
+          <select #shcoinsale id="selec-coin-sale" class="selectpicker" title="Elige una moneda" data-style="btn-success" data-width="100%"
+            data-live-search="true" (change)="getDatosVenta(shcoinsale.options[shcoinsale.selectedIndex].value)">
+            <option *ngFor="let coin of MisMonedas">{{coin.name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text">U$S</span></div>
+            <input #monto type="number" class="form-control" name="precio" placeholder="Monto" [(ngModel)]="venta.precio" 
+              [disabled]="!venta.habilitado" (keyup)="VentaOnKeyUpPrecio()" min="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text">Cant.</span></div>
+            <input #cant type="number" class="form-control" name="cantidad" [(ngModel)]="venta.cantidad" 
+              [disabled]="!venta.habilitado" (keyup)="VentaOnKeyUpCantidad(cant.value)" min="0">
+              <div *ngIf="venta.habilitado" class="input-group-prepend"><span class="input-group-text" title="Cantidad Maxima"><b>{{venta.cantidadMax}}</b></span></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button *ngIf="!venta.procesando" type="button" class="btn btn-success" (click)="Vender()">Vender</button>
+          <button *ngIf="venta.procesando" type="button" class="btn btn-success">
+            <i class="fa fa-spinner fa-spin"></i> Procesando</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+    <div class="card">
+      <h3 class="card-header mt-0">Transacciones</h3>
+      <div class="card-body table-wrapper" *ngIf="carga.itemsTrans else spinner">
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Moneda</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Precio c/u (U$S)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tran of MisTransacciones">
+              <td>{{tran.Date}}</td>
+              <td>{{tran.Type}}</td>
+              <td>{{tran.Coin}}</td>
+              <td>{{tran.Amount}}</td>
+              <td>{{tran.Price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" [ngClass]="{'modal-success': modal.tipo == 'success', 'modal-error': modal.tipo == 'error'}">
+        <h2 class="modal-title" id="exampleModalLongTitle">{{modal.titulo}}</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">{{modal.mensaje}}</div>
+      <div class="modal-footer">
+        <button type="button" class="btn" [ngClass]="{'modal-success': modal.tipo=='success', 'modal-error': modal.tipo=='error'}" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #spinner>
+  <div class="loader"></div>
+</ng-template>

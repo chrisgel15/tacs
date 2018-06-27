@@ -1,0 +1,115 @@
+<div class="container fondo">
+  <h2>Usuarios</h2>
+  <div class="row">
+    <div class="col-xs-5 col-sm-8 col-md-6 col-lg-3">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend"><span class="input-group-text">Nombre</span></div>
+          <input type="text" class="form-control" name="nombre" placeholder="pepito" [(ngModel)]="criteria.nombre">
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-5 col-sm-8 col-md-6 col-lg-4">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend"><span class="input-group-text">Fecha Acceso</span></div>
+          <input type="date" class="form-control" name="fecha" [(ngModel)]="criteria.fecha">
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4 col-sm-5 col-md-2 col-lg-2">
+      <div class="form-group">
+        <button type="button" class="btn btn-success" (click)="buscarUsuariosPorCriterio()">Buscar</button>
+      </div>
+    </div>
+    <div class="col-xs-4 col-sm-5 col-md-2 col-lg-2">
+      <div class="form-group">
+        <button type="button" class="btn btn-success" (click)="limpiarFiltros()">Limpiar</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="table-wrapper">
+    <table id="table-usuarios" class="table table-sm table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Transacciones</th>
+          <th scope="col">Monedas</th>
+          <th scope="col">Ultimo Acceso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filtrados" id="usuario-{{user.Id}}" (click)="seleccionarUsuario(user.Id)">
+          <td>{{user.Name}}</td>
+          <td>{{user.Transactions}}</td>
+          <td>{{user.NumberOfWallets}}</td>
+          <td>{{user.LastAccess}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="form-group">
+    <button type="button" *ngIf="!comparando" class="btn btn-success" 
+      title="Quien de los 2 tiene mas capital." (click)="compararDosUsuarios()">
+      Comparar 2 Usuarios
+    </button>
+    <button *ngIf="comparando" type="button" class="btn btn-success">
+        <i class="fa fa-spinner fa-spin"></i> Comparando</button>
+  </div>
+</div>
+<div class="modal fade" id="modalResponse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" [ngClass]="{'modal-success': message.isOk, 'modal-error': !message.isOk}">
+        <h2 class="modal-title" id="exampleModalLongTitle">Comparacion</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{message.msg}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" [ngClass]="{'modal-success': message.isOk, 'modal-error': !message.isOk}" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="compareResponse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header modal-success">
+        <h2 class="modal-title" id="exampleModalLongTitle">Comparación</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div class="row m-1">
+            <label class="form-control">{{compareResultado.user1.name}} (U$S {{compareResultado.user1.total}})</label>
+          </div>
+          <div class="row m-1">
+            <label class="form-control">{{compareResultado.user2.name}} (U$S {{compareResultado.user2.total}})</label>
+          </div>
+          <div *ngIf="compareResultado.resultado === 'mayor'">
+            Tiene mayor patrimonio el usuario 
+            <strong>{{compareResultado.user1.total > compareResultado.user2.total ? compareResultado.user1.name : ''}}</strong>
+          </div>
+          <div *ngIf="compareResultado.resultado === 'menor'">
+            Tiene mayor patrimonio el usuario 
+            <strong>{{compareResultado.user2.total > compareResultado.user1.total ? compareResultado.user2.name : ''}}</strong>
+          </div>
+          <div *ngIf="compareResultado.resultado === 'iguales'">
+            Ambos usuarios tienen la misma cantidad de patrimonio.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
