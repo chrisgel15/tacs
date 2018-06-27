@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
 var transaction_service_1 = require("./../../../services/transaction.service");
-var coinmarket = 'https://api.coinmarketcap.com/v1';
+var config_1 = require("../../../config");
+// const coinmarket = 'https://api.coinmarketcap.com/v1';
 var TransactionComponent = /** @class */ (function () {
     function TransactionComponent(http, transac) {
         this.http = http;
@@ -173,7 +174,7 @@ var TransactionComponent = /** @class */ (function () {
         var _this = this;
         this.carga.itemsTrans = false;
         this.http
-            .get(coinmarket + '/ticker')
+            .get(config_1.apiTacs + '/cotizaciones')
             .subscribe(function (resp) {
             _this.coins = resp.map(function (coin) {
                 return {

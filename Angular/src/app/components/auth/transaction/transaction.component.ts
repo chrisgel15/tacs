@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TransactionService } from './../../../services/transaction.service';
+import { apiTacs } from '../../../config';
 
 declare var $: any;
-const coinmarket = 'https://api.coinmarketcap.com/v1';
+// const coinmarket = 'https://api.coinmarketcap.com/v1';
 
 @Component({
   selector: 'app-transaction',
@@ -182,7 +183,7 @@ export class TransactionComponent implements OnInit {
   TraerDatosMonedas() {
     this.carga.itemsTrans = false;
     this.http
-      .get<any>(coinmarket + '/ticker')
+      .get<any>(apiTacs + '/cotizaciones')
       .subscribe(resp => {
         this.coins = resp.map((coin: any) => {
           return {
