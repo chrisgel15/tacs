@@ -1,0 +1,11 @@
+#login {
+    background: white;
+    border-radius: 1em;
+    padding: 2em 2em .7em 2em;
+    box-shadow: 0 0 4em 0 #00000033, 0 .7em .7em 0 #0000003d;
+}
+
+.error-login {
+    color: red;
+    font-size: .8em;
+}
