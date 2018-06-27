@@ -50,7 +50,7 @@
           <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text">Cant.</span></div>
             <input #cant type="number" class="form-control" name="cantidad" [(ngModel)]="venta.cantidad" 
-              [disabled]="!venta.habilitado" (keyup)="VentaOnKeyUpCantidad(cant.value)" min="0">
+              [disabled]="!venta.habilitado" (keyup)="VentaOnKeyUpCantidad()" min="0">
               <div *ngIf="venta.habilitado" class="input-group-prepend"><span class="input-group-text" title="Cantidad Maxima"><b>{{venta.cantidadMax}}</b></span></div>
           </div>
         </div>
