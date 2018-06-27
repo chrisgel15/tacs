@@ -6,6 +6,9 @@ using Tacs.Models.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.IO;
+using System;
+using Newtonsoft.Json;
 
 namespace Tacs.Controllers
 {
@@ -24,5 +27,54 @@ namespace Tacs.Controllers
         {
             return Ok<decimal>(CoinService.GetCotizacion(nombreMoneda).Result);
         }
+
+        [Route(""), HttpGet]
+        public IHttpActionResult ObtenerCotizaciones()
+        {
+            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://api.coinmarketcap.com/v1/ticker/"));
+
+            WebReq.Method = "GET";
+
+            HttpWebResponse WebResp = (HttpWebResponse)WebReq.GetResponse();
+
+            Console.WriteLine(WebResp.StatusCode);
+            Console.WriteLine(WebResp.Server);
+
+            string jsonString;
+            using (Stream stream = WebResp.GetResponseStream())   //modified from your code since the using statement disposes the stream automatically when done
+            {
+                StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8);
+                jsonString = reader.ReadToEnd();
+            }
+
+            List<Ticker> items = JsonConvert.DeserializeObject<List<Ticker>>(jsonString);
+
+
+           // HttpClient client = new HttpClient();
+           // client.BaseAddress = new Uri("https://api.coinmarketcap.com/v1/ticker/");
+           // client.DefaultRequestHeaders.Accept.Clear();
+           // client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+           // client.GetAsync("https://api.coinmarketcap.com/v1/ticker/");
+
+            return Ok<List<Ticker>>(items);
+        }
+    }
+
+    public class Ticker
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string symbol { get; set; }
+        public string rank { get; set; }
+        public string price_usd { get; set; }
+        [JsonProperty(PropertyName = "24h_volume_usd")]
+        public string volume_usd_24h { get; set; }
+        public string market_cap_usd { get; set; }
+        public string available_supply { get; set; }
+        public string total_supply { get; set; }
+        public string percent_change_1h { get; set; }
+        public string percent_change_24h { get; set; }
+        public string percent_change_7d { get; set; }
+        public string last_updated { get; set; }
     }
 }
